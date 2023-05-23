@@ -11,9 +11,10 @@
         <the-input
           title="Password"
           placeholder="At least 8 & max.15 lower case characters"
+          type="password"
           :marked="true"
         />
-        <the-input title="Confirm password" :marked="true" />
+        <the-input title="Confirm password" type="password" :marked="true" />
       </div>
       <div class="w-full flex flex-col gap-4 mt-10">
         <the-red-button> Get Started </the-red-button>

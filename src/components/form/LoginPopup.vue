@@ -6,7 +6,7 @@
     <form @submit.prevent class="w-full mt-6">
       <div class="w-full flex flex-col gap-4">
         <the-input title="Email" placeholder="Enter your email" />
-        <the-input title="Password" />
+        <the-input title="Password" type="password" />
       </div>
       <div class="w-full flex flex-col gap-4 mt-10">
         <the-red-button> Sign in </the-red-button>
