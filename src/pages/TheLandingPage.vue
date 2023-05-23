@@ -20,10 +20,10 @@
         <h1 class="text-[#DDCCAA] text-base">MOVIE QUOTES</h1>
         <div class="flex gap-4">
           <router-link to="signup">
-            <the-red-button @click="showSignUp = true"> Sign Up </the-red-button>
+            <the-red-button @click="showPopup('signup')"> Sign Up </the-red-button>
           </router-link>
           <router-link to="login">
-            <the-transparent-button @click="showLogin = true"> Log in </the-transparent-button>
+            <the-transparent-button @click="showPopup('login')"> Log in </the-transparent-button>
           </router-link>
         </div>
       </header>
@@ -35,7 +35,7 @@
             Find any quote in millions of movie lines
           </h2>
           <router-link to="login"
-            ><the-red-button @click="showLogin = true">Get Started</the-red-button></router-link
+            ><the-red-button @click="showPopup('login')">Get Started</the-red-button></router-link
           >
         </div>
       </div>
@@ -107,10 +107,18 @@ const showLogin = ref(false)
 
 const router = useRouter()
 const route = useRoute()
-
 if (route.name === 'signup') showSignUp.value = true
-
 if (route.name === 'login') showLogin.value = true
+if (route.name !== 'home') document.body.style.overflowY = 'hidden'
+function showPopup(popup) {
+  window.scrollTo({
+    top: 0,
+    left: 0
+  })
+  if (popup === 'signup') showSignUp.value = true
+  if (popup === 'login') showLogin.value = true
+  document.body.style.overflowY = 'hidden'
+}
 
 function closePopup(popup) {
   if (popup === 'login') showLogin.value = false
@@ -119,6 +127,7 @@ function closePopup(popup) {
     showSignUp.value = false
     showLogin.value = false
   }
+  document.body.style.overflowY = 'auto'
   router.push({ name: 'home' })
 }
 </script>
