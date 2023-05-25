@@ -1,0 +1,40 @@
+{
+  "errorMessages": {
+    "required": "{name} is required",
+    "email": "This field must be valid email",
+    "min": "{name} must be greater than {n}",
+    "max": "{name} must be less than {n}",
+    "confirmed": "This field must match password",
+    "lowercase": "{name} should be lowercase"
+  },
+  "inputNames": {
+    "name": "Name",
+    "email": "Email",
+    "the": "The",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "this_field": "This field"
+  },
+  "placeholders": {
+    "enter_your_email": "Enter your email",
+    "at_least_8": "At least 8 & max.15 lower case characters",
+    "at_least_3": "At least 3 & max.15 lower case characters"
+  },
+  "landingPage": {
+    "find_any_quote": "Find any quote in millions of movie lines",
+    "signup": "Sign Up",
+    "login": "Log in",
+    "get_started": "Get Started",
+    "with_google": "with Google",
+    "have_to_leave": "You have to leave somethig behind to go forward",
+    "interstellar": "Interstellar",
+    "i_think": "I think we're just gonna have to be secretly in love with each other and leave it that",
+    "the_royal_tenenbaums": "The Royal Tenenbaums",
+    "create_an_account": "Create an account",
+    "start_your_journey": "Start your journey"
+  },
+  "language": {
+    "en": "Eng",
+    "ka": "Geo"
+  }
+}

@@ -1,11 +1,12 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import TheLandingPage from '@/pages/TheLandingPage.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import LandingPage from '@/pages/LandingPage.vue'
+
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
-    { path: '/', name: 'home', component: TheLandingPage },
-    { path: '/login', name: 'login', component: TheLandingPage },
-    { path: '/signup', name: 'signup', component: TheLandingPage }
+    { path: '/', name: 'home', component: LandingPage },
+    { path: '/login', name: 'login', component: LandingPage },
+    { path: '/signup', name: 'signup', component: LandingPage }
   ]
 })
 
