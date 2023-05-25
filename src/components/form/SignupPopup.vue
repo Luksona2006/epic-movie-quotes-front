@@ -8,7 +8,7 @@
         <the-input
           :title="$t('inputNames.name')"
           name="name"
-          :placeholder="$t('placeholders.at_least_8')"
+          :placeholder="$t('placeholders.min_max', { min: 3, max: 15 })"
           :validation-rules="`required:${$t('inputNames.name')}|minMax:3,15,${$t(
             'inputNames.name'
           )}|lowercase:${$t('inputNames.name')}`"
@@ -26,7 +26,7 @@
         <the-input
           :title="$t('inputNames.password')"
           name="password"
-          :placeholder="$t('placeholders.at_least_8')"
+          :placeholder="$t('placeholders.min_max', { min: 8, max: 15 })"
           type="password"
           :validation-rules="`required:${$t('inputNames.password')}|minMax:8,15,${$t(
             'inputNames.password'

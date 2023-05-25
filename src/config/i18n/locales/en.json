@@ -17,8 +17,7 @@
   },
   "placeholders": {
     "enter_your_email": "Enter your email",
-    "at_least_8": "At least 8 & max.15 lower case characters",
-    "at_least_3": "At least 3 & max.15 lower case characters"
+    "min_max": "At least {min} & max.{max} lower case characters"
   },
   "landingPage": {
     "find_any_quote": "Find any quote in millions of movie lines",

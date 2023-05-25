@@ -1,10 +1,10 @@
 import { createApp } from 'vue/dist/vue.esm-bundler.js'
 import { createPinia } from 'pinia'
 
-import App from './App.vue'
+import App from '@/App.vue'
 import router from '@/router'
 import '@/config/validationRules/index.js'
-import i18n from './config/i18n'
+import i18n from '@/config/i18n'
 
 const app = createApp(App)
 
