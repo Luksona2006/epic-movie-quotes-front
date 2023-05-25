@@ -15,11 +15,11 @@
         <login-popup v-show="showLogin" @hidePopup="closePopup('login')" />
       </transition>
     </teleport>
-    <div class="bg-gradient-to-t from-[#11101A] to-black">
+    <div class="bg-gradient-to-t from-[#11101A] to-[#0D0B14]">
       <header class="w-full sm:px-[70px] sm:py-8 px-4 py-7 flex justify-between items-center">
         <h1 class="text-[#DDCCAA] text-base">MOVIE QUOTES</h1>
         <div class="flex gap-4 items-center">
-          <language-switcher />
+          <language-switcher class="sm:flex hidden" />
           <router-link to="signup">
             <red-button @click="showPopup('signup')">{{ $t('landingPage.signup') }} </red-button>
           </router-link>

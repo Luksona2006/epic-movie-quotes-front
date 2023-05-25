@@ -1,7 +1,7 @@
 <template>
   <popup-container
-    title="Log in to your account"
-    description="Welcome back! Please enter your details."
+    :title="$t('landingPage.welcome_back')"
+    :description="`${$t('landingPage.login_to_account')}`"
   >
     <Form class="w-full mt-6" v-slot="{ values, errors }">
       <div class="w-full flex flex-col gap-4">

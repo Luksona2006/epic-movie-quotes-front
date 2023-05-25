@@ -1,7 +1,7 @@
 <template>
   <popup-container
     :title="$t('landingPage.create_an_account')"
-    :description="`${$t('landingPage.start_your_journey') + '!'}`"
+    :description="`${$t('landingPage.start_your_journey')}`"
   >
     <Form class="w-full mt-6" v-slot="{ errors, values }">
       <div class="w-full flex flex-col gap-4">

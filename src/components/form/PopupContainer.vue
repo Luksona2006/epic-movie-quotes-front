@@ -1,11 +1,14 @@
 <template>
   <div
-    class="sm:max-w-[600px] sm:h-auto h-screen w-full sm:rounded-[10px] py-12 bg-[#222030] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
+    class="sm:max-w-[600px] sm:h-auto sm:py-12 py-14 h-screen w-full sm:rounded-[10px] sm:from-[#222030] sm:to-[#222030] bg-gradient-to-b from-[#11101A] to-[#0D0B14] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
   >
-    <x-mark-icon class="absolute left-10 top-10 cursor-pointer" @click="hidePopup" />
+    <x-mark-icon
+      class="absolute sm:left-8 sm:top-8 left-5 top-5 cursor-pointer"
+      @click="hidePopup"
+    />
     <div class="flex flex-col items-center max-w-[360px] w-full m-auto">
       <div class="flex flex-col gap-3 items-center">
-        <h2 class="text-[32px] text-white font-medium">{{ title }}</h2>
+        <h2 class="text-[32px] text-white font-medium text-center">{{ title }}</h2>
         <span class="text-[#6C757D] text-base font-normal">{{ description }}</span>
       </div>
       <slot> </slot>

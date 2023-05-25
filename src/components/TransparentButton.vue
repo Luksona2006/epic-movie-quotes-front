@@ -1,6 +1,6 @@
 <template>
   <button
-    class="w-full bg-transparent border border-white px-6 py-2 rounded-md text-white text-base hover:text-[#222030] hover:border-white hover:bg-white transition-all duration-300"
+    class="w-full bg-transparent border border-white px-6 py-2 rounded-md text-white sm:text-base text-sm hover:text-[#222030] hover:border-white hover:bg-white transition-all duration-300"
     @mouseenter="changeToHoverColor"
     @mouseleave="changeToMainColor"
   >
