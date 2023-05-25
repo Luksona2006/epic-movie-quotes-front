@@ -10,7 +10,7 @@
           name="email"
           :is-valid="checkIsValid(values, errors, 'email')"
           :placeholder="$t('placeholders.enter_your_email')"
-          :validation-rules="`required:${$t('inputNames.email')}|email`"
+          validation-rules="required|email"
         />
         <the-input
           :title="$t('inputNames.password')"
@@ -18,7 +18,7 @@
           :is-valid="checkIsValid(values, errors, 'password')"
           :placeholder="$t('inputNames.password')"
           type="password"
-          :validation-rules="`required:${$t('inputNames.password')}`"
+          validation-rules="required"
         />
       </div>
       <div class="w-full flex flex-col gap-4 mt-10">

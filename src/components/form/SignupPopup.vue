@@ -9,9 +9,7 @@
           :title="$t('inputNames.name')"
           name="name"
           :placeholder="$t('placeholders.min_max', { min: 3, max: 15 })"
-          :validation-rules="`required:${$t('inputNames.name')}|minMax:3,15,${$t(
-            'inputNames.name'
-          )}|lowercase:${$t('inputNames.name')}`"
+          validation-rules="required|required|min:8|max:15"
           :is-valid="checkIsValid(values, errors, 'name')"
           :marked="true"
         />
@@ -19,7 +17,7 @@
           :title="$t('inputNames.email')"
           name="email"
           :placeholder="$t('placeholders.enter_your_email')"
-          :validation-rules="`required:${$t('inputNames.email')}|email`"
+          validation-rules="required|email"
           :is-valid="checkIsValid(values, errors, 'email')"
           :marked="true"
         />
@@ -28,9 +26,7 @@
           name="password"
           :placeholder="$t('placeholders.min_max', { min: 8, max: 15 })"
           type="password"
-          :validation-rules="`required:${$t('inputNames.password')}|minMax:8,15,${$t(
-            'inputNames.password'
-          )}|lowercase:${$t('inputNames.password')}`"
+          validation-rules="required|min:8|max:15"
           :is-valid="checkIsValid(values, errors, 'password')"
           :marked="true"
         />
@@ -39,7 +35,7 @@
           name="confirm_password"
           :placeholder="$t('inputNames.confirm_password')"
           type="password"
-          :validation-rules="`required:${$t('inputNames.this_field')}|confirmed:password`"
+          validation-rules="required|confirmed:@password"
           :is-valid="checkIsValid(values, errors, 'confirm_password')"
           :marked="true"
         />

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.10.0",
+    "@vee-validate/i18n": "^4.9.5",
+    "@vee-validate/rules": "^4.9.5",
     "axios": "^1.4.0",
     "pinia": "^2.0.36",
     "vee-validate": "^4.9.5",

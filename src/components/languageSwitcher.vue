@@ -39,6 +39,7 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 import ArrowDown from '@/assets/icons/ArrowDown.vue'
+import { setLocale } from '@vee-validate/i18n'
 
 let { locale } = useI18n()
 
@@ -78,6 +79,7 @@ function changeLanguage(newLocale) {
 
         locale.value = recievedLocale
         selected.value = recievedLocale
+        setLocale(recievedLocale)
         showList()
       })
   }
