@@ -1,40 +1,76 @@
 <template>
-  <the-popup-container
-    title="Log in to your account"
-    description="Welcome back! Please enter your details."
+  <popup-container
+    :title="$t('landingPage.welcome_back')"
+    :description="`${$t('landingPage.login_to_account')}`"
   >
-    <form @submit.prevent class="w-full mt-6">
+    <Form class="w-full mt-6" v-slot="{ values, errors }">
       <div class="w-full flex flex-col gap-4">
-        <the-input title="Email" placeholder="Enter your email" />
-        <the-input title="Password" type="password" />
+        <the-input
+          :title="$t('inputNames.email')"
+          name="email"
+          :is-valid="checkIsValid(values, errors, 'email')"
+          :placeholder="$t('placeholders.enter_your_email')"
+          validation-rules="required|email"
+        />
+        <the-input
+          :title="$t('inputNames.password')"
+          name="password"
+          :is-valid="checkIsValid(values, errors, 'password')"
+          :placeholder="$t('inputNames.password')"
+          type="password"
+          validation-rules="required"
+        />
       </div>
       <div class="w-full flex flex-col gap-4 mt-10">
-        <the-red-button> Sign in </the-red-button>
-        <the-transparent-button
+        <red-button @click="sendData(values, errors)"> {{ $t('landingPage.login') }} </red-button>
+        <transparent-button
           @changeToHoverColor="changeColor('#222030')"
           @changeToMainColor="changeColor('white')"
         >
           <div class="flex items-center gap-3 justify-center">
-            <google-icon :color="iconColor" /> Sign in with Google
+            <google-icon :color="iconColor" />
+            {{ `${$t('landingPage.login') + ' ' + $t('landingPage.with_google')}` }}
           </div>
-        </the-transparent-button>
+        </transparent-button>
       </div>
-    </form>
-  </the-popup-container>
+    </Form>
+  </popup-container>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { Form } from 'vee-validate'
+import axios from 'axios'
 
-import ThePopupContainer from './ThePopupContainer.vue'
-import TheTransparentButton from '../TheTransparentButton.vue'
-import TheRedButton from '../TheRedButton.vue'
-import TheInput from './TheInput.vue'
-import GoogleIcon from '../../assets/icons/GoogleIcon.vue'
+import { checkIsValid } from '@/config/customFunction'
+import PopupContainer from '@/components/form/PopupContainer.vue'
+import TransparentButton from '@/components/TransparentButton.vue'
+import RedButton from '@/components/RedButton.vue'
+import TheInput from '@/components/form/TheInput.vue'
+import GoogleIcon from '@/assets/icons/GoogleIcon.vue'
 
 const iconColor = ref('white')
 
 function changeColor(color) {
   iconColor.value = color
+}
+
+function sendData(data, errors) {
+  if (errors && !errors[0]) {
+    axios.post(
+      import.meta.env.VITE_API_URL + '/login',
+      {
+        ...toRaw(data)
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      }
+    )
+  }
 }
 </script>

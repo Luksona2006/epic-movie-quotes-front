@@ -10,9 +10,15 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@intlify/unplugin-vue-i18n": "^0.10.0",
+    "@vee-validate/i18n": "^4.9.5",
+    "@vee-validate/rules": "^4.9.5",
+    "axios": "^1.4.0",
     "pinia": "^2.0.36",
+    "vee-validate": "^4.9.5",
     "vue": "^3.3.2",
-    "vue-router": "^4.2.0"
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.2.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
