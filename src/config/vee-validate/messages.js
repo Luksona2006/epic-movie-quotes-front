@@ -6,6 +6,7 @@ defineRule('required', required)
 defineRule('email', email)
 defineRule('min', min)
 defineRule('max', max)
+defineRule('confirmed', confirmed)
 
 configure({
   generateMessage: localize({
