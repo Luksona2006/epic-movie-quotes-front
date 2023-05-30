@@ -37,9 +37,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import axios from 'axios'
-import ArrowDown from '@/assets/icons/ArrowDown.vue'
+import axiosInstance from '@/config/axios'
 import { setLocale } from '@vee-validate/i18n'
+
+import ArrowDown from '@/assets/icons/ArrowDown.vue'
 
 let { locale } = useI18n()
 
@@ -56,22 +57,10 @@ function showList() {
 
 function changeLanguage(newLocale) {
   if (show.value === true) {
-    axios
-      .post(
-        import.meta.env.VITE_API_URL + '/locale',
-        {
-          locale: newLocale
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': 'true',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        }
-      )
+    axiosInstance
+      .post('/locale', {
+        locale: newLocale
+      })
       .then((res) => {
         const recievedLocale = res.data.locale
 
