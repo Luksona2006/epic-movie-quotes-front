@@ -12,6 +12,7 @@
     <the-input
       :title="$t('inputNames.email')"
       name="email"
+      type="email"
       :placeholder="$t('placeholders.enter_your_email')"
       validation-rules="required|email"
     />
@@ -20,22 +21,26 @@
       name="password"
       :placeholder="$t('inputNames.password')"
       type="password"
+      :canShow="true"
       validation-rules="required"
     />
     <div class="w-full flex justify-between items-center">
       <div class="flex gap-2 items-center">
         <input type="checkbox" name="remember" value="rememeber" class="border" />
-        <label for="remember" class="text-base text-white">Remember me</label>
+        <label for="remember" class="text-base text-white">{{
+          $t('landingPage.remember_me')
+        }}</label>
       </div>
-      <router-link to="forgot-password" class="underline text-base text-[#0D6EFD]"
-        >Forgot Password</router-link
-      >
+      <router-link to="forgot-password" class="underline text-base text-[#0D6EFD]">{{
+        $t('landingPage.forgot_password')
+      }}</router-link>
     </div>
   </form-component>
 </template>
 
 <script setup>
 import axiosInstance from '@/config/axios'
+import { getCookies } from '@/config/axios/getCookies.js'
 import router from '@/router'
 import { useUserStore } from '@/store/userStore'
 
@@ -43,11 +48,15 @@ import TheInput from '@/components/form/TheInput.vue'
 import FormComponent from '@/components/form/FormComponent.vue'
 
 function sendData(data) {
+  getCookies()
   axiosInstance.post('/login', data).then((res) => {
     if (res.status === 200) {
       useUserStore()
         .setUserDetails(res)
-        .then(() => router.push({ name: 'news-feed' }))
+        .then(() => {
+          document.body.style.overflowY = 'auto'
+          return router.push({ name: 'news-feed' })
+        })
     }
   })
 }

@@ -1,25 +1,33 @@
 <template>
+  <teleport to="body">
+    <side-bar-component class="sm:hidden flex" v-show="sideBarShow && loggedIn" />
+  </teleport>
   <header
-    class="w-full sm:px-[70px] sm:py-8 px-4 py-7 flex justify-between items-center"
-    :class="{ 'bg-[rgba(34, 32, 48, 0.2)]': loggedIn }"
+    class="w-full sm:px-[70px] sm:py-5 px-9 py-7 flex justify-between items-center"
+    :class="{ 'sm:bg-[#22203033] bg-[#24222F]': loggedIn }"
   >
-    <h1 class="text-[#DDCCAA] text-base">MOVIE QUOTES</h1>
-    <div class="flex gap-4 items-center">
-      <bell-icon v-if="loggedIn === 'true'" />
+    <h1 class="text-[#DDCCAA] text-base" v-if="!loggedIn">MOVIE QUOTES</h1>
+    <h1 class="text-[#DDCCAA] text-base sm:block hidden" v-if="loggedIn">MOVIE QUOTES</h1>
+    <burger-menu-icon v-if="loggedIn" @click="showSideBar" class="sm:hidden block" />
+    <div class="flex gap-5 items-center">
+      <search-component v-show="loggedIn" :hide-on-mobile="true" />
+      <div>
+        <bell-icon v-if="loggedIn" />
+      </div>
       <language-switcher class="sm:flex hidden" />
       <div class="flex gap-4 items-center" v-if="!loggedIn">
         <router-link :to="{ name: 'signup' }">
           <red-button @click="showSignUp">{{ $t('landingPage.signup') }} </red-button>
         </router-link>
         <router-link :to="{ name: 'login' }">
-          <transparent-button @click="showLogin">
+          <white-border-button @click="showLogin">
             {{ $t('landingPage.login') }}
-          </transparent-button>
+          </white-border-button>
         </router-link>
       </div>
-      <transparent-button @click="logout" v-if="loggedIn">
+      <white-border-button @click="logout" class="sm:block hidden" v-if="loggedIn">
         {{ $t('landingPage.logout') }}
-      </transparent-button>
+      </white-border-button>
     </div>
   </header>
 </template>
@@ -30,13 +38,15 @@ import { useUserStore } from '@/store/userStore'
 import axiosInstance from '@/config/axios'
 import router from '@/router'
 
-import languageSwitcher from '@/components/languageSwitcher.vue'
+import SideBarComponent from '@/components/SideBarComponent.vue'
+import LanguageSwitcher from '@/components/switcher/LanguageSwitcher.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
-import TransparentButton from '@/components/buttons/TransparentButton.vue'
+import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
 import BellIcon from '@/assets/icons/BellIcon.vue'
+import BurgerMenuIcon from '@/assets/icons/BurgerMenuIcon.vue'
+import SearchComponent from '@/components/SearchComponent.vue'
 
 const emits = defineEmits(['showSignUp', 'showLogin'])
-const loggedIn = ref(useUserStore().token)
 
 function showLogin() {
   emits('showLogin')
@@ -46,15 +56,23 @@ function showSignUp() {
   emits('showSignUp')
 }
 
-function logout() {
-  const userStore = useUserStore()
+const loggedIn = ref(useUserStore().token)
 
-  axiosInstance.post('/logout', { user_id: userStore.id }).then((res) => {
+function logout() {
+  const user = useUserStore()
+
+  axiosInstance.post('/logout', { user_id: user.id }).then((res) => {
     if (res.status === 200) {
-      userStore.clearUser()
-      loggedIn.value = userStore.token
+      user.clearUser()
+      loggedIn.value = user.token
       return router.push({ name: 'home' })
     }
   })
+}
+
+const sideBarShow = ref(false)
+
+function showSideBar() {
+  sideBarShow.value = !sideBarShow.value
 }
 </script>

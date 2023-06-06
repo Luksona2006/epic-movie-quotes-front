@@ -7,24 +7,28 @@ export const useUserStore = defineStore({
     id: null,
     token: null,
     name: null,
-    email: null
-    // image: null
+    email: null,
+    password: null,
+    image: null
   }),
   actions: {
     async setUserDetails(res) {
       this.$state.id = res.data.user.id
-      this.$state.token = res.data.token
+      this.$state.token = res.data.user.token
       this.$state.name = res.data.user.name
       this.$state.email = res.data.user.email
-      // this.$state.image = res.data.user.image
+      this.$state.password = res.data.user.password
+      this.$state.image = res.data.user.image
     },
 
     fetchUsers() {
-      axiosInstance.get('/users/' + this.$state.id).then((res) => {
+      axiosInstance.get('/users/' + this.$state.token).then((res) => {
         this.$state.id = res.data.user.id
-        this.$state.token = res.data.token
+        this.$state.token = res.data.user.token
         this.$state.name = res.data.user.name
         this.$state.email = res.data.user.email
+        this.$state.password = res.data.user.password
+        this.$state.image = res.data.user.image
 
         return res
       })
@@ -35,6 +39,7 @@ export const useUserStore = defineStore({
       this.$state.token = null
       this.$state.name = null
       this.$state.email = null
+      this.$state.password = null
     }
   },
 

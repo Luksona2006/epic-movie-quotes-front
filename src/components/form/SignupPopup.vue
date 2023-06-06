@@ -19,6 +19,7 @@
     <the-input
       :title="$t('inputNames.email')"
       name="email"
+      type="email"
       :placeholder="$t('placeholders.enter_your_email')"
       validation-rules="required|email"
       :marked="true"
@@ -29,6 +30,7 @@
       :placeholder="$t('placeholders.min_max', { min: 8, max: 15 })"
       type="password"
       validation-rules="required|min:8|max:15"
+      :canShow="true"
       :marked="true"
     />
     <the-input
@@ -37,6 +39,7 @@
       :placeholder="$t('inputNames.confirm_password')"
       type="password"
       validation-rules="required|confirmed:@password"
+      :canShow="true"
       :marked="true"
     />
   </form-component>
@@ -66,7 +69,6 @@ import router from '@/router'
 
 function sendData(data) {
   axiosInstance.post('/signup', data).then((res) => {
-    console.log(res)
     if (res.status === 200) return router.push({ name: 'send-confirmation' })
   })
 }

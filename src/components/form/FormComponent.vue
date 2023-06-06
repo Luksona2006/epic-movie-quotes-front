@@ -17,7 +17,7 @@
         {{ buttonText }}
       </red-button>
     </Form>
-    <transparent-button
+    <white-border-button
       @changeToHoverColor="changeColor('#222030')"
       @changeToMainColor="changeColor('white')"
       class="mt-5"
@@ -26,7 +26,9 @@
         <google-icon :color="iconColor" />
         {{ `${buttonText + ' ' + $t('landingPage.with_google')}` }}
       </div>
-    </transparent-button>
+    </white-border-button>
+
+    <!-- <div class="g-signin2" :data-onsuccess="onSignIn"></div> -->
 
     <p class="text-[#6C757D] text-base mt-8">
       {{ nextRouteDescription }}
@@ -44,10 +46,18 @@ import { useRoute } from 'vue-router'
 import router from '@/router'
 
 import PopupContainer from '@/components/popup/PopupContainer.vue'
-import TransparentButton from '@/components/buttons/TransparentButton.vue'
+import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
 import GoogleIcon from '@/assets/icons/GoogleIcon.vue'
 import BackgroundBlur from '@/components/popup/BackgroundBlur.vue'
+
+// function onSignIn(googleUser) {
+//   var profile = googleUser.getBasicProfile()
+//   console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
+//   console.log('Name: ' + profile.getName())
+//   console.log('Image URL: ' + profile.getImageUrl())
+//   console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
+// }
 
 const iconColor = ref('white')
 
@@ -107,7 +117,7 @@ function sendData(data, errors) {
 
 const googleSignInParams = ref({
   client_id: '1040099445065-ooc8kqrt46b6q81402uat6nlgc40ue4f.apps.googleusercontent.com'
-  // client_id: import.meta.env.GOOGLE_CLIENT_ID + '.apps.googleusercontent.com'
+  // client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID + '.apps.googleusercontent.com'
 })
 
 function onSignInSuccess(googleUser) {

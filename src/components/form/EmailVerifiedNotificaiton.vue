@@ -6,11 +6,11 @@
     route-name="verified"
     next-route-name="login"
   >
-    <template #image><check-mark-icon /></template>
+    <template #image><blue-check-mark-icon /></template>
   </notification-popup>
 </template>
 
 <script setup>
 import NotificationPopup from '@/components/popup/NotificationPopup.vue'
-import CheckMarkIcon from '@/assets/icons/CheckMarkIcon.vue'
+import BlueCheckMarkIcon from '@/assets/icons/marks/BlueCheckMarkIcon.vue'
 </script>

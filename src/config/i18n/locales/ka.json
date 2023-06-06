@@ -13,7 +13,10 @@
     "the": "",
     "password": "პაროლი",
     "confirm_password": "პაროლის დადასტურება",
-    "this_field": "ეს ველი"
+    "this_field": "ეს ველი",
+    "username": "მომხმარებლის სახელი",
+    "new_username": "ახალი მომხმარებლის სახელი",
+    "new_password": "ახალი პაროლი"
   },
   "placeholders": {
     "enter_your_email": "შეიყვანეთ ელ-ფოსტა",
@@ -47,14 +50,53 @@
     "send_instructions": "ინსტრუქციების გაგზავნა",
     "back_to_log_in": "შესვლაზე დაბრუნება",
     "create_new_password": "ახალი პაროლის შექმნა",
+    "reset_password": "პაროლის განახლება",
     "new_password_must_be_different": "თქვენი ახალი პაროლი უნდა განსხვავდებოდეს წინა გამოყენებული პაროლებისგან",
     "success": "წარმატება!",
     "your_password_changed_successfully": "თქვენი პაროლი წარმატებით შეიცვალა",
     "your_account_has_been_activated": "თქვენი ანგარიში გააქტიურდა.",
-    "go_to_my_news_feed": "ჩემს სიახლეებზე გადასვლა"
+    "go_to_my_news_feed": "ჩემს სიახლეებზე გადასვლა",
+    "remember_me": "დამიმახსოვრე"
   },
   "language": {
     "en": "ინგ",
     "ka": "ქარ"
+  },
+  "editUserDetails": {
+    "upload_new_photo": "ახალი სურათის ატვირთვა",
+    "passwords_should_contain": "პაროლები უნდა შეიცავდეს:",
+    "are_you_sure_to_make_changes": "დარწმუნებული ხართ, რომ ცვლილებების შეტანა გსურთ?",
+    "or_more_characters": "{characters} ან მეტ სიმბოლოს",
+    "max_lowercase_characters": "{characters} (არაუმეტეს) პატარა ასოებს",
+    "changes_updated_succsessfully": "ცვლილებები წარმატებით განახლდა",
+    "invalid_changes_please_try_again": "არასწორი ცვლილებები, გთხოვთ სცადეთ თავიდან"
+  },
+  "basic": {
+    "edit": "შეცვლა",
+    "cancel": "გაუქმება",
+    "confirm": "დადასტურება",
+    "save_changes": "ცვლილებების შენახვა",
+    "save_photo": "სურათის შენახვა",
+    "edit_your_profile": "პროფილის შეცვლა",
+    "news_feed": "სიახლებიის ლენტა",
+    "list_of_movies": "ფილმების ჩამონათვალი",
+    "search": "ძიება",
+    "enter": "შეიყვანეთ",
+    "quote": "ციტატა",
+    "movie": "ფილმი",
+    "post": "დაპოსტვა",
+    "director": "რეჟისორი",
+    "file_should_be_image": "ფაილი უნდ იყოს სურათის ფორმატით!",
+    "upload_image": "სურათის ატვირთვა",
+    "drop_your_image": "ჩასვით თქვენი სურათი",
+    "drag_and_drop_your_image": "გადმოიტანეთ & ჩასვით თქვენი სურათი აქ ან",
+    "choose_file": "აირჩიეთ ფაილი"
+  },
+  "post": {
+    "write_new_quote": "დაწერე ახალი ციტატა",
+    "write_a_comment": "დაწერე კომენტარი",
+    "to_search": "რომ მოძებნოთ {search}",
+    "search_by": "ძიება",
+    "choose_movie": "ფილმის არჩევა"
   }
 }
