@@ -7,13 +7,13 @@
       <div
         class="rounded-full w-1 h-1 bg-[#9C9A9A]"
         :class="{
-          'bg-[#198754]': /\w{8,}/g.test(values['new_password'])
+          'bg-[#198754]': moreThan
         }"
       ></div>
       <p
         class="text-[#9C9A9A]"
         :class="{
-          'text-white': /\w{8,}/g.test(values['new_password'])
+          'text-white': moreThan
         }"
       >
         {{ $t('editUserDetails.or_more_characters', { characters: 8 }) }}
@@ -23,15 +23,13 @@
       <div
         class="rounded-full w-1 h-1 bg-[#9C9A9A]"
         :class="{
-          'bg-[#198754]':
-            !/[A-Z]/g.test(values['new_password']) && /\w{1,15}/g.test(values['new_password'])
+          'bg-[#198754]': bigCharacters && lessThan
         }"
       ></div>
       <p
         class="text-[#9C9A9A]"
         :class="{
-          'text-white':
-            !/[A-Z]/g.test(values['new_password']) && /\w{1,15}/g.test(values['new_password'])
+          'text-white': bigCharacters && lessThan
         }"
       >
         {{ $t('editUserDetails.max_lowercase_characters', { characters: 15 }) }}
@@ -41,10 +39,25 @@
 </template>
 
 <script setup>
+import { ref, watch } from 'vue'
+
 const props = defineProps({
   values: {
     type: Object,
     required: true
   }
 })
+
+const bigCharacters = ref(/[A-Z]/g.test(props.values['new_password']))
+const lessThan = ref(/\w{1,15}/g.test(props.values['new_password']))
+const moreThan = ref(/\w{8,}/g.test(props.values['new_password']))
+
+watch(
+  () => props.values,
+  (newValue) => {
+    bigCharacters.value = /[a-z]/g.test(newValue['new_password'])
+    lessThan.value = /\w{1,15}/g.test(newValue['new_password'])
+    moreThan.value = /\w{8,}/g.test(newValue['new_password'])
+  }
+)
 </script>
