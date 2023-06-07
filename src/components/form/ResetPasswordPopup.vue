@@ -32,7 +32,7 @@
     route-name="password-reseted"
     next-route-name="login"
   >
-    <template #image><check-mark-icon /></template>
+    <template #image><blue-check-mark-icon /></template>
   </notification-popup>
 </template>
 
@@ -44,7 +44,7 @@ import { useRoute } from 'vue-router'
 import TheInput from '@/components/form/TheInput.vue'
 import FormComponent from '@/components/form/FormComponent.vue'
 import NotificationPopup from '@/components/popup/NotificationPopup.vue'
-import CheckMarkIcon from '@/assets/icons/CheckMarkIcon.vue'
+import BlueCheckMarkIcon from '@/assets/icons/marks/BlueCheckMarkIcon.vue'
 
 const token = useRoute().params.token
 

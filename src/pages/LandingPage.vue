@@ -91,7 +91,7 @@ import LoginPopup from '@/components/form/LoginPopup.vue'
 import ForgotPasswordPopup from '@/components/form/ForgotPasswordPopup.vue'
 import ResetPasswordPopup from '@/components/form/ResetPasswordPopup.vue'
 import TheHeader from '@/components/TheHeader.vue'
-import EmailVerifiedNotificaiton from '../components/form/EmailVerifiedNotificaiton.vue'
+import EmailVerifiedNotificaiton from '@/components/form/EmailVerifiedNotificaiton.vue'
 
 function showPopup() {
   window.scrollTo({

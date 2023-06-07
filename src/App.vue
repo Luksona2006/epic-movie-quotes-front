@@ -13,6 +13,10 @@ const locale =
     : import.meta.env.VITE_DEFAULT_LOCALE
 
 setLocale(locale)
+
+if (localStorage.getItem('uploadedImage')) {
+  localStorage.removeItem('uploadedImage')
+}
 </script>
 <style>
 body {

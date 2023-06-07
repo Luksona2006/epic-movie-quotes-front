@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-const user = JSON.parse(window.localStorage.getItem('user'))
-
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
@@ -13,8 +11,6 @@ const axiosInstance = axios.create({
   }
 })
 
-if (user) {
-  axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
-}
+axiosInstance.defaults.withCredentials = true
 
 export default axiosInstance

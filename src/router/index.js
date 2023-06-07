@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/store/userStore'
 import LandingPage from '@/pages/LandingPage.vue'
 import NewsFeedPage from '@/pages/NewsFeedPage.vue'
-import { useUserStore } from '../store/userStore'
+import ProfilePage from '@/pages/ProfilePage.vue'
+import MovieListPage from '@/pages/MovieListPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -82,6 +84,22 @@ const router = createRouter({
       path: '/news-feed',
       name: 'news-feed',
       component: NewsFeedPage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/movie-list',
+      name: 'movie-list',
+      component: MovieListPage,
       meta: {
         requiresAuth: true
       }

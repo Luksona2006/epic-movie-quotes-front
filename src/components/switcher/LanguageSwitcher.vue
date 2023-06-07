@@ -10,7 +10,7 @@
     >
       {{ $t(`language.${selected}`) }}
     </p>
-    <arrow-down
+    <arrow-down-icon
       :color="show ? 'black' : 'white'"
       class="transition-all duration-500"
       :class="show ? 'rotate-180' : 'rotate-0'"
@@ -40,7 +40,7 @@ import { useI18n } from 'vue-i18n'
 import axiosInstance from '@/config/axios'
 import { setLocale } from '@vee-validate/i18n'
 
-import ArrowDown from '@/assets/icons/ArrowDown.vue'
+import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
 
 let { locale } = useI18n()
 
