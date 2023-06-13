@@ -4,13 +4,11 @@
 
 <script setup>
 import { setLocale } from '@vee-validate/i18n'
-if (!localStorage.getItem('savedLocale')) {
-  localStorage.setItem('savedLocale', 'en')
-}
-const locale =
-  localStorage.getItem('savedLocale') !== ''
-    ? localStorage.getItem('savedLocale')
-    : import.meta.env.VITE_DEFAULT_LOCALE
+import { useLocaleStore } from '@/store/localeStore'
+
+const localeStore = useLocaleStore()
+
+const locale = localeStore.locale ? localeStore.locale : import.meta.env.VITE_DEFAULT_LOCALE
 
 setLocale(locale)
 

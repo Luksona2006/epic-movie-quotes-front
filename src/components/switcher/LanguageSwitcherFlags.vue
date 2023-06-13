@@ -29,15 +29,15 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import axiosInstance from '@/config/axios'
-import { setLocale } from '@vee-validate/i18n'
 
 import GeorgiaIcon from '@/assets/icons/flags/GeorgiaIcon.vue'
 import UnitedKingdomIcon from '@/assets/icons/flags/UnitedKingdomIcon.vue'
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
+import { useLocaleStore } from '@/store/localeStore'
 
-let { locale } = useI18n()
+const localeStore = ref(useLocaleStore())
+const locale = ref(localeStore.value.locale)
 
 const show = ref(false)
 const selected = ref(locale.value)
@@ -61,8 +61,10 @@ function changeLanguage(newLocale) {
 
         locale.value = recievedLocale
         selected.value = recievedLocale
-        setLocale(recievedLocale)
+
         showList()
+
+        localeStore.value.changeLocale(recievedLocale)
       })
   }
 }

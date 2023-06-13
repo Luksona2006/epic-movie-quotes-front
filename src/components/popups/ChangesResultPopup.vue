@@ -21,13 +21,14 @@
 </template>
 
 <script setup>
-import BackgroundBlur from '@/components/popup/BackgroundBlur.vue'
-import XMarkIcon from '@/assets/icons/marks/XMarkIcon.vue'
-import TriangleExclamationMarkIcon from '@/assets/icons/marks/TriangleExclamationMarkIcon.vue'
-import CircleCheckMarkIcon from '@/assets/icons/marks/CircleCheckMarkIcon.vue'
 import { computed } from '@vue/reactivity'
 import { useI18n } from 'vue-i18n'
 import { ref, watch } from 'vue'
+
+import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
+import XMarkIcon from '@/assets/icons/marks/XMarkIcon.vue'
+import TriangleExclamationMarkIcon from '@/assets/icons/marks/TriangleExclamationMarkIcon.vue'
+import CircleCheckMarkIcon from '@/assets/icons/marks/CircleCheckMarkIcon.vue'
 
 const props = defineProps({
   success: {

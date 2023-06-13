@@ -1,5 +1,5 @@
 <template>
-  <form-component
+  <form-popup-container
     :title="`${$t('landingPage.forgot_password') + '?'}`"
     :description="$t('landingPage.an_email_with_instructions')"
     route-name="forgot-password"
@@ -14,8 +14,8 @@
       :placeholder="$t('placeholders.enter_your_email')"
       validation-rules="required|email"
     />
-  </form-component>
-  <notification-popup
+  </form-popup-container>
+  <notification-popup-container
     :title="$t('landingPage.check_your_email')"
     :description="$t('landingPage.password_recover_instructions')"
     :button-text="$t('landingPage.go_to_my_email')"
@@ -28,7 +28,7 @@
         $t('landingPage.skip_i_will_confirm_later')
       }}</router-link>
     </template>
-  </notification-popup>
+  </notification-popup-container>
 </template>
 
 <script setup>
@@ -36,8 +36,8 @@ import axiosInstance from '@/config/axios'
 import router from '@/router'
 
 import TheInput from '@/components/form/TheInput.vue'
-import FormComponent from '@/components/form/FormComponent.vue'
-import NotificationPopup from '@/components/popup/NotificationPopup.vue'
+import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
+import NotificationPopupContainer from '@/components/popups/containers/NotificationPopupContainer.vue'
 import SendIcon from '@/assets/icons/SendIcon.vue'
 
 function sendData(data) {

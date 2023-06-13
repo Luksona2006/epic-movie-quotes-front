@@ -45,11 +45,11 @@ import { Form } from 'vee-validate'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 
-import PopupContainer from '@/components/popup/PopupContainer.vue'
-import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
+import PopupContainer from '@/components/popups/containers/PopupContainer.vue'
+import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
+import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
 import GoogleIcon from '@/assets/icons/GoogleIcon.vue'
-import BackgroundBlur from '@/components/popup/BackgroundBlur.vue'
 
 // function onSignIn(googleUser) {
 //   var profile = googleUser.getBasicProfile()

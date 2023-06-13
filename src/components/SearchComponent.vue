@@ -33,7 +33,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 import SearchIcon from '@/assets/icons/SearchIcon.vue'
-import SearchPopup from '@/components/popup/SearchPopup.vue'
+import SearchPopup from '@/components/popups/forms/SearchPopup.vue'
 
 const props = defineProps({
   hideOnMobile: {

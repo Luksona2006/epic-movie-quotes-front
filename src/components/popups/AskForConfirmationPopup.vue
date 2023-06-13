@@ -27,9 +27,9 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
 import TransparentButton from '@/components/buttons/TransparentButton.vue'
-import BackgroundBlur from '@/components/popup/BackgroundBlur.vue'
 
 const props = defineProps({
   description: {

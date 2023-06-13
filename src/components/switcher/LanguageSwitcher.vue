@@ -36,13 +36,12 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import axiosInstance from '@/config/axios'
-import { setLocale } from '@vee-validate/i18n'
+import { useLocaleStore } from '@/store/localeStore'
 
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
 
-let { locale } = useI18n()
+const locale = ref(useLocaleStore().locale)
 
 const show = ref(false)
 const selected = ref(locale.value)
@@ -64,12 +63,12 @@ function changeLanguage(newLocale) {
       .then((res) => {
         const recievedLocale = res.data.locale
 
-        localStorage.setItem('savedLocale', recievedLocale)
-
         locale.value = recievedLocale
         selected.value = recievedLocale
-        setLocale(recievedLocale)
+
         showList()
+
+        useLocaleStore().changeLocale(recievedLocale)
       })
   }
 }

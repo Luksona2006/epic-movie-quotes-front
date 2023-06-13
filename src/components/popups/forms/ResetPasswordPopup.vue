@@ -1,5 +1,5 @@
 <template>
-  <form-component
+  <form-popup-container
     :title="$t('landingPage.create_new_password')"
     :description="$t('landingPage.new_password_must_be_different')"
     route-name="reset-password"
@@ -24,8 +24,8 @@
       validation-rules="required|confirmed:@password"
       :marked="true"
     />
-  </form-component>
-  <notification-popup
+  </form-popup-container>
+  <notification-popup-container
     :title="$t('landingPage.success')"
     :description="$t('landingPage.your_password_changed_successfully')"
     :button-text="$t('landingPage.login')"
@@ -33,7 +33,7 @@
     next-route-name="login"
   >
     <template #image><blue-check-mark-icon /></template>
-  </notification-popup>
+  </notification-popup-container>
 </template>
 
 <script setup>
@@ -42,8 +42,8 @@ import router from '@/router'
 import { useRoute } from 'vue-router'
 
 import TheInput from '@/components/form/TheInput.vue'
-import FormComponent from '@/components/form/FormComponent.vue'
-import NotificationPopup from '@/components/popup/NotificationPopup.vue'
+import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
+import NotificationPopupContainer from '@/components/popups/containers/NotificationPopupContainer.vue'
 import BlueCheckMarkIcon from '@/assets/icons/marks/BlueCheckMarkIcon.vue'
 
 const token = useRoute().params.token

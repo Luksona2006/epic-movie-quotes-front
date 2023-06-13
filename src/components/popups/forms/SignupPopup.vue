@@ -1,5 +1,5 @@
 <template>
-  <form-component
+  <form-popup-container
     :title="$t('landingPage.create_an_account')"
     :description="$t('landingPage.start_your_journey')"
     route-name="signup"
@@ -42,8 +42,8 @@
       :canShow="true"
       :marked="true"
     />
-  </form-component>
-  <notification-popup
+  </form-popup-container>
+  <notification-popup-container
     :title="$t('landingPage.thank_you')"
     :description="$t('landingPage.please_check_your_email')"
     :button-text="$t('landingPage.go_to_my_email')"
@@ -56,14 +56,14 @@
         $t('landingPage.skip_i_will_confirm_later')
       }}</router-link>
     </template>
-  </notification-popup>
+  </notification-popup-container>
 </template>
 
 <script setup>
 import axiosInstance from '@/config/axios'
 import TheInput from '@/components/form/TheInput.vue'
-import FormComponent from '@/components/form/FormComponent.vue'
-import NotificationPopup from '@/components/popup/NotificationPopup.vue'
+import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
+import NotificationPopupContainer from '@/components/popups/containers/NotificationPopupContainer.vue'
 import SendIcon from '@/assets/icons/SendIcon.vue'
 import router from '@/router'
 
