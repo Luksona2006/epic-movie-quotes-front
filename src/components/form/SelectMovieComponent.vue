@@ -91,7 +91,7 @@ const show = ref(false)
 
 const movies = ref(null)
 
-axiosInstance.post('/movie/get-all', { user_token: user.token }).then((res) => {
+axiosInstance.get(`/user/${user.token}/movies`).then((res) => {
   movies.value = res.data.movies
 })
 

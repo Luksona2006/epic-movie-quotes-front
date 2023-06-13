@@ -84,7 +84,7 @@ const user = useUserStore()
 
 const genresList = ref(null)
 
-axiosInstance.post('genre/get-all', { user_token: user.token }).then((res) => {
+axiosInstance.get(`/user/${user.token}/genres`).then((res) => {
   if (res.status === 200) {
     genresList.value = res.data.genres
   }

@@ -97,7 +97,7 @@ function uploadImage(image) {
   uploadedImage.value = image
 }
 
-axiosInstance.post(`/movie/${movieId}`, { user_token: user.token }).then((res) => {
+axiosInstance.get(`/user/${user.token}/movies/${movieId}`).then((res) => {
   if (res.status === 200) {
     movie.value = res.data.movie
   }
