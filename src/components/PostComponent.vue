@@ -88,7 +88,7 @@
 <script setup>
 import { Field, Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { computed } from '@vue/reactivity'
 import { useLocaleStore } from '@/store/localeStore'
 import axiosInstance from '@/config/axios'
@@ -108,6 +108,26 @@ const props = defineProps({
   }
 })
 
+const updatedQuote = ref(props.quote)
+
+const likes = ref(updatedQuote.value.likes)
+const liked = ref(updatedQuote.value.liked)
+
+onMounted(() => {
+  window.Echo.channel('likes').listen('LikeQuote', (data) => {
+    if (updatedQuote.value.id === data.quoteId) {
+      updatedQuote.value.likes = data.likes
+      likes.value = data.likes
+    }
+  })
+
+  window.Echo.channel('comments').listen('CommentQuote', (data) => {
+    if (updatedQuote.value.id === data.quoteId) {
+      updatedQuote.value.comments.push(data.comments)
+    }
+  })
+})
+
 const padding = computed(() => (props.asPost === true ? 'sm:p-6 px-9 py-6' : ''))
 const imageHeight = computed(() => (props.asPost === true ? 'h-[200px]' : 'h-[302px]'))
 
@@ -124,19 +144,10 @@ const user = useUserStore()
 const imagePrefix = import.meta.env.VITE_BACK_STORAGE_URL
 const profileImage = imagePrefix + user.image
 
-const likes = ref(props.quote.likes)
-const liked = ref(props.quote.liked)
-
 function likePost() {
-  if (liked.value === true) {
-    likes.value--
-    liked.value = false
-  } else {
-    likes.value++
-    liked.value = true
-  }
+  liked.value = !liked.value
 
-  axiosInstance.put(`/quote/update/${props.quote.id}`, {
+  axiosInstance.put(`/quote/update/${updatedQuote.value.id}`, {
     user_token: user.token,
     liked: liked.value
   })
@@ -144,17 +155,14 @@ function likePost() {
 
 const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white'))
 
-const updatedQuote = ref(props.quote)
-
 function postComment(values) {
   axiosInstance
-    .put(`/quote/update/${props.quote.id}`, {
+    .put(`/quote/update/${updatedQuote.value.id}`, {
       user_token: user.token,
       comment: values['comment']
     })
     .then((res) => {
       if (res.status === 200) {
-        console.log(res.data)
         updatedQuote.value = res.data.quote
       }
     })

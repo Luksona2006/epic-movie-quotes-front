@@ -6,10 +6,12 @@ import App from '@/App.vue'
 import router from '@/router'
 import '@/config/vee-validate/messages.js'
 import i18n from '@/config/i18n'
+import pusherInstance from '@/config/pusher'
 
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+pusherInstance()
 
 app.use(pinia)
 app.use(router)
