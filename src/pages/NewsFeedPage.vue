@@ -44,7 +44,7 @@ function openSearch() {
 const user = useUserStore()
 const quotes = ref([])
 
-axiosInstance.post('/quote/get-all', { token: user.token }).then((res) => {
+axiosInstance.get(`/user/${user.token}/quotes`).then((res) => {
   if (res.status === 200) {
     quotes.value = res.data.quotes
   }

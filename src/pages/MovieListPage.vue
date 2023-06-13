@@ -54,7 +54,7 @@ function openSearch() {
 const user = useUserStore()
 const movies = ref([])
 
-axiosInstance.post('/movie/get-all', { user_token: user.token }).then((res) => {
+axiosInstance.get(`/user/${user.token}/movies`).then((res) => {
   if (res.status === 200) {
     movies.value = res.data.movies
   }

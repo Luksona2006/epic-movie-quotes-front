@@ -64,11 +64,9 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance
-  .post(`/quote/${quoteId}`, { user_token: user.token, quote_id: quoteId })
-  .then((res) => {
-    if (res.status === 200) {
-      quote.value = res.data.quote
-    }
-  })
+axiosInstance.get(`/user/${user.token}/quotes/${quoteId}`).then((res) => {
+  if (res.status === 200) {
+    quote.value = res.data.quote
+  }
+})
 </script>

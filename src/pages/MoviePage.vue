@@ -108,13 +108,11 @@ const movieId = route.params.id
 const user = useUserStore()
 const movie = ref(null)
 
-axiosInstance
-  .post(`/movie/${movieId}`, { user_token: user.token, movie_id: movieId })
-  .then((res) => {
-    if (res.status === 200) {
-      movie.value = res.data.movie
-    }
-  })
+axiosInstance.get(`/user/${user.token}/movies/${movieId}`).then((res) => {
+  if (res.status === 200) {
+    movie.value = res.data.movie
+  }
+})
 
 function updateMovie(newMovie) {
   movie.value = newMovie
