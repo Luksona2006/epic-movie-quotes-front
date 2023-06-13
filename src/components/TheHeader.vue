@@ -17,7 +17,11 @@
       <search-component v-show="loggedIn" :hide-on-mobile="true" />
       <div class="relative">
         <bell-icon v-if="loggedIn" @click="triggerPopup" />
-        <post-notifications-popup :show="showNotificationsPopup" @clear-news="clearNews" />
+        <post-notifications-popup
+          :show="showNotificationsPopup"
+          @clear-news="clearNews"
+          :notifications="notifications"
+        />
       </div>
       <language-switcher class="sm:flex hidden" />
       <div class="flex gap-4 items-center" v-if="!loggedIn">
@@ -92,7 +96,13 @@ function triggerPopup() {
   showNotificationsPopup.value = !showNotificationsPopup.value
 }
 
+const notifications = ref([])
+
 const user = useUserStore()
+
+axiosInstance.get(`/user/${user.token}/notifications`).then((res) => {
+  notifications.value = res.data.notifications
+})
 
 function clearNews() {
   axiosInstance.post('/notifications-clear', { user_token: user.token })

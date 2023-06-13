@@ -78,6 +78,7 @@
           name="comment"
           type="text"
           class="w-full sm:px-7 py-3 px-5 sm:text-base text-sm text-white placeholder-[#CED4DA] placeholder:sm:text-xl placeholder:text-base bg-[#24222F] rounded-[10px] outline-none focus:bg-[#32303f] boxShadow"
+          v-model="value"
           :placeholder="$t('post.write_a_comment')"
         />
       </Form>
@@ -113,6 +114,8 @@ const updatedQuote = ref(props.quote)
 const likes = ref(updatedQuote.value.likes)
 const liked = ref(updatedQuote.value.liked)
 
+const value = ref('')
+
 onMounted(() => {
   window.Echo.channel('likes').listen('LikeQuote', (data) => {
     if (updatedQuote.value.id === data.quoteId) {
@@ -123,7 +126,7 @@ onMounted(() => {
 
   window.Echo.channel('comments').listen('CommentQuote', (data) => {
     if (updatedQuote.value.id === data.quoteId) {
-      updatedQuote.value.comments.push(data.comments)
+      updatedQuote.value.comments.push(data.comment)
     }
   })
 })
@@ -163,7 +166,7 @@ function postComment(values) {
     })
     .then((res) => {
       if (res.status === 200) {
-        updatedQuote.value = res.data.quote
+        value.value = ''
       }
     })
 }
