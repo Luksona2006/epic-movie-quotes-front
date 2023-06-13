@@ -4,6 +4,10 @@ import LandingPage from '@/pages/LandingPage.vue'
 import NewsFeedPage from '@/pages/NewsFeedPage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
 import MovieListPage from '@/pages/MovieListPage.vue'
+import MoviePage from '@/pages/MoviePage.vue'
+import ViewQuotePage from '@/pages/quotesPages/ViewQuotePage.vue'
+import EditQuotePage from '@/pages/quotesPages/EditQuotePage.vue'
+import AddQuotePage from '@/pages/quotesPages/AddQuotePage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -100,6 +104,38 @@ const router = createRouter({
       path: '/movie-list',
       name: 'movie-list',
       component: MovieListPage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/movie/:id',
+      name: 'movie',
+      component: MoviePage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/quote/:id/view',
+      name: 'view-quote',
+      component: ViewQuotePage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/quote/:id/edit',
+      name: 'edit-quote',
+      component: EditQuotePage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/movie/:id/add-quote',
+      name: 'add-quote',
+      component: AddQuotePage,
       meta: {
         requiresAuth: true
       }

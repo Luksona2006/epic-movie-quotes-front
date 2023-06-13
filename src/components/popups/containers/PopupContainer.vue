@@ -22,6 +22,7 @@
 
 <script setup>
 import XMarkIcon from '@/assets/icons/marks/XMarkIcon.vue'
+
 const props = defineProps({
   title: {
     type: String,

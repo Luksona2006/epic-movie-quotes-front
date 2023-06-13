@@ -86,12 +86,12 @@
 
 <script setup>
 import RedButton from '@/components/buttons/RedButton.vue'
-import SignupPopup from '@/components/form/SignupPopup.vue'
-import LoginPopup from '@/components/form/LoginPopup.vue'
-import ForgotPasswordPopup from '@/components/form/ForgotPasswordPopup.vue'
-import ResetPasswordPopup from '@/components/form/ResetPasswordPopup.vue'
+import SignupPopup from '@/components/popups/forms/SignupPopup.vue'
+import LoginPopup from '@/components/popups/forms/LoginPopup.vue'
+import ForgotPasswordPopup from '@/components/popups/forms/ForgotPasswordPopup.vue'
+import ResetPasswordPopup from '@/components/popups/forms/ResetPasswordPopup.vue'
 import TheHeader from '@/components/TheHeader.vue'
-import EmailVerifiedNotificaiton from '@/components/form/EmailVerifiedNotificaiton.vue'
+import EmailVerifiedNotificaiton from '@/components/popups/EmailVerifiedNotificaiton.vue'
 
 function showPopup() {
   window.scrollTo({

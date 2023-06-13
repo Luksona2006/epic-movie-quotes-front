@@ -16,7 +16,7 @@
     <side-bar-component class="sm:grid hidden" />
     <div class="grid sm:col-span-2">
       <!-- MAIN FORM (DESKTOP) -->
-      <Form class="relative w-full sm:flex hidden flex-col" v-slot="{ values, errors }">
+      <Form class="relative w-full sm:flex hidden flex-col mt-16" v-slot="{ values, errors }">
         <div
           class="w-full max-w-4xl sm:bg-[#11101A] bg-[#24222F] rounded-xl sm:pt-48 pt-6 pb-32 pl-12 pr-20"
         >
@@ -28,7 +28,7 @@
             <the-input
               :title="$t('inputNames.username')"
               name="username"
-              :value="username"
+              v-model="username"
               :placeholder="username"
               :edit="true"
               :disabled="true"
@@ -70,7 +70,7 @@
                 type="password"
                 validation-rules="required|min:8|max:15"
                 :can-show="true"
-                :show-validation="false"
+                :is-valid="errors['new_password'] === undefined"
               />
               <the-input
                 v-show="editPasswordData"
@@ -79,7 +79,7 @@
                 type="password"
                 validation-rules="required|confirmed:@new_password"
                 :can-show="true"
-                :show-validation="false"
+                :is-valid="errors['confirm_password'] === undefined"
               />
             </div>
           </div>
@@ -203,7 +203,7 @@ import axiosInstance from '@/config/axios'
 import { checkIsValid } from '@/config/customFunction/index.js'
 
 import TheContainer from '@/components/TheContainer.vue'
-import AskForConfirmationPopup from '@/components/popup/AskForConfirmationPopup.vue'
+import AskForConfirmationPopup from '@/components/popups/AskForConfirmationPopup.vue'
 import TheHeader from '@/components/TheHeader.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import UploadImageComponent from '@/components/form/UploadImageComponent.vue'
@@ -212,12 +212,19 @@ import UnderlineInput from '@/components/form/UnderlineInput.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
 import TransparentButton from '@/components/buttons/TransparentButton.vue'
 import ArrowLeftIcon from '@/assets/icons/arrows/ArrowLeftIcon.vue'
-import ChangesResultPopup from '@/components/popup/ChangesResultPopup.vue'
+import ChangesResultPopup from '@/components/popups/ChangesResultPopup.vue'
 import ChangePasswordHints from '@/components/ChangePasswordHints.vue'
 
 const user = useUserStore()
 const username = ref(user.name)
 const email = ref(user.email)
+
+watch(
+  () => useUserStore().name,
+  (newValue) => {
+    username.value = newValue
+  }
+)
 
 const fileIsUploaded = ref(false)
 const editUsernameData = ref(false)

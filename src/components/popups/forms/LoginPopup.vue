@@ -1,5 +1,5 @@
 <template>
-  <form-component
+  <form-popup-container
     :title="$t('landingPage.login_to_account')"
     :description="$t('landingPage.welcome_back')"
     route-name="login"
@@ -35,17 +35,17 @@
         $t('landingPage.forgot_password')
       }}</router-link>
     </div>
-  </form-component>
+  </form-popup-container>
 </template>
 
 <script setup>
+import router from '@/router'
 import axiosInstance from '@/config/axios'
 import { getCookies } from '@/config/axios/getCookies.js'
-import router from '@/router'
 import { useUserStore } from '@/store/userStore'
 
 import TheInput from '@/components/form/TheInput.vue'
-import FormComponent from '@/components/form/FormComponent.vue'
+import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
 
 function sendData(data) {
   getCookies()

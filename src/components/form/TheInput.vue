@@ -20,19 +20,14 @@
             }"
             :disabled="isDisabled"
           />
-          <eye-icon
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 -translate-x-2"
-            @isHidden="changeType"
-            v-if="canShow && isValid === '' && showValidation"
-          />
-          <check-mark-icon
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 -translate-x-2"
-            v-if="isValid === true && showValidation"
-          />
-          <exclamation-mark-icon
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 -translate-x-2"
-            v-if="isValid === false && showValidation"
-          />
+
+          <div
+            class="absolute top-1/2 right-2 transform -translate-y-1/2 -translate-x-2 flex gap-2 items-center"
+          >
+            <eye-icon @isHidden="changeType" v-if="canShow" />
+            <check-mark-icon v-if="isValid === true && showValidation" />
+            <exclamation-mark-icon v-if="isValid === false && showValidation" />
+          </div>
           <button
             v-if="edit === true"
             @click="editData"
@@ -56,11 +51,12 @@
 import { ErrorMessage, Field } from 'vee-validate'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { computed } from '@vue/reactivity'
+import { useLocaleStore } from '@/store/localeStore'
 
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
 import CheckMarkIcon from '@/assets/icons/marks/CheckMarkIcon.vue'
 import ExclamationMarkIcon from '@/assets/icons/marks/ExclamationMarkIcon.vue'
-import { computed } from '@vue/reactivity'
 
 const props = defineProps({
   title: {
@@ -153,7 +149,7 @@ function editData() {
   emits('editData', editDetail)
 }
 
-const locale = ref(localStorage.getItem('savedLocale'))
+const locale = ref(useLocaleStore().locale)
 const textPosition = computed(() =>
   locale.value === 'ka' ? '-right-8 translate-x-8' : '-right-6 translate-x-6'
 )

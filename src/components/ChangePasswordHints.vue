@@ -10,28 +10,16 @@
           'bg-[#198754]': moreThan
         }"
       ></div>
-      <p
-        class="text-[#9C9A9A]"
-        :class="{
-          'text-white': moreThan
-        }"
-      >
+      <p class="text-[#9C9A9A]" :class="{ 'text-white': moreThan }">
         {{ $t('editUserDetails.or_more_characters', { characters: 8 }) }}
       </p>
     </div>
     <div class="flex gap-[6px] items-center">
       <div
         class="rounded-full w-1 h-1 bg-[#9C9A9A]"
-        :class="{
-          'bg-[#198754]': bigCharacters && lessThan
-        }"
+        :class="{ 'bg-[#198754]': !bigCharacters && lessThan }"
       ></div>
-      <p
-        class="text-[#9C9A9A]"
-        :class="{
-          'text-white': bigCharacters && lessThan
-        }"
-      >
+      <p class="text-[#9C9A9A]" :class="{ 'text-white': !bigCharacters && lessThan }">
         {{ $t('editUserDetails.max_lowercase_characters', { characters: 15 }) }}
       </p>
     </div>
@@ -51,13 +39,12 @@ const props = defineProps({
 const bigCharacters = ref(/[A-Z]/g.test(props.values['new_password']))
 const lessThan = ref(/\w{1,15}/g.test(props.values['new_password']))
 const moreThan = ref(/\w{8,}/g.test(props.values['new_password']))
-
 watch(
-  () => props.values,
+  () => props.values['new_password'],
   (newValue) => {
-    bigCharacters.value = /[a-z]/g.test(newValue['new_password'])
-    lessThan.value = /\w{1,15}/g.test(newValue['new_password'])
-    moreThan.value = /\w{8,}/g.test(newValue['new_password'])
+    bigCharacters.value = /[A-Z]/g.test(newValue)
+    lessThan.value = /\w{1,15}/g.test(newValue)
+    moreThan.value = /\w{8,}/g.test(newValue)
   }
 )
 </script>

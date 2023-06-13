@@ -25,9 +25,9 @@ import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 
-import PopupContainer from '@/components/popup/PopupContainer.vue'
+import PopupContainer from '@/components/popups/containers/PopupContainer.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
-import BackgroundBlur from '@/components/popup/BackgroundBlur.vue'
+import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 
 const props = defineProps({
   title: {

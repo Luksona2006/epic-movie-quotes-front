@@ -3,8 +3,8 @@ import en from '@/config/i18n/locales/en.json'
 import ka from '@/config/i18n/locales/ka.json'
 
 let locale = import.meta.VITE_DEFAULT_LOCALE
-if (localStorage.getItem('savedLocale')) {
-  locale = localStorage.getItem('savedLocale')
+if (localStorage.getItem('locale')) {
+  locale = JSON.parse(localStorage.getItem('locale'))['locale']
 }
 
 export default createI18n({
