@@ -67,7 +67,7 @@
           <p class="sm:text-xl text-base text-white">{{ comment.text }}</p>
         </div>
       </div>
-      <Form class="w-full flex gap-6 items-center" v-slot="{ values }">
+      <Form class="w-full flex gap-6 items-center sm:mt-0 mt-4" v-slot="{ values }">
         <button @click.prevent="postComment(values)" class="bg-red-600" hidden></button>
         <img
           :src="profileImage"

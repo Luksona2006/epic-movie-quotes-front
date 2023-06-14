@@ -14,7 +14,7 @@
           </p>
         </div>
         <div class="flex items-center">
-          <search-component @open-search="openSearch" />
+          <search-component search-for="movies" @get-searched-movies="getSearchedMovies" />
           <add-movie @add-new-movie="addNewMovie" />
         </div>
       </div>
@@ -45,12 +45,6 @@ import MovieComponent from '@/components/MovieComponent.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
 import AddMovie from '@/components/popups/crud/AddMovie.vue'
 
-const searchOpened = ref(false)
-
-function openSearch() {
-  searchOpened.value = true
-}
-
 const user = useUserStore()
 const movies = ref([])
 
@@ -62,5 +56,9 @@ axiosInstance.get(`/user/${user.token}/movies`).then((res) => {
 
 function addNewMovie(movie) {
   movies.value.unshift(movie)
+}
+
+function getSearchedMovies(filteredMovies) {
+  movies.value = filteredMovies
 }
 </script>

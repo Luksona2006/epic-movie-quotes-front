@@ -4,15 +4,17 @@
       v-show="show"
       class="w-full h-screen absolute left-0 top-0 bg-[#12101A] flex flex-col z-20"
     >
-      <Form @submit.prevent v-slot="{ values }">
+      <Form v-slot="{ values }">
         <div class="flex items-center gap-6 border-b border-b-[#CED4DA80] py-6 px-9">
           <div @click="closeSearch" class="cursor-pointer"><arrow-left-icon /></div>
           <Field
             name="search"
             type="text"
+            v-model="searchValue"
             class="w-full text-base text-white placeholder-[#CED4DA] placeholder:text-lg outline-none bg-transparent"
             :placeholder="$t('basic.search')"
           />
+          <button @click="searchQuotes(searchValue)">click</button>
         </div>
         <div class="flex flex-col gap-5 pl-[76px] pr-9 py-7">
           <div
@@ -36,6 +38,8 @@
 
 <script setup>
 import { Field, Form } from 'vee-validate'
+import { ref } from 'vue'
+
 import ArrowLeftIcon from '@/assets/icons/arrows/ArrowLeftIcon.vue'
 
 const props = defineProps({
@@ -43,13 +47,24 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  searchFor: {
+    type: String,
+    required: false,
+    default: 'quotes'
   }
 })
 
-const emits = defineEmits(['closeSearch'])
+const searchValue = ref('')
+
+const emits = defineEmits(['closeSearch', 'searchQuotes'])
 
 function closeSearch() {
   emits('closeSearch')
+}
+
+function searchQuotes(searchBy) {
+  emits('searchQuotes', searchBy, props.searchFor)
 }
 </script>
 

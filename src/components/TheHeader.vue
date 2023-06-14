@@ -14,14 +14,15 @@
     <h1 class="text-[#DDCCAA] text-base sm:block hidden" v-if="loggedIn">MOVIE QUOTES</h1>
     <burger-menu-icon v-if="loggedIn" @click="triggerSidebar" class="sm:hidden block" />
     <div class="flex gap-5 items-center">
-      <search-component v-show="loggedIn" :hide-on-mobile="true" />
+      <search-component
+        v-show="loggedIn"
+        :hide-on-mobile="true"
+        @get-searched-quotes="getSearchedQuotes"
+        @get-searched-movies="getSearchedMovies"
+      />
       <div class="relative">
         <bell-icon v-if="loggedIn" @click="triggerPopup" />
-        <post-notifications-popup
-          :show="showNotificationsPopup"
-          @clear-news="clearNews"
-          :notifications="notifications"
-        />
+        <post-notifications-popup :show="showNotificationsPopup" :notifications="notifications" />
       </div>
       <language-switcher class="sm:flex hidden" />
       <div class="flex gap-4 items-center" v-if="!loggedIn">
@@ -42,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/store/userStore'
 import axiosInstance from '@/config/axios'
 import router from '@/router'
@@ -56,7 +57,7 @@ import BurgerMenuIcon from '@/assets/icons/BurgerMenuIcon.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
 import PostNotificationsPopup from '@/components/popups/PostNotificationsPopup.vue'
 
-const emits = defineEmits(['showSignUp', 'showLogin'])
+const emits = defineEmits(['showSignUp', 'showLogin', 'getSearchedQuotes'])
 
 function showLogin() {
   emits('showLogin')
@@ -99,12 +100,17 @@ function triggerPopup() {
 const notifications = ref([])
 
 const user = useUserStore()
+if (user.token !== null) {
+  axiosInstance.get(`/user/${user.token}/notifications`).then((res) => {
+    notifications.value = res.data.notifications
+  })
+}
 
-axiosInstance.get(`/user/${user.token}/notifications`).then((res) => {
-  notifications.value = res.data.notifications
-})
+function getSearchedQuotes(quotes) {
+  emits('getSearchedQuotes', quotes)
+}
 
-function clearNews() {
-  axiosInstance.post('/notifications-clear', { user_token: user.token })
+function getSearchedMovies(movies) {
+  emits('getSearchedMovies', movies)
 }
 </script>

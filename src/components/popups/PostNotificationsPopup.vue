@@ -12,10 +12,12 @@
         </button>
       </header>
       <div class="w-full flex flex-col gap-4">
-        <div
+        <router-link
+          :to="{ name: 'view-quote', params: { id: notification.quote_id } }"
           class="w-full flex sm:justify-between py-4 px-4 sm:py-5 sm:px-6 sm:items-center border border-[#6C757D80] rounded"
           v-if="updatedNotifications.length > 0"
           v-for="notification in updatedNotifications"
+          :key="notification.id"
           @click="clearNews(notification.id)"
         >
           <div class="flex gap-6 items-center">
@@ -48,7 +50,7 @@
             <p class="text-xl text-[#D9D9D9]">{{ notification.time }}</p>
             <p class="text-xl text-[#198754]" v-if="!notification.seen">New</p>
           </div>
-        </div>
+        </router-link>
         <p
           class="sm:text-[32px] text-xl text-white opacity-70 font-medium text-center pt-10 pb-16"
           v-else
