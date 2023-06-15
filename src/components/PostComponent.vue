@@ -118,15 +118,20 @@ const value = ref('')
 
 onMounted(() => {
   window.Echo.channel('likes').listen('LikeQuote', (data) => {
-    if (updatedQuote.value.id === data.quoteId) {
-      updatedQuote.value.likes = data.likes
-      likes.value = data.likes
+    if (!data.isOwnQuote) {
+      if (updatedQuote.value.id === data.quoteId) {
+        updatedQuote.value.likes = data.likes
+
+        likes.value = data.likes
+      }
     }
   })
 
   window.Echo.channel('comments').listen('CommentQuote', (data) => {
-    if (updatedQuote.value.id === data.quoteId) {
-      updatedQuote.value.comments.push(data.comment)
+    if (!data.isOwnQuote) {
+      if (updatedQuote.value.id === data.quoteId) {
+        updatedQuote.value.comments.push(data.comment)
+      }
     }
   })
 })
@@ -149,7 +154,7 @@ const profileImage = imagePrefix + user.image
 
 function likePost() {
   liked.value = !liked.value
-
+  likes.value = liked.value ? likes.value + 1 : likes.value - 1
   axiosInstance.put(`/quote/update/${updatedQuote.value.id}`, {
     user_token: user.token,
     liked: liked.value
@@ -166,6 +171,7 @@ function postComment(values) {
     })
     .then((res) => {
       if (res.status === 200) {
+        updatedQuote.value.comments = res.data.quote.comments
         value.value = ''
       }
     })

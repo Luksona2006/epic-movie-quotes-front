@@ -23,7 +23,17 @@
       />
       <div class="relative">
         <bell-icon v-if="loggedIn" @click="triggerPopup" />
-        <post-notifications-popup :show="showNotificationsPopup" :notifications="notifications" />
+        <div
+          class="absolute -right-4 -top-2 text-base text-white font-medium px-2 rounded-full bg-[#E33812]"
+          v-if="loggedIn && newsSum !== 0"
+        >
+          {{ newsSum }}
+        </div>
+        <post-notifications-popup
+          :show="showNotificationsPopup"
+          :notifications="notifications"
+          @update-notifications-sum="updateNotificationsSum"
+        />
       </div>
       <language-switcher class="sm:flex hidden" />
       <div class="flex gap-4 items-center" v-if="!loggedIn">
@@ -107,11 +117,13 @@ function triggerPopup() {
 }
 
 const notifications = ref([])
+const newsSum = ref(0)
 
 const user = useUserStore()
 if (user.token !== null) {
   axiosInstance.get(`/user/${user.token}/notifications`).then((res) => {
     notifications.value = res.data.notifications
+    newsSum.value = res.data.newsSum
   })
 }
 
@@ -121,5 +133,9 @@ function getSearchedQuotes(quotes) {
 
 function getSearchedMovies(movies) {
   emits('getSearchedMovies', movies)
+}
+
+function updateNotificationsSum(sum) {
+  newsSum.value = sum
 }
 </script>

@@ -81,12 +81,18 @@ const props = defineProps({
     type: Array,
     required: false,
     default: []
+  },
+  newSum: {
+    type: Number,
+    required: false,
+    default: 0
   }
 })
 
 const prefix = import.meta.env.VITE_BACK_STORAGE_URL
 const user = useUserStore()
 const updatedNotifications = ref(props.notifications)
+const updatedNewsSum = ref(props.newSum)
 
 watch(
   () => props.notifications,
@@ -95,9 +101,13 @@ watch(
   }
 )
 
+const emits = defineEmits(['updateNotificationsSum'])
+
 onMounted(() => {
   window.Echo.private(`notifications.${user.token}`).listen('RecieveNotification', (data) => {
     updatedNotifications.value.unshift(data.notification)
+    const sumOfNewNotifcations = updatedNewsSum.value + 1
+    emits('updateNotificationsSum', sumOfNewNotifcations)
   })
 })
 
@@ -107,7 +117,10 @@ function clearNews(notificationId) {
     .then((res) => {
       if (res.status === 200) {
         updatedNotifications.value = updatedNotifications.value.map((notific) => {
-          if (notific.id === notificationId) notific.seen = true
+          if (notific.id === notificationId) {
+            notific.seen = true
+            updatedNewsSum.value = updatedNewsSum - 1
+          }
           return notific
         })
       }
@@ -119,6 +132,8 @@ function clearAllNews() {
     if (res.status === 200) {
       updatedNotifications.value = updatedNotifications.value.map((notific) => {
         notific.seen = true
+        updatedNewsSum.value = 0
+        emits('updateNotificationsSum', updatedNewsSum.value)
         return notific
       })
     }
