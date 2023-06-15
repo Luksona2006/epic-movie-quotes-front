@@ -16,6 +16,7 @@
     <div class="flex gap-5 items-center">
       <search-component
         v-show="loggedIn"
+        :search-for="searchFor"
         :hide-on-mobile="true"
         @get-searched-quotes="getSearchedQuotes"
         @get-searched-movies="getSearchedMovies"
@@ -57,7 +58,15 @@ import BurgerMenuIcon from '@/assets/icons/BurgerMenuIcon.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
 import PostNotificationsPopup from '@/components/popups/PostNotificationsPopup.vue'
 
-const emits = defineEmits(['showSignUp', 'showLogin', 'getSearchedQuotes'])
+const props = defineProps({
+  searchFor: {
+    type: String,
+    required: false,
+    default: 'quotes'
+  }
+})
+
+const emits = defineEmits(['showSignUp', 'showLogin', 'getSearchedQuotes', 'getSearchedMovies'])
 
 function showLogin() {
   emits('showLogin')

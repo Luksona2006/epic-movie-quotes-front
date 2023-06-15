@@ -1,6 +1,11 @@
 <template>
   <teleport to="body">
-    <search-popup :show="showSearchPopup" @close-search="closeSearch" @search-quotes="searchData" />
+    <search-popup
+      :search-for="searchFor"
+      :show="showSearchPopup"
+      @close-search="closeSearch"
+      @search-data="searchData"
+    />
   </teleport>
   <Form
     class="transition-all duration-500 sm:flex hidden"
@@ -24,7 +29,7 @@
   <search-icon
     class="sm:hidden block transform transition-all duration-700"
     :class="searchIconStyles"
-    v-if="routeName === 'news-feed' && hideOnMobile && mobile"
+    v-if="(routeName === 'news-feed' || routeName === 'movie-list') && hideOnMobile && mobile"
     @click="openSearchPopup"
   />
 </template>
@@ -121,7 +126,6 @@ function searchData(searchBy, dataType) {
       closeSearch()
     })
   }
-
   if (dataType === 'movies') {
     axiosInstance.post('movies/search', { searchBy, user_token: user.token }).then((res) => {
       emits('getSearchedMovies', res.data.movies)

@@ -13,11 +13,7 @@
           :class="{ 'w-[286px]': searchOpened }"
           @add-new-quote="addNewQuote"
         />
-        <search-component
-          @open-search="openSearch"
-          @get-searched-quotes="getSearchedQuotes"
-          search-for="quotes"
-        />
+        <search-component @open-search="openSearch" @get-searched-quotes="getSearchedQuotes" />
       </div>
       <div class="flex flex-col gap-20">
         <post-component

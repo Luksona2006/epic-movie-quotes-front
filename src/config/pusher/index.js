@@ -1,5 +1,7 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
+import axiosInstance from '../axios'
+import axios from 'axios'
 
 export default function pusherInstance() {
   window.Pusher = Pusher
@@ -8,7 +10,28 @@ export default function pusherInstance() {
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true
+    forceTLS: true,
+    authorizer: (channel, _) => {
+      return {
+        authorize: (socketId, callback) => {
+          axios
+            .post(
+              'http://localhost:8000/broadcasting/auth',
+              {
+                socket_id: socketId,
+                channel_name: channel.name
+              },
+              { withCredentials: true }
+            )
+            .then((response) => {
+              callback(null, response.data)
+            })
+            .catch((error) => {
+              callback(error)
+            })
+        }
+      }
+    }
   })
   return true
 }

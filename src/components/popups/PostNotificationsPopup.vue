@@ -69,7 +69,7 @@ import axiosInstance from '@/config/axios'
 import PopupPointerIcon from '@/assets/icons/PopupPointerIcon.vue'
 import CommentParenthesesIcon from '@/assets/icons/CommentParenthesesIcon.vue'
 import HeartFillIcon from '@/assets/icons/HeartFillIcon.vue'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const props = defineProps({
   show: {
@@ -94,6 +94,12 @@ watch(
     updatedNotifications.value = newValue
   }
 )
+
+onMounted(() => {
+  window.Echo.private(`notifications.${user.token}`).listen('RecieveNotification', (data) => {
+    updatedNotifications.value.unshift(data.notification)
+  })
+})
 
 function clearNews(notificationId) {
   axiosInstance

@@ -1,5 +1,10 @@
 <template>
-  <the-header @show-sign-up="showPopup" @show-login="showPopup" />
+  <the-header
+    @show-sign-up="showPopup"
+    @show-login="showPopup"
+    @get-searched-movies="getSearchedMovies"
+    search-for="movies"
+  />
   <the-container class="grid sm:grid-cols-5 sm:mt-8 mt-4 pb-32 items-start">
     <side-bar-component class="sm:grid hidden" />
     <div class="grid sm:col-span-4">
