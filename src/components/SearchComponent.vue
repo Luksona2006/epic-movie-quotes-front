@@ -8,6 +8,7 @@
     />
   </teleport>
   <Form
+    @submit.prevent
     class="transition-all duration-500 sm:flex hidden"
     :class="searchStyles"
     v-if="!hideOnMobile && !mobile"
@@ -22,7 +23,7 @@
       />
       <search-icon
         class="absolute left-0 top-1/2 transform -translate-y-1/2"
-        @click="searchData(searchValue, searchFor)"
+        @click="searchData(searchValue)"
       />
     </div>
   </Form>
@@ -37,33 +38,31 @@
 import { Form, Field } from 'vee-validate'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/store/userStore'
 import { computed } from '@vue/reactivity'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 import SearchIcon from '@/assets/icons/SearchIcon.vue'
 import SearchPopup from '@/components/popups/forms/SearchPopup.vue'
-import axiosInstance from '@/config/axios'
 
 const props = defineProps({
   hideOnMobile: {
     type: Boolean,
     required: false,
     default: false
-  },
-  searchFor: {
-    type: String,
-    required: true
   }
 })
-
-const user = useUserStore()
 
 const i18n = useI18n()
 const routeName = useRoute().name
 const mobile = ref(window.innerWidth < 640)
 
-window.addEventListener('resize', updateWindowWidth)
+onMounted(() => {
+  window.addEventListener('resize', updateWindowWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWindowWidth)
+})
 
 function updateWindowWidth() {
   window.innerWidth < 640 ? (mobile.value = true) : (mobile.value = false)
@@ -89,7 +88,7 @@ const searchPlaceholder = computed(() =>
     : i18n.t('post.search_by')
 )
 
-const emits = defineEmits(['openSearch', 'getSearchedQuotes'])
+const emits = defineEmits(['openSearch', 'searchData'])
 
 function openSearch() {
   searchOpened.value = true
@@ -114,23 +113,15 @@ const searchIconStyles = computed(() =>
     : 'scale-100 translate-x-0 opacity-100'
 )
 
-function searchData(searchBy, dataType) {
+function searchData(searchBy) {
   if (routeName === 'news-feed' && searchOpened.value === false) {
-    openSearch()
+    searchOpened.value = true
     return true
   }
 
-  if ((searchBy.startsWith('#') || searchBy.startsWith('@')) && dataType === 'quotes') {
-    axiosInstance.post('quotes/search', { searchBy, user_token: user.token }).then((res) => {
-      emits('getSearchedQuotes', res.data.quotes)
-      closeSearch()
-    })
-  }
-  if (dataType === 'movies') {
-    axiosInstance.post('movies/search', { searchBy, user_token: user.token }).then((res) => {
-      emits('getSearchedMovies', res.data.movies)
-      closeSearch()
-    })
-  }
+  emits('searchData', searchBy)
+  searchValue.value = ''
+  closeSearch()
+  searchOpened.value = false
 }
 </script>

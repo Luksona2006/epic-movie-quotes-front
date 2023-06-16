@@ -1,7 +1,7 @@
 <template>
   <transition name="popup">
     <div
-      class="w-screen max-w-2xl xl:max-w-4xl absolute top-[52px] sm:top-16 sm:-right-60 -right-9 z-20 flex flex-col gap-6 px-8 sm:py-10 py-5 bg-black rounded-xl"
+      class="w-screen max-w-2xl xl:max-w-4xl max-h-[840px] overflow-y-scroll absolute top-[52px] sm:top-16 sm:-right-60 -right-9 z-20 flex flex-col gap-6 px-8 sm:py-10 py-5 bg-black rounded-xl"
       v-show="show"
     >
       <popup-pointer-icon class="absolute right-[26px] -top-5 sm:right-[230px]" />

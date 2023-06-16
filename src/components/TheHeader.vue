@@ -14,13 +14,7 @@
     <h1 class="text-[#DDCCAA] text-base sm:block hidden" v-if="loggedIn">MOVIE QUOTES</h1>
     <burger-menu-icon v-if="loggedIn" @click="triggerSidebar" class="sm:hidden block" />
     <div class="flex gap-5 items-center">
-      <search-component
-        v-show="loggedIn"
-        :search-for="searchFor"
-        :hide-on-mobile="true"
-        @get-searched-quotes="getSearchedQuotes"
-        @get-searched-movies="getSearchedMovies"
-      />
+      <search-component v-show="loggedIn" :hide-on-mobile="true" @search-data="searchData" />
       <div class="relative">
         <bell-icon v-if="loggedIn" @click="triggerPopup" />
         <div
@@ -68,15 +62,7 @@ import BurgerMenuIcon from '@/assets/icons/BurgerMenuIcon.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
 import PostNotificationsPopup from '@/components/popups/PostNotificationsPopup.vue'
 
-const props = defineProps({
-  searchFor: {
-    type: String,
-    required: false,
-    default: 'quotes'
-  }
-})
-
-const emits = defineEmits(['showSignUp', 'showLogin', 'getSearchedQuotes', 'getSearchedMovies'])
+const emits = defineEmits(['showSignUp', 'showLogin', 'searchData'])
 
 function showLogin() {
   emits('showLogin')
@@ -127,12 +113,8 @@ if (user.token !== null) {
   })
 }
 
-function getSearchedQuotes(quotes) {
-  emits('getSearchedQuotes', quotes)
-}
-
-function getSearchedMovies(movies) {
-  emits('getSearchedMovies', movies)
+function searchData(searchValue) {
+  emits('searchData', searchValue)
 }
 
 function updateNotificationsSum(sum) {

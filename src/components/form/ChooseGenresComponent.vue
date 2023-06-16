@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col gap-2 items-start">
     <div
-      class="relative w-full min-h-[46px] py-2 pl-4 pr-20 border border-[#6C757D] bg-transparent outline-none boxShadow sm:text-xl text-base text-white rounded-[4px] cursor-pointer"
+      class="relative w-full min-h-[46px] py-2 pl-4 pr-20 border border-[#6C757D] bg-transparent outline-none sm:text-xl text-base text-white rounded-[4px] cursor-pointer"
       :class="inputStyle"
       @click="showList"
     >

@@ -51,14 +51,10 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
-  },
-  searchFor: {
-    type: String,
-    required: true
   }
 })
 
-const routeName = useRoute()
+const routeName = useRoute().name
 const searchValue = ref('')
 
 const emits = defineEmits(['closeSearch', 'searchData'])
@@ -68,7 +64,7 @@ function closeSearch() {
 }
 
 function searchData(searchBy) {
-  emits('searchData', searchBy, props.searchFor)
+  emits('searchData', searchBy)
 }
 </script>
 
