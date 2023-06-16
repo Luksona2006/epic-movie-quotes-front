@@ -11,7 +11,7 @@
         />
         <search-component @open-search="openSearch" @search-data="searchData" />
       </div>
-      <div class="flex flex-col gap-20">
+      <div class="flex flex-col sm:gap-20 gap-8">
         <post-component
           v-for="quote in quotes"
           :quote="quote"

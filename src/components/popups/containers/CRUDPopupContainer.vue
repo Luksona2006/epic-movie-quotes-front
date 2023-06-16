@@ -19,7 +19,9 @@
             <p class="sm:text-2xl text-xl text-white text-center font-medium" :class="titleStyle">
               {{ title }}
             </p>
-            <x-mark-icon :class="xMarkStyle" @click="closePopup" />
+
+            <x-mark-icon :class="xMarkStyle" @click="closePopup" v-if="!redirectBack" />
+            <x-mark-icon :class="xMarkStyle" @click="redirect" v-else />
           </div>
         </header>
 
@@ -92,6 +94,11 @@ const props = defineProps({
     type: String || Number,
     required: false,
     default: ''
+  },
+  redirectBack: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
@@ -116,6 +123,10 @@ function closePopup() {
   emits('closePopup')
 
   document.body.style.overflowY = 'auto'
+}
+
+function redirect() {
+  router.back()
 }
 
 const headerContentStyle = computed(() =>

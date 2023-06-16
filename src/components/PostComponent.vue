@@ -23,8 +23,8 @@
           :class="imageHeight"
         />
         <div class="flex items-center gap-6">
-          <div class="flex items-center gap-3">
-            <p class="sm:text-xl text-base text-white">{{ updatedQuote.comments.length }}</p>
+          <div class="flex items-center gap-3" @click="getAllComments">
+            <p class="sm:text-xl text-base text-white">{{ updatedQuote.commentsTotal }}</p>
             <comment-icon class="sm:w-8 sm:h-[30px] w-6 h-[23px] cursor-pointer" />
           </div>
           <div class="flex items-center gap-3">
@@ -131,6 +131,7 @@ onMounted(() => {
     if (!data.isOwnQuote) {
       if (updatedQuote.value.id === data.quoteId) {
         updatedQuote.value.comments.push(data.comment)
+        updatedQuote.value.commentsTotal++
       }
     }
   })
@@ -175,6 +176,14 @@ function postComment(values) {
         value.value = ''
       }
     })
+}
+
+function getAllComments() {
+  axiosInstance.get(`/user/${user.token}/quotes/${updatedQuote.value.id}/comments`).then((res) => {
+    if (res.status === 200) {
+      updatedQuote.value.comments = res.data.comments
+    }
+  })
 }
 </script>
 

@@ -8,6 +8,7 @@
       :button-text="$t('basic.save_changes')"
       :deletable="true"
       :param-id="quote.id"
+      :redirectBack="true"
       @send-data="updateQuote"
     >
       <template #form>

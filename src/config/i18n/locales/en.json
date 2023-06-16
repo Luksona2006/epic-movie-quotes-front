@@ -110,5 +110,13 @@
     "to_search": "to search {search}",
     "search_by": "Search by",
     "choose_movie": "Choose movie"
+  },
+  "notifications": {
+    "notifications": "Notifications",
+    "reacted": "Reacted to your quote",
+    "commented": "Commented to your quote",
+    "mark_all": "Mark as all read",
+    "new": "New",
+    "no_notifications": "No notifications yet"
   }
 }

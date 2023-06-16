@@ -18,7 +18,8 @@
       <div class="relative">
         <bell-icon v-if="loggedIn" @click="triggerPopup" />
         <div
-          class="absolute -right-4 -top-2 text-base text-white font-medium px-2 rounded-full bg-[#E33812]"
+          class="absolute -right-4 -top-2 text-base text-white font-medium px-2 rounded-full bg-[#E33812] cursor-pointer"
+          @click="triggerPopup"
           v-if="loggedIn && newsSum !== 0"
         >
           {{ newsSum }}

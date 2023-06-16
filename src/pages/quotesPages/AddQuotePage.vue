@@ -5,6 +5,7 @@
       :show="true"
       :title="$t('basic.add_quote')"
       :button-text="$t('basic.add_quote')"
+      :redirectBack="true"
       @send-data="createQuote"
       v-if="movie"
     >

@@ -1,6 +1,6 @@
 <template>
   <the-header @show-sign-up="showPopup" @show-login="showPopup" @search-data="searchData" />
-  <the-container class="grid sm:grid-cols-5 sm:mt-8 mt-4 pb-32 items-start">
+  <the-container class="grid sm:grid-cols-5 sm:mt-8 mt-4 pb-32 sm:px-[70px] px-9 items-start">
     <side-bar-component class="sm:grid hidden" />
     <div class="grid sm:col-span-4">
       <div class="w-full flex justify-between items-start">

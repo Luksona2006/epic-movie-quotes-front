@@ -14,7 +14,7 @@
             class="w-full text-base text-white placeholder-[#CED4DA] placeholder:text-lg outline-none bg-transparent"
             :placeholder="$t('basic.search')"
           />
-          <button @click.prevent="searchData(searchValue)">click</button>
+          <button @click.prevent="searchData(searchValue)" hidden></button>
         </div>
         <div class="flex flex-col gap-5 pl-[76px] pr-9 py-7">
           <div

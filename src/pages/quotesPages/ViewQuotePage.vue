@@ -9,6 +9,7 @@
       :is-form="false"
       :editable="true"
       :deletable="true"
+      :redirectBack="true"
       :param-id="quote.id"
     >
       <template #form>
