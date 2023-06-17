@@ -18,8 +18,25 @@
           :key="quote.id"
           v-if="quotes.length > 0"
         />
-        <p class="text-2xl font-bold text-white opacity-80 text-center mt-10" v-else>
+        <p
+          class="text-2xl font-bold text-white opacity-80 text-center mt-10"
+          v-else-if="searchingValue.startsWith('#') || searchingValue === ''"
+        >
           No quotes found
+        </p>
+
+        <movie-component
+          v-for="movie in movies"
+          :movie="movie"
+          :redirect="false"
+          :key="movie.id"
+          v-if="movies.length > 0"
+        />
+        <p
+          class="text-2xl font-bold text-white opacity-80 text-center mt-10"
+          v-else-if="searchingValue.startsWith('@')"
+        >
+          No movies found
         </p>
       </div>
     </div>
@@ -36,6 +53,7 @@ import TheHeader from '@/components/TheHeader.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import TheContainer from '@/components/TheContainer.vue'
 import PostComponent from '@/components/PostComponent.vue'
+import MovieComponent from '@/components/MovieComponent.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
 import WriteNewQuote from '@/components/popups/crud/WriteNewQuote.vue'
 
@@ -47,6 +65,7 @@ function openSearch() {
 
 const user = useUserStore()
 const quotes = ref([])
+const movies = ref([])
 const fetchStore = useFetchStore()
 
 onMounted(() => {
@@ -86,18 +105,37 @@ watch(
   () => {
     fetchStore.clearFetchStore()
     quotes.value = []
+    movies.value = []
   }
 )
 
 function searchData(searchBy) {
   searchingValue.value = searchBy
   if (fetchStore.allPagesFetched === false) {
-    if (searchBy.startsWith('#') || searchBy.startsWith('@')) {
+    if (searchBy.startsWith('#')) {
       fetchStore.startFetch()
       axiosInstance
         .post('quotes/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
         .then((res) => {
           quotes.value.push(...res.data.quotes)
+          searchOpened.value = false
+
+          fetchStore.finishFetch()
+          if (res.data.isLastPage === true) {
+            fetchStore.allDataFetched()
+            return true
+          }
+
+          fetchStore.increasePageNum()
+        })
+    }
+
+    if (searchBy.startsWith('@')) {
+      fetchStore.startFetch()
+      axiosInstance
+        .post('movies/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
+        .then((res) => {
+          movies.value.push(...res.data.movies)
           searchOpened.value = false
 
           fetchStore.finishFetch()

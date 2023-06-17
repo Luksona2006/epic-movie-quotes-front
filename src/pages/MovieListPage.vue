@@ -99,7 +99,7 @@ function searchData(searchBy) {
     if (searchBy !== '') {
       fetchStore.startFetch()
       axiosInstance
-        .post('movies/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
+        .post('my-movies/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
         .then((res) => {
           movies.value.push(...res.data.movies)
 
