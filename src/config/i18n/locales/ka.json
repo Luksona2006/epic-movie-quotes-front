@@ -108,6 +108,9 @@
     "write_a_comment": "დაწერე კომენტარი",
     "to_search": "რომ მოძებნოთ {search}",
     "search_by": "ძიება",
+    "no_quotes": "ციტატები ვერ მოიძებნა",
+    "no_movies": "ფილმები ვერ მოიძებნა",
+    "no_movies_yet": "ფილმები ჯერ არ არის",
     "choose_movie": "ფილმის არჩევა"
   },
   "notifications": {

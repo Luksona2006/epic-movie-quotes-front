@@ -109,6 +109,9 @@
     "write_a_comment": "Write a comment",
     "to_search": "to search {search}",
     "search_by": "Search by",
+    "no_quotes": "No quotes found",
+    "no_movies": "No movies found",
+    "no_movies_yet": "No movies yet",
     "choose_movie": "Choose movie"
   },
   "notifications": {
