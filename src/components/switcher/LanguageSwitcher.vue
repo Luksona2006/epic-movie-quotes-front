@@ -37,6 +37,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import axiosInstance from '@/config/axios'
+import i18n from '@/config/i18n'
 import { useLocaleStore } from '@/store/localeStore'
 
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
@@ -69,6 +70,8 @@ function changeLanguage(newLocale) {
         showList()
 
         useLocaleStore().changeLocale(recievedLocale)
+
+        i18n.global.locale.value = recievedLocale
       })
   }
 }

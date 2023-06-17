@@ -29,6 +29,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import i18n from '@/config/i18n'
 import axiosInstance from '@/config/axios'
 
 import GeorgiaIcon from '@/assets/icons/flags/GeorgiaIcon.vue'
@@ -65,6 +66,8 @@ function changeLanguage(newLocale) {
         showList()
 
         localeStore.value.changeLocale(recievedLocale)
+
+        i18n.global.locale.value = recievedLocale
       })
   }
 }

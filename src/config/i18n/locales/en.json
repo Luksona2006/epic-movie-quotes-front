@@ -121,5 +121,12 @@
     "mark_all": "Mark as all read",
     "new": "New",
     "no_notifications": "No notifications yet"
+  },
+  "errorPages": {
+    "whoops": "Whoops!",
+    "you_shall_not_pass": "You shall not pass!",
+    "we_can_not_see_the_page": "We can't see the page you are looking for",
+    "you_do_not_have_permission": "Sorry, but you don't have permission to access this page",
+    "return_home": "Return home"
   }
 }
