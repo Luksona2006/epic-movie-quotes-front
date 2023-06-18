@@ -41,6 +41,7 @@
 </template>
 
 <script setup>
+import router from '@/router'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
@@ -78,21 +79,30 @@ window.scrollTo({
   left: 0
 })
 
-axiosInstance.get(`/user/${user.token}/movies/page/${fetchStore.page}`).then((res) => {
-  if (res.status === 200) {
-    showLoading.value = false
+axiosInstance
+  .get(`/user/${user.token}/movies/page/${fetchStore.page}`)
+  .then((res) => {
+    if (res.status === 200) {
+      showLoading.value = false
 
-    totalMovies.value = res.data.total
-    movies.value.push(...res.data.movies)
+      totalMovies.value = res.data.total
+      movies.value.push(...res.data.movies)
 
-    if (res.data.isLastPage === true) {
-      fetchStore.allDataFetched()
-      return true
+      if (res.data.isLastPage === true) {
+        fetchStore.allDataFetched()
+        return true
+      }
+
+      fetchStore.increasePageNum()
     }
-
-    fetchStore.increasePageNum()
-  }
-})
+  })
+  .catch((err) => {
+    console.error(err.message)
+    if (err.response.status === 401) {
+      user.clearUser()
+      return router.push({ name: 'home' })
+    }
+  })
 
 const searchingValue = ref('')
 const searchingValueChanged = ref(false)

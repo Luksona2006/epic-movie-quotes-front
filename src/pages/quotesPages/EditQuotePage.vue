@@ -70,11 +70,20 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance.get(`/user/${user.token}/quotes/${quoteId}`).then((res) => {
-  if (res.status === 200) {
-    quote.value = res.data.quote
-  }
-})
+axiosInstance
+  .get(`/user/${user.token}/quotes/${quoteId}`)
+  .then((res) => {
+    if (res.status === 200) {
+      quote.value = res.data.quote
+    }
+  })
+  .catch((err) => {
+    console.error(err.message)
+    if (err.response.status === 401) {
+      user.clearUser()
+      return router.push({ name: 'home' })
+    }
+  })
 
 const quoteEn = ref(null)
 const quoteKa = ref(null)
