@@ -67,7 +67,7 @@ const user = useUserStore()
 const quote = ref(null)
 
 axiosInstance
-  .get(`/user/quotes/${quoteId}`)
+  .get(`/quotes/${quoteId}`)
   .then((res) => {
     if (res.status === 200) {
       quote.value = res.data.quote

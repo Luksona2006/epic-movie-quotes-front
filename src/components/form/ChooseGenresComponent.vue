@@ -81,7 +81,7 @@ watch(
 
 const genresList = ref(null)
 
-axiosInstance.get(`/user/genres`).then((res) => {
+axiosInstance.get(`/genres`).then((res) => {
   if (res.status === 200) {
     genresList.value = res.data.genres
   }

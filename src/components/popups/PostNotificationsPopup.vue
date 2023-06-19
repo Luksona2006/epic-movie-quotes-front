@@ -136,7 +136,7 @@ function clearNews(notificationId) {
 }
 
 function clearAllNews() {
-  axiosInstance.post(`/user/notifications/update`).then((res) => {
+  axiosInstance.post(`/notifications/update`).then((res) => {
     if (res.status === 200) {
       updatedNotifications.value = updatedNotifications.value.map((notific) => {
         notific.seen = true

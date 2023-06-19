@@ -108,7 +108,7 @@ const newsSum = ref(0)
 
 const user = useUserStore()
 if (user.id !== null) {
-  axiosInstance.get(`/user/notifications`).then((res) => {
+  axiosInstance.get(`/notifications`).then((res) => {
     notifications.value = res.data.notifications
     newsSum.value = res.data.newsSum
   })

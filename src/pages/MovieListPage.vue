@@ -80,7 +80,7 @@ window.scrollTo({
 })
 
 axiosInstance
-  .get(`/user/movies/page/${fetchStore.page}`)
+  .get(`/movies/page/${fetchStore.page}`)
   .then((res) => {
     if (res.status === 200) {
       showLoading.value = false
@@ -138,7 +138,7 @@ function searchData(searchBy) {
 
     if (searchBy === '') {
       fetchStore.startFetch()
-      axiosInstance.get(`/user/movies/page/${fetchStore.page}`).then((res) => {
+      axiosInstance.get(`/movies/page/${fetchStore.page}`).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false

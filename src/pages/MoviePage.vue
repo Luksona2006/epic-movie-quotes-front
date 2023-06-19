@@ -109,7 +109,7 @@ const user = useUserStore()
 const movie = ref(null)
 
 axiosInstance
-  .get(`/user/movies/${movieId}`)
+  .get(`/movies/${movieId}`)
   .then((res) => {
     if (res.status === 200) {
       movie.value = res.data.movie

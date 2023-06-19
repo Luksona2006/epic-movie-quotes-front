@@ -177,7 +177,7 @@ function postComment(values) {
 }
 
 function getAllComments() {
-  axiosInstance.get(`/user/quotes/${updatedQuote.value.id}/comments`).then((res) => {
+  axiosInstance.get(`/quotes/${updatedQuote.value.id}/comments`).then((res) => {
     if (res.status === 200) {
       updatedQuote.value.comments = res.data.comments
     }
