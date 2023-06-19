@@ -2,7 +2,7 @@ import axios from 'axios'
 
 function getCookies() {
   axios
-    .get('http://localhost:8000/sanctum/csrf-cookie', {
+    .get(`${import.meta.env.VITE_API_URL}/sanctum/csrf-cookie`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
