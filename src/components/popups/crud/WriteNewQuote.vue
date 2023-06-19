@@ -41,7 +41,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useUserStore } from '@/store/userStore'
 import axiosInstance from '@/config/axios'
 
 import WriteIcon from '@/assets/icons/WriteIcon.vue'
@@ -59,8 +58,6 @@ function openPopup() {
 function closePopup() {
   showPopup.value = false
 }
-
-const user = useUserStore()
 
 const uploadedImage = ref(null)
 
@@ -83,7 +80,6 @@ function createQuote(values, hasErrors) {
   if (!hasErrors && selectedMovie.value !== null && uploadedImage.value !== null) {
     axiosInstance
       .post('/quote/create', {
-        user_token: user.token,
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         movie_id: selectedMovie.value.id,

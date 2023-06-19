@@ -5,7 +5,6 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     id: null,
-    token: null,
     name: null,
     email: null,
     password: null,
@@ -14,7 +13,6 @@ export const useUserStore = defineStore({
   actions: {
     async setUserDetails(res) {
       this.$state.id = res.data.user.id
-      this.$state.token = res.data.user.token
       this.$state.name = res.data.user.name
       this.$state.email = res.data.user.email
       this.$state.password = res.data.user.password
@@ -24,7 +22,6 @@ export const useUserStore = defineStore({
     fetchUsers() {
       axiosInstance.get('/users/' + this.$state.token).then((res) => {
         this.$state.id = res.data.user.id
-        this.$state.token = res.data.user.token
         this.$state.name = res.data.user.name
         this.$state.email = res.data.user.email
         this.$state.password = res.data.user.password
@@ -36,7 +33,6 @@ export const useUserStore = defineStore({
 
     clearUser() {
       this.$state.id = null
-      this.$state.token = null
       this.$state.name = null
       this.$state.email = null
       this.$state.password = null

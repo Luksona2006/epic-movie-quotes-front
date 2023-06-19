@@ -196,6 +196,7 @@
 </template>
 
 <script setup>
+import router from '@/router'
 import { Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
 import { ref, watch } from 'vue'
@@ -269,22 +270,31 @@ function updateUser(data, errors, needsConfirmation = false) {
   }
 
   if (updatedData) {
-    axiosInstance.put(`/users/${user.token}`, updatedData).then((res) => {
-      if (res.status === 200) {
-        if (!needsConfirmation) {
-          user.setUserDetails(res)
-          detailsUpdated.value = true
-          showNotification.value = true
-          return
-        } else {
-          askForConfirmation(res)
-          return
+    axiosInstance
+      .put(`/user/details`, updatedData)
+      .then((res) => {
+        if (res.status === 200) {
+          if (!needsConfirmation) {
+            user.setUserDetails(res)
+            detailsUpdated.value = true
+            showNotification.value = true
+            return
+          } else {
+            askForConfirmation(res)
+            return
+          }
         }
-      }
 
-      detailsUpdated.value = false
-      showNotification.value = true
-    })
+        detailsUpdated.value = false
+        showNotification.value = true
+      })
+      .catch((err) => {
+        console.error(err.message)
+        if (err.response.status === 401) {
+          user.clearUser()
+          return router.push({ name: 'home' })
+        }
+      })
   }
 }
 

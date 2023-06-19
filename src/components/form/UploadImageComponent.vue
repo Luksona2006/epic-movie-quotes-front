@@ -80,7 +80,7 @@ function uploadFile(e) {
 function saveImage() {
   if (localStorage.getItem('uploadedImage').startsWith('data:image/')) {
     axiosInstance
-      .put(`/users/${user.token}`, { image: localStorage.getItem('uploadedImage') })
+      .put(`/user/details`, { image: localStorage.getItem('uploadedImage') })
       .then((res) => {
         user.setUserDetails(res)
         localStorage.removeItem('uploadedImage')

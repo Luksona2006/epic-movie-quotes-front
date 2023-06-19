@@ -100,7 +100,6 @@
       </div>
       <button
         class="p-[10px] bg-[#9747FF66] sm:text-xl text-lg text-white rounded-sm"
-        v-if="!mobile"
         @click="chooseImage"
       >
         {{ $t('basic.choose_file') }}

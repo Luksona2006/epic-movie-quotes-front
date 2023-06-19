@@ -5,6 +5,8 @@ import NewsFeedPage from '@/pages/NewsFeedPage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
 import MovieListPage from '@/pages/MovieListPage.vue'
 import MoviePage from '@/pages/MoviePage.vue'
+import NotFoundPage from '@/pages/NotFoundPage.vue'
+import NotAccesablePage from '@/pages/NotAccesablePage.vue'
 import ViewQuotePage from '@/pages/quotesPages/ViewQuotePage.vue'
 import EditQuotePage from '@/pages/quotesPages/EditQuotePage.vue'
 import AddQuotePage from '@/pages/quotesPages/AddQuotePage.vue'
@@ -139,25 +141,43 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: '404',
+      component: NotFoundPage,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/401',
+      name: '401',
+      component: NotAccesablePage,
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
 })
 
 router.beforeEach((to, _, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (useUserStore().token) {
+    if (useUserStore().id) {
       next()
       return
     }
-    next('/login')
+    next('/401')
+    return
   }
 
   if (to.matched.some((record) => record.meta.guest)) {
-    if (useUserStore().token) {
+    if (useUserStore().id) {
       next('/news-feed')
       return
     }
     next()
+    return
   }
 
   next()

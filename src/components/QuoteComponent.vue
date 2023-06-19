@@ -1,8 +1,12 @@
 <template>
   <li class="w-full flex flex-col gap-6 px-8 py-6 rounded-[10px] bg-[#11101A]">
     <div class="w-full relative flex items-center gap-9">
-      <img class="w-[226px] h-[140px] rounded-sm" :src="prefix + quote.image" alt="movie scene" />
-      <p class="text-2xl text-white italic">"{{ quote.text[locale] }}"</p>
+      <img
+        class="w-[226px] h-[140px] rounded-sm"
+        :src="prefix + quoteUpdated.image"
+        alt="movie scene"
+      />
+      <p class="text-2xl text-white italic">"{{ quoteUpdated.text[locale] }}"</p>
       <div class="absolute right-0 top-0 cursor-pointer">
         <three-dots-icon @click="openNavigation" />
         <transition name="navigation">
@@ -11,20 +15,20 @@
             v-show="navigate"
           >
             <router-link
-              :to="{ name: 'view-quote', params: { id: quote.id } }"
+              :to="{ name: 'view-quote', params: { id: quoteUpdated.id } }"
               class="flex gap-4 items-center"
             >
               <eye-icon color="white" :crosser="false" />
               <p class="text-base text-white">{{ $t('basic.view_quote') }}</p>
             </router-link>
             <router-link
-              :to="{ name: 'edit-quote', params: { id: quote.id } }"
+              :to="{ name: 'edit-quote', params: { id: quoteUpdated.id } }"
               class="flex gap-4 items-center"
             >
               <pencil-icon />
               <p class="text-base text-white">{{ $t('basic.edit') }}</p>
             </router-link>
-            <button class="flex gap-4 items-center" @click="removeQuote(quote.id)">
+            <button class="flex gap-4 items-center" @click="removeQuote(quoteUpdated.id)">
               <trash-icon />
               <p class="text-base text-white">{{ $t('basic.delete') }}</p>
             </button>
@@ -35,11 +39,11 @@
     <div class="w-full h-[1px] bg-[#EFEFEF33]"></div>
     <div class="flex gap-6 items-center">
       <div class="flex gap-3 items-center">
-        <p class="text-xl text-white">{{ quote.comments }}</p>
+        <p class="text-xl text-white">{{ quoteUpdated.comments }}</p>
         <comment-icon />
       </div>
       <div class="flex gap-3 items-center">
-        <p class="text-xl text-white">{{ quote.likes }}</p>
+        <p class="text-xl text-white">{{ quoteUpdated.likes }}</p>
         <heart-icon :color="heartIconColor" />
       </div>
     </div>
@@ -47,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useLocaleStore } from '@/store/localeStore'
 
 import ThreeDotsIcon from '@/assets/icons/ThreeDotsIcon.vue'
@@ -64,6 +68,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const quoteUpdated = ref(props.quote)
 
 const locale = ref(useLocaleStore().locale)
 

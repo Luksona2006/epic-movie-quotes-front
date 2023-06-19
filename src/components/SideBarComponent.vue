@@ -69,6 +69,7 @@
 </template>
 
 <script setup>
+import router from '@/router'
 import { useUserStore } from '@/store/userStore'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -95,10 +96,10 @@ const routeName = useRoute().name
 const imageFullPath = ref(import.meta.env.VITE_BACK_STORAGE_URL + '' + image.value)
 
 function logout() {
-  axiosInstance.post('/logout', { user_id: user.id }).then((res) => {
+  axiosInstance.post('/logout').then((res) => {
     if (res.status === 200) {
       user.clearUser()
-      loggedIn.value = user.token
+      loggedIn.value = user.id
       return router.push({ name: 'home' })
     }
   })

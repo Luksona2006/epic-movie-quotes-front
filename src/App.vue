@@ -3,15 +3,6 @@
 </template>
 
 <script setup>
-import { setLocale } from '@vee-validate/i18n'
-import { useLocaleStore } from '@/store/localeStore'
-
-const localeStore = useLocaleStore()
-
-const locale = localeStore.locale ? localeStore.locale : import.meta.env.VITE_DEFAULT_LOCALE
-
-setLocale(locale)
-
 if (localStorage.getItem('uploadedImage')) {
   localStorage.removeItem('uploadedImage')
 }

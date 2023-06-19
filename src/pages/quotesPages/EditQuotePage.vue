@@ -8,6 +8,7 @@
       :button-text="$t('basic.save_changes')"
       :deletable="true"
       :param-id="quote.id"
+      :redirectBack="true"
       @send-data="updateQuote"
     >
       <template #form>
@@ -69,11 +70,20 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance.get(`/user/${user.token}/quotes/${quoteId}`).then((res) => {
-  if (res.status === 200) {
-    quote.value = res.data.quote
-  }
-})
+axiosInstance
+  .get(`/quotes/${quoteId}`)
+  .then((res) => {
+    if (res.status === 200) {
+      quote.value = res.data.quote
+    }
+  })
+  .catch((err) => {
+    console.error(err.message)
+    if (err.response.status === 401) {
+      user.clearUser()
+      return router.push({ name: 'home' })
+    }
+  })
 
 const quoteEn = ref(null)
 const quoteKa = ref(null)
@@ -87,7 +97,6 @@ function updateQuote(values, hasErrors) {
   if (!hasErrors) {
     axiosInstance
       .put(`/quote/update/${quote.value.id}`, {
-        user_token: user.token,
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         image: uploadedImage.value

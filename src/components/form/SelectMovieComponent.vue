@@ -70,7 +70,6 @@
 import { ref, computed, watch } from 'vue'
 import axiosInstance from '@/config/axios'
 import { useLocaleStore } from '@/store/localeStore'
-import { useUserStore } from '@/store/userStore'
 
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
 import MovieCameraIcon from '@/assets/icons/MovieCameraIcon.vue'
@@ -83,15 +82,13 @@ const props = defineProps({
   }
 })
 
-const user = useUserStore()
-
 const locale = useLocaleStore().locale
 
 const show = ref(false)
 
 const movies = ref(null)
 
-axiosInstance.get(`/user/${user.token}/movies`).then((res) => {
+axiosInstance.get(`/movies`).then((res) => {
   movies.value = res.data.movies
 })
 

@@ -23,8 +23,8 @@
           :class="imageHeight"
         />
         <div class="flex items-center gap-6">
-          <div class="flex items-center gap-3">
-            <p class="sm:text-xl text-base text-white">{{ updatedQuote.comments.length }}</p>
+          <div class="flex items-center gap-3" @click="getAllComments">
+            <p class="sm:text-xl text-base text-white">{{ updatedQuote.commentsTotal }}</p>
             <comment-icon class="sm:w-8 sm:h-[30px] w-6 h-[23px] cursor-pointer" />
           </div>
           <div class="flex items-center gap-3">
@@ -67,7 +67,7 @@
           <p class="sm:text-xl text-base text-white">{{ comment.text }}</p>
         </div>
       </div>
-      <Form class="w-full flex gap-6 items-center" v-slot="{ values }">
+      <Form class="w-full flex gap-6 items-center sm:mt-0 mt-4" v-slot="{ values }">
         <button @click.prevent="postComment(values)" class="bg-red-600" hidden></button>
         <img
           :src="profileImage"
@@ -78,6 +78,7 @@
           name="comment"
           type="text"
           class="w-full sm:px-7 py-3 px-5 sm:text-base text-sm text-white placeholder-[#CED4DA] placeholder:sm:text-xl placeholder:text-base bg-[#24222F] rounded-[10px] outline-none focus:bg-[#32303f] boxShadow"
+          v-model="value"
           :placeholder="$t('post.write_a_comment')"
         />
       </Form>
@@ -88,7 +89,7 @@
 <script setup>
 import { Field, Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { computed } from '@vue/reactivity'
 import { useLocaleStore } from '@/store/localeStore'
 import axiosInstance from '@/config/axios'
@@ -108,6 +109,34 @@ const props = defineProps({
   }
 })
 
+const updatedQuote = ref(props.quote)
+
+const likes = ref(updatedQuote.value.likes)
+const liked = ref(updatedQuote.value.liked)
+
+const value = ref('')
+
+onMounted(() => {
+  window.Echo.channel('likes').listen('LikeQuote', (data) => {
+    if (!data.isOwnQuote) {
+      if (updatedQuote.value.id === data.quoteId) {
+        updatedQuote.value.likes = data.likes
+
+        likes.value = data.likes
+      }
+    }
+  })
+
+  window.Echo.channel('comments').listen('CommentQuote', (data) => {
+    if (!data.isOwnQuote) {
+      if (updatedQuote.value.id === data.quoteId) {
+        updatedQuote.value.comments.push(data.comment)
+        updatedQuote.value.commentsTotal++
+      }
+    }
+  })
+})
+
 const padding = computed(() => (props.asPost === true ? 'sm:p-6 px-9 py-6' : ''))
 const imageHeight = computed(() => (props.asPost === true ? 'h-[200px]' : 'h-[302px]'))
 
@@ -124,40 +153,35 @@ const user = useUserStore()
 const imagePrefix = import.meta.env.VITE_BACK_STORAGE_URL
 const profileImage = imagePrefix + user.image
 
-const likes = ref(props.quote.likes)
-const liked = ref(props.quote.liked)
-
 function likePost() {
-  if (liked.value === true) {
-    likes.value--
-    liked.value = false
-  } else {
-    likes.value++
-    liked.value = true
-  }
-
-  axiosInstance.put(`/quote/update/${props.quote.id}`, {
-    user_token: user.token,
+  liked.value = !liked.value
+  likes.value = liked.value ? likes.value + 1 : likes.value - 1
+  axiosInstance.put(`/quote/update/${updatedQuote.value.id}`, {
     liked: liked.value
   })
 }
 
 const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white'))
 
-const updatedQuote = ref(props.quote)
-
 function postComment(values) {
   axiosInstance
-    .put(`/quote/update/${props.quote.id}`, {
-      user_token: user.token,
+    .put(`/quote/update/${updatedQuote.value.id}`, {
       comment: values['comment']
     })
     .then((res) => {
       if (res.status === 200) {
-        console.log(res.data)
-        updatedQuote.value = res.data.quote
+        updatedQuote.value.comments = res.data.quote.comments
+        value.value = ''
       }
     })
+}
+
+function getAllComments() {
+  axiosInstance.get(`/quotes/${updatedQuote.value.id}/comments`).then((res) => {
+    if (res.status === 200) {
+      updatedQuote.value.comments = res.data.comments
+    }
+  })
 }
 </script>
 

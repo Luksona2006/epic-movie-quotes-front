@@ -19,7 +19,9 @@
             <p class="sm:text-2xl text-xl text-white text-center font-medium" :class="titleStyle">
               {{ title }}
             </p>
-            <x-mark-icon :class="xMarkStyle" @click="closePopup" />
+
+            <x-mark-icon :class="xMarkStyle" @click="closePopup" v-if="!redirectBack" />
+            <x-mark-icon :class="xMarkStyle" @click="redirect" v-else />
           </div>
         </header>
 
@@ -92,6 +94,11 @@ const props = defineProps({
     type: String || Number,
     required: false,
     default: ''
+  },
+  redirectBack: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
@@ -118,6 +125,10 @@ function closePopup() {
   document.body.style.overflowY = 'auto'
 }
 
+function redirect() {
+  router.back()
+}
+
 const headerContentStyle = computed(() =>
   props.editable || props.deletable ? 'w-full flex items-center justify-between' : 'relative'
 )
@@ -142,7 +153,7 @@ function sendData(values, errors) {
 }
 
 function removeQuote() {
-  axiosInstance.post(`/quote/remove/${props.paramId}`, { user_token: user.token }).then((res) => {
+  axiosInstance.post(`/quote/remove/${props.paramId}`).then((res) => {
     if (res.status === 200) {
       return router.push({ name: 'movie-list' })
     }

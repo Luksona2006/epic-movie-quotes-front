@@ -108,6 +108,24 @@
     "write_a_comment": "დაწერე კომენტარი",
     "to_search": "რომ მოძებნოთ {search}",
     "search_by": "ძიება",
+    "no_quotes": "ციტატები ვერ მოიძებნა",
+    "no_movies": "ფილმები ვერ მოიძებნა",
+    "no_movies_yet": "ფილმები ჯერ არ არის",
     "choose_movie": "ფილმის არჩევა"
+  },
+  "notifications": {
+    "notifications": "შეტყობინებები",
+    "reacted": "მოიწონა თქვენი ციტატა",
+    "commented": "დაწერა კომენტარი თქვენს ციტატაზე",
+    "mark_all": "ყველას წაკითხულად მონიშვნა",
+    "new": "ახალი",
+    "no_notifications": "შეტყობინებები ვერ მოიძებნა"
+  },
+  "errorPages": {
+    "whoops": "ვუუპს!",
+    "you_shall_not_pass": "თქვენ ვერ გაივლით!",
+    "we_can_not_see_the_page": "ჩვენ ვერ ვხედავთ გვერდს, რომელსაც ეძებთ",
+    "you_do_not_have_permission": "ბოდიშით მაგრამ თქვენ არ გაქვთ ამ გვერდზე წვდომის უფლება",
+    "return_home": "მთავარზე დაბრუნება"
   }
 }

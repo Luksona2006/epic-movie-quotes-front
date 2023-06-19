@@ -9,6 +9,7 @@
       :is-form="false"
       :editable="true"
       :deletable="true"
+      :redirectBack="true"
       :param-id="quote.id"
     >
       <template #form>
@@ -37,6 +38,7 @@
 </template>
 
 <script setup>
+import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axiosInstance from '@/config/axios'
@@ -64,9 +66,18 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance.get(`/user/${user.token}/quotes/${quoteId}`).then((res) => {
-  if (res.status === 200) {
-    quote.value = res.data.quote
-  }
-})
+axiosInstance
+  .get(`/quotes/${quoteId}`)
+  .then((res) => {
+    if (res.status === 200) {
+      quote.value = res.data.quote
+    }
+  })
+  .catch((err) => {
+    console.error(err.message)
+    if (err.response.status === 401) {
+      user.clearUser()
+      return router.push({ name: 'home' })
+    }
+  })
 </script>

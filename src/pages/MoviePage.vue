@@ -108,18 +108,27 @@ const movieId = route.params.id
 const user = useUserStore()
 const movie = ref(null)
 
-axiosInstance.get(`/user/${user.token}/movies/${movieId}`).then((res) => {
-  if (res.status === 200) {
-    movie.value = res.data.movie
-  }
-})
+axiosInstance
+  .get(`/movies/${movieId}`)
+  .then((res) => {
+    if (res.status === 200) {
+      movie.value = res.data.movie
+    }
+  })
+  .catch((err) => {
+    console.error(err.message)
+    if (err.response.status === 401) {
+      user.clearUser()
+      return router.push({ name: 'home' })
+    }
+  })
 
 function updateMovie(newMovie) {
   movie.value = newMovie
 }
 
 function removeQuote(quoteId) {
-  axiosInstance.post(`/quote/remove/${quoteId}`, { user_token: user.token }).then((res) => {
+  axiosInstance.post(`/quote/remove/${quoteId}`).then((res) => {
     if (res.status === 200) {
       console.log(res.status, movie.value)
       movie.value['quotes'] = movie.value.quotes.filter((quote) => quote.id !== quoteId)
@@ -129,7 +138,7 @@ function removeQuote(quoteId) {
 }
 
 function removeMovie() {
-  axiosInstance.post(`/movie/remove/${movieId}`, { user_token: user.token }).then((res) => {
+  axiosInstance.post(`/movie/remove/${movieId}`).then((res) => {
     return router.push({ name: 'movie-list' })
   })
 }
