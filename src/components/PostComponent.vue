@@ -157,7 +157,6 @@ function likePost() {
   liked.value = !liked.value
   likes.value = liked.value ? likes.value + 1 : likes.value - 1
   axiosInstance.put(`/quote/update/${updatedQuote.value.id}`, {
-    user_token: user.token,
     liked: liked.value
   })
 }
@@ -167,7 +166,6 @@ const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white
 function postComment(values) {
   axiosInstance
     .put(`/quote/update/${updatedQuote.value.id}`, {
-      user_token: user.token,
       comment: values['comment']
     })
     .then((res) => {
@@ -179,7 +177,7 @@ function postComment(values) {
 }
 
 function getAllComments() {
-  axiosInstance.get(`/user/${user.token}/quotes/${updatedQuote.value.id}/comments`).then((res) => {
+  axiosInstance.get(`/user/quotes/${updatedQuote.value.id}/comments`).then((res) => {
     if (res.status === 200) {
       updatedQuote.value.comments = res.data.comments
     }

@@ -71,7 +71,7 @@ const user = useUserStore()
 const quote = ref(null)
 
 axiosInstance
-  .get(`/user/${user.token}/quotes/${quoteId}`)
+  .get(`/user/quotes/${quoteId}`)
   .then((res) => {
     if (res.status === 200) {
       quote.value = res.data.quote
@@ -97,7 +97,6 @@ function updateQuote(values, hasErrors) {
   if (!hasErrors) {
     axiosInstance
       .put(`/quote/update/${quote.value.id}`, {
-        user_token: user.token,
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         image: uploadedImage.value

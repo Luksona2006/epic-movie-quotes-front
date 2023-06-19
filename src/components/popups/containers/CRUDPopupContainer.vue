@@ -153,7 +153,7 @@ function sendData(values, errors) {
 }
 
 function removeQuote() {
-  axiosInstance.post(`/quote/remove/${props.paramId}`, { user_token: user.token }).then((res) => {
+  axiosInstance.post(`/quote/remove/${props.paramId}`).then((res) => {
     if (res.status === 200) {
       return router.push({ name: 'movie-list' })
     }

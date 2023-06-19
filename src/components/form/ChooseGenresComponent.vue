@@ -48,7 +48,6 @@
 <script setup>
 import { computed } from '@vue/reactivity'
 import { ref, watch } from 'vue'
-import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 import axiosInstance from '@/config/axios'
 
@@ -80,11 +79,9 @@ watch(
   }
 )
 
-const user = useUserStore()
-
 const genresList = ref(null)
 
-axiosInstance.get(`/user/${user.token}/genres`).then((res) => {
+axiosInstance.get(`/user/genres`).then((res) => {
   if (res.status === 200) {
     genresList.value = res.data.genres
   }

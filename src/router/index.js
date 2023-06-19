@@ -163,7 +163,7 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (useUserStore().token) {
+    if (useUserStore().id) {
       next()
       return
     }
@@ -172,7 +172,7 @@ router.beforeEach((to, _, next) => {
   }
 
   if (to.matched.some((record) => record.meta.guest)) {
-    if (useUserStore().token) {
+    if (useUserStore().id) {
       next('/news-feed')
       return
     }

@@ -80,7 +80,7 @@ window.scrollTo({
 })
 
 axiosInstance
-  .get(`/user/${user.token}/movies/page/${fetchStore.page}`)
+  .get(`/user/movies/page/${fetchStore.page}`)
   .then((res) => {
     if (res.status === 200) {
       showLoading.value = false
@@ -121,26 +121,24 @@ function searchData(searchBy) {
   if (fetchStore.allPagesFetched === false) {
     if (searchBy !== '') {
       fetchStore.startFetch()
-      axiosInstance
-        .post('my-movies/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
-        .then((res) => {
-          searchingValueChanged.value = false
-          showLoading.value = false
-          movies.value.push(...res.data.movies)
+      axiosInstance.post('my-movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+        searchingValueChanged.value = false
+        showLoading.value = false
+        movies.value.push(...res.data.movies)
 
-          fetchStore.finishFetch()
-          if (res.data.isLastPage === true) {
-            fetchStore.allDataFetched()
-            return true
-          }
+        fetchStore.finishFetch()
+        if (res.data.isLastPage === true) {
+          fetchStore.allDataFetched()
+          return true
+        }
 
-          fetchStore.increasePageNum()
-        })
+        fetchStore.increasePageNum()
+      })
     }
 
     if (searchBy === '') {
       fetchStore.startFetch()
-      axiosInstance.get(`/user/${user.token}/movies/page/${fetchStore.page}`).then((res) => {
+      axiosInstance.get(`/user/movies/page/${fetchStore.page}`).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false

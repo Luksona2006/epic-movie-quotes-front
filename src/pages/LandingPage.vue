@@ -125,7 +125,7 @@ function showMovie(movie) {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   overflow-y: hidden;
 }

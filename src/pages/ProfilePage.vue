@@ -271,7 +271,7 @@ function updateUser(data, errors, needsConfirmation = false) {
 
   if (updatedData) {
     axiosInstance
-      .put(`/users/${user.token}`, updatedData)
+      .put(`/user/details`, updatedData)
       .then((res) => {
         if (res.status === 200) {
           if (!needsConfirmation) {

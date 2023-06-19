@@ -112,8 +112,8 @@ watch(
 const emits = defineEmits(['updateNotificationsSum'])
 
 onMounted(() => {
-  if (user.token) {
-    window.Echo.private(`notifications.${user.token}`).listen('RecieveNotification', (data) => {
+  if (user.id) {
+    window.Echo.private(`notifications.${user.id}`).listen('RecieveNotification', (data) => {
       updatedNotifications.value.unshift(data.notification)
       const sumOfNewNotifcations = updatedNewsSum.value + 1
       emits('updateNotificationsSum', sumOfNewNotifcations)
@@ -122,23 +122,21 @@ onMounted(() => {
 })
 
 function clearNews(notificationId) {
-  axiosInstance
-    .post(`/notification/update/${notificationId}`, { user_token: user.token })
-    .then((res) => {
-      if (res.status === 200) {
-        updatedNotifications.value = updatedNotifications.value.map((notific) => {
-          if (notific.id === notificationId) {
-            notific.seen = true
-            updatedNewsSum.value = updatedNewsSum - 1
-          }
-          return notific
-        })
-      }
-    })
+  axiosInstance.post(`/notification/update/${notificationId}`).then((res) => {
+    if (res.status === 200) {
+      updatedNotifications.value = updatedNotifications.value.map((notific) => {
+        if (notific.id === notificationId) {
+          notific.seen = true
+          updatedNewsSum.value = updatedNewsSum - 1
+        }
+        return notific
+      })
+    }
+  })
 }
 
 function clearAllNews() {
-  axiosInstance.post(`/user/${user.token}/notifications/update`).then((res) => {
+  axiosInstance.post(`/user/notifications/update`).then((res) => {
     if (res.status === 200) {
       updatedNotifications.value = updatedNotifications.value.map((notific) => {
         notific.seen = true

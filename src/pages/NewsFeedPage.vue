@@ -93,7 +93,7 @@ window.scrollTo({
 })
 
 axiosInstance
-  .get(`/user/${user.token}/quotes/page/${fetchStore.page}`)
+  .get(`/user/quotes/page/${fetchStore.page}`)
   .then((res) => {
     showLoading.value = true
     if (res.status === 200) {
@@ -135,49 +135,45 @@ function searchData(searchBy) {
   searchingValue.value = searchBy
   if (fetchStore.allPagesFetched === false) {
     if (searchBy.startsWith('#')) {
-      axiosInstance
-        .post('quotes/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
-        .then((res) => {
-          if (res.status === 200) {
-            searchingValueChanged.value = false
-            showLoading.value = false
-            quotes.value.push(...res.data.quotes)
-            searchOpened.value = false
+      axiosInstance.post('quotes/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+        if (res.status === 200) {
+          searchingValueChanged.value = false
+          showLoading.value = false
+          quotes.value.push(...res.data.quotes)
+          searchOpened.value = false
 
-            fetchStore.finishFetch()
-            if (res.data.isLastPage === true) {
-              fetchStore.allDataFetched()
-              return true
-            }
-
-            fetchStore.increasePageNum()
+          fetchStore.finishFetch()
+          if (res.data.isLastPage === true) {
+            fetchStore.allDataFetched()
+            return true
           }
-        })
+
+          fetchStore.increasePageNum()
+        }
+      })
     }
 
     if (searchBy.startsWith('@')) {
-      axiosInstance
-        .post('movies/search', { searchBy, user_token: user.token, pageNum: fetchStore.page })
-        .then((res) => {
-          if (res.status === 200) {
-            searchingValueChanged.value = false
-            showLoading.value = false
-            movies.value.push(...res.data.movies)
-            searchOpened.value = false
+      axiosInstance.post('movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+        if (res.status === 200) {
+          searchingValueChanged.value = false
+          showLoading.value = false
+          movies.value.push(...res.data.movies)
+          searchOpened.value = false
 
-            fetchStore.finishFetch()
-            if (res.data.isLastPage === true) {
-              fetchStore.allDataFetched()
-              return true
-            }
-
-            fetchStore.increasePageNum()
+          fetchStore.finishFetch()
+          if (res.data.isLastPage === true) {
+            fetchStore.allDataFetched()
+            return true
           }
-        })
+
+          fetchStore.increasePageNum()
+        }
+      })
     }
 
     if (searchBy === '') {
-      axiosInstance.get(`/user/${user.token}/quotes/page/${fetchStore.page}`).then((res) => {
+      axiosInstance.get(`/user/quotes/page/${fetchStore.page}`).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false

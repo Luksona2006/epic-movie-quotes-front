@@ -99,7 +99,7 @@ function uploadImage(image) {
 }
 
 axiosInstance
-  .get(`/user/${user.token}/movies/${movieId}`)
+  .get(`/user/movies/${movieId}`)
   .then((res) => {
     if (res.status === 200) {
       movie.value = res.data.movie
@@ -117,7 +117,6 @@ function createQuote(values, hasErrors) {
   if (!hasErrors && uploadedImage.value !== null) {
     axiosInstance
       .post('/quote/create', {
-        user_token: user.token,
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         movie_id: movieId,

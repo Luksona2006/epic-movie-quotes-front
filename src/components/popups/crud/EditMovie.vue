@@ -89,7 +89,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useUserStore } from '@/store/userStore'
 import axiosInstance from '@/config/axios'
 
 import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
@@ -115,8 +114,6 @@ function openPopup() {
 function closePopup() {
   showPopup.value = false
 }
-
-const user = useUserStore()
 
 const nameEn = ref(props.movie.name.en)
 const nameKa = ref(props.movie.name.ka)
@@ -151,7 +148,6 @@ function editMovie(values, hasErrors) {
 
     axiosInstance
       .put(`/movie/update/${props.movie.id}`, {
-        user_token: user.token,
         name_en: values['name_en'],
         name_ka: values['name_ka'],
         genres_ids: selectedGenres.value,

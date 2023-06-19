@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useUserStore } from '@/store/userStore'
 import axiosInstance from '@/config/axios'
 import router from '@/router'
@@ -73,15 +73,15 @@ function showSignUp() {
   emits('showSignUp')
 }
 
-const loggedIn = ref(useUserStore().token)
+const loggedIn = ref(useUserStore().id)
 
 function logout() {
   const user = useUserStore()
 
-  axiosInstance.post('/logout', { user_id: user.id }).then((res) => {
+  axiosInstance.post('/logout').then((res) => {
     if (res.status === 200) {
       user.clearUser()
-      loggedIn.value = user.token
+      loggedIn.value = user.id
       return router.push({ name: 'home' })
     }
   })
@@ -107,8 +107,8 @@ const notifications = ref([])
 const newsSum = ref(0)
 
 const user = useUserStore()
-if (user.token !== null) {
-  axiosInstance.get(`/user/${user.token}/notifications`).then((res) => {
+if (user.id !== null) {
+  axiosInstance.get(`/user/notifications`).then((res) => {
     notifications.value = res.data.notifications
     newsSum.value = res.data.newsSum
   })
