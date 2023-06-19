@@ -112,11 +112,13 @@ watch(
 const emits = defineEmits(['updateNotificationsSum'])
 
 onMounted(() => {
-  window.Echo.private(`notifications.${user.token}`).listen('RecieveNotification', (data) => {
-    updatedNotifications.value.unshift(data.notification)
-    const sumOfNewNotifcations = updatedNewsSum.value + 1
-    emits('updateNotificationsSum', sumOfNewNotifcations)
-  })
+  if (user.token) {
+    window.Echo.private(`notifications.${user.token}`).listen('RecieveNotification', (data) => {
+      updatedNotifications.value.unshift(data.notification)
+      const sumOfNewNotifcations = updatedNewsSum.value + 1
+      emits('updateNotificationsSum', sumOfNewNotifcations)
+    })
+  }
 })
 
 function clearNews(notificationId) {
