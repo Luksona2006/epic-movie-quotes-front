@@ -124,6 +124,7 @@ function searchData(searchBy) {
       axiosInstance.post('my-movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
         searchingValueChanged.value = false
         showLoading.value = false
+        totalMovies.value = res.data.total
         movies.value.push(...res.data.movies)
 
         fetchStore.finishFetch()
