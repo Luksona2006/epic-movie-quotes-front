@@ -39,23 +39,34 @@
               :title="$t('inputNames.new_username')"
               name="new_username"
               validation-rules="required|min:3|max:15"
-              placeholder="Enter new username"
+              :placeholder="$t('placeholders.enter_new_username')"
               :is-valid="errors['new_username'] === undefined"
             />
             <the-input
               :title="$t('inputNames.email')"
               type="email"
               name="email"
-              :value="email"
+              v-model="email"
               :placeholder="email"
+              :edit="user.google_id ? false : true"
               :disabled="true"
+              @edit-data="editEmail"
+            />
+            <the-input
+              v-show="editEmailData"
+              :title="$t('inputNames.new_email')"
+              name="new_email"
+              type="email"
+              :placeholder="$t('placeholders.enter_new_email')"
+              validation-rules="required|email"
+              :is-valid="errors['new_email'] === undefined"
             />
             <div class="w-full flex flex-col gap-8">
               <the-input
                 :title="$t('inputNames.password')"
                 name="password"
                 type="password"
-                value="yourPassword"
+                placeholder="••••••••••••"
                 :edit="true"
                 :disabled="true"
                 @edit-data="editPassword"
@@ -68,6 +79,7 @@
                 :title="$t('inputNames.new_password')"
                 name="new_password"
                 type="password"
+                :placeholder="$t('placeholders.enter_new_password')"
                 validation-rules="required|min:8|max:15"
                 :can-show="true"
                 :is-valid="errors['new_password'] === undefined"
@@ -77,6 +89,7 @@
                 :title="$t('inputNames.confirm_password')"
                 name="confirm_password"
                 type="password"
+                :placeholder="$t('placeholders.repeat_new_password')"
                 validation-rules="required|confirmed:@new_password"
                 :can-show="true"
                 :is-valid="errors['confirm_password'] === undefined"
@@ -86,7 +99,7 @@
         </div>
         <div
           class="w-full sm:flex hidden justify-end gap-6 items-center mt-16"
-          v-if="editPasswordData || editUsernameData || fileIsUploaded"
+          v-if="editPasswordData || editUsernameData || fileIsUploaded || editEmailData"
         >
           <div>
             <transparent-button class="bg-transparent text-[#CED4DA]">{{
@@ -230,6 +243,11 @@ watch(
 const fileIsUploaded = ref(false)
 const editUsernameData = ref(false)
 const editPasswordData = ref(false)
+const editEmailData = ref(false)
+
+function editEmail(show) {
+  editEmailData.value = show.value
+}
 
 function editUsername(show) {
   editUsernameData.value = show.value
@@ -259,6 +277,10 @@ function updateUser(data, errors, needsConfirmation = false) {
   ) {
     updatedData['new_password'] = data['new_password']
     updatedData['confirm_password'] = data['confirm_password']
+  }
+
+  if (!errors['new_email'] && data['new_email'] !== undefined) {
+    updatedData['new_email'] = data['new_email']
   }
 
   if (localStorage.getItem('uploadedImage')) {

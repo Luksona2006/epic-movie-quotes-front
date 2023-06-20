@@ -16,10 +16,14 @@
     "this_field": "ეს ველი",
     "username": "მომხმარებლის სახელი",
     "new_username": "ახალი მომხმარებლის სახელი",
-    "new_password": "ახალი პაროლი"
+    "new_password": "ახალი პაროლი",
+    "new_email": "ახალი ელ-ფოსტა"
   },
   "placeholders": {
     "enter_your_email": "შეიყვანეთ ელ-ფოსტა",
+    "enter_new_username": "შეიყვანეთ ახალი მომხმარებლის სახელი",
+    "enter_new_password": "შეიყვანეთ ახალი პაროლი",
+    "repeat_new_password": "გაიმეორეთ ახალი პაროლი",
     "min_max": "მინიმუმ {min} & მაქსიმუმ {max} პატარა ასოები"
   },
   "landingPage": {

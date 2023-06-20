@@ -5,6 +5,7 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     id: null,
+    google_id: null,
     name: null,
     email: null,
     password: null,
@@ -13,6 +14,7 @@ export const useUserStore = defineStore({
   actions: {
     async setUserDetails(res) {
       this.$state.id = res.data.user.id
+      this.$state.google_id = res.data.user.google_id
       this.$state.name = res.data.user.name
       this.$state.email = res.data.user.email
       this.$state.password = res.data.user.password
@@ -20,8 +22,9 @@ export const useUserStore = defineStore({
     },
 
     fetchUsers() {
-      axiosInstance.get('/users/' + this.$state.token).then((res) => {
+      axiosInstance.get('/user/details').then((res) => {
         this.$state.id = res.data.user.id
+        this.$state.google_id = res.data.user.google_id
         this.$state.name = res.data.user.name
         this.$state.email = res.data.user.email
         this.$state.password = res.data.user.password

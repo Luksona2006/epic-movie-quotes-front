@@ -16,11 +16,15 @@
     "this_field": "This field",
     "new_password": "New Password",
     "username": "Username",
-    "new_username": "New username"
+    "new_username": "New username",
+    "new_email": "New email"
   },
   "placeholders": {
     "enter_your_email": "Enter your email",
+    "enter_new_email": "Enter new email",
     "enter_new_username": "Enter new username",
+    "enter_new_password": "Enter new password",
+    "repeat_new_password": "Repeat new password",
     "min_max": "At least {min} & max.{max} lower case characters"
   },
   "landingPage": {
