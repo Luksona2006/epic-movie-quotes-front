@@ -93,7 +93,7 @@ window.scrollTo({
 })
 
 axiosInstance
-  .get(`quotes/page/${fetchStore.page}`)
+  .post('quotes/page', { pageNum: fetchStore.page })
   .then((res) => {
     showLoading.value = true
     if (res.status === 200) {
@@ -173,7 +173,7 @@ function searchData(searchBy) {
     }
 
     if (searchBy === '') {
-      axiosInstance.get(`/quotes/page/${fetchStore.page}`).then((res) => {
+      axiosInstance.post('/quotes/page', { pageNum: fetchStore.page }).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false
