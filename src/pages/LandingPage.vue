@@ -12,11 +12,11 @@
         <div v-show="!startMovieSlide">
           <the-header @show-sign-up="showPopup" @show-login="showPopup" />
 
-          <div class="relative w-full h-[65vh]">
+          <div class="relative w-full h-[75vh]">
             <div
               class="h-full mx-auto pt-24 flex flex-col gap-6 items-center sm:max-w-[703px] max-w-[280px] w-full"
             >
-              <h2 class="text-center text-[#DDCCAA] sm:text-6xl text-2xl font-bold w-full">
+              <h2 class="text-center text-[#DDCCAA] sm:text-6xl text-2xl font-bold w-full mt-8">
                 {{ $t('landingPage.find_any_quote') }}
               </h2>
               <router-link :to="{ name: 'login' }"
@@ -85,6 +85,8 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 import RedButton from '@/components/buttons/RedButton.vue'
 import SignupPopup from '@/components/popups/forms/SignupPopup.vue'
 import LoginPopup from '@/components/popups/forms/LoginPopup.vue'
@@ -93,7 +95,6 @@ import ResetPasswordPopup from '@/components/popups/forms/ResetPasswordPopup.vue
 import TheHeader from '@/components/TheHeader.vue'
 import EmailVerifiedNotificaiton from '@/components/popups/EmailVerifiedNotificaiton.vue'
 import LandingMovieComponent from '@/components/LandingMovieComponent.vue'
-import { ref } from 'vue'
 
 function showPopup() {
   window.scrollTo({
