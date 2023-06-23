@@ -4,16 +4,23 @@
     :description="$t('landingPage.an_email_with_instructions')"
     route-name="forgot-password"
     next-route-name="login"
-    :button-text="$t('landingPage.send_instructions')"
     :next-route-text="$t('landingPage.back_to_log_in')"
-    @submit-form="sendData"
   >
-    <the-input
-      :title="$t('inputNames.email')"
-      name="email"
-      :placeholder="$t('placeholders.enter_your_email')"
-      validation-rules="required|email"
-    />
+    <Form @submit.prevent class="w-full mt-6" v-slot="{ errors, values }">
+      <div class="w-full flex flex-col gap-4">
+        <the-input
+          :title="$t('inputNames.email')"
+          name="email"
+          :placeholder="$t('placeholders.enter_your_email')"
+          validation-rules="required|email"
+          :is-valid="checkIsValid(values, errors, 'email')"
+        />
+      </div>
+
+      <red-button @click="sendData(values, errors)" class="mt-5">
+        {{ $t('landingPage.send_instructions') }}
+      </red-button>
+    </Form>
   </form-popup-container>
   <notification-popup-container
     :title="$t('landingPage.check_your_email')"
@@ -34,17 +41,23 @@
 <script setup>
 import axiosInstance from '@/config/axios'
 import router from '@/router'
+import { Form } from 'vee-validate'
+import { toRaw } from 'vue'
+import { checkIsValid } from '@/config/customFunction/index.js'
 
 import TheInput from '@/components/form/TheInput.vue'
 import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
 import NotificationPopupContainer from '@/components/popups/containers/NotificationPopupContainer.vue'
 import SendIcon from '@/assets/icons/SendIcon.vue'
+import RedButton from '@/components/buttons/RedButton.vue'
 
-function sendData(data) {
-  axiosInstance.post('/forgot-password', data).then((res) => {
-    if (res.status === 200) {
-      return router.push({ name: 'send-password-reset-email' })
-    }
-  })
+function sendData(values, errors) {
+  if (values && !errors[0]) {
+    axiosInstance.post('/forgot-password', toRaw(values)).then((res) => {
+      if (res.status === 200) {
+        return router.push({ name: 'send-password-reset-email' })
+      }
+    })
+  }
 }
 </script>

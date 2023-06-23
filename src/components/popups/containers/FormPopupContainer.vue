@@ -8,17 +8,12 @@
     <teleport to="body">
       <background-blur @click="closePopup" :show="routeValid" />
     </teleport>
-    <Form @submit.prevent class="w-full mt-6" v-slot="{ errors, values }">
-      <div class="w-full flex flex-col gap-4">
-        <slot> </slot>
-      </div>
-
-      <red-button @click="sendData(values, errors)" class="mt-5">
-        {{ buttonText }}
-      </red-button>
-    </Form>
-
-    <a :href="prefix + '/auth/google/redirect'" class="w-full">
+    <slot> </slot>
+    <a
+      :href="prefix + '/auth/google/redirect'"
+      class="w-full"
+      v-if="routeName === 'login' || routeName === 'signup'"
+    >
       <white-border-button
         @changeToHoverColor="changeColor('#222030')"
         @changeToMainColor="changeColor('white')"
@@ -42,14 +37,12 @@
 
 <script setup>
 import { useLocaleStore } from '@/store/localeStore'
-import { ref, toRaw, watch } from 'vue'
-import { Form } from 'vee-validate'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 
 import PopupContainer from '@/components/popups/containers/PopupContainer.vue'
 import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
-import RedButton from '@/components/buttons/RedButton.vue'
 import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
 import GoogleIcon from '@/assets/icons/GoogleIcon.vue'
 
@@ -61,10 +54,6 @@ const props = defineProps({
     required: true
   },
   nextRouteName: {
-    type: String,
-    required: true
-  },
-  buttonText: {
     type: String,
     required: true
   },
@@ -109,10 +98,5 @@ watch(
 function closePopup() {
   document.body.style.overflowY = 'auto'
   router.push({ name: 'home' })
-}
-
-const emits = defineEmits(['submitForm'])
-function sendData(data, errors) {
-  if (data && !errors[0]) emits('submitForm', toRaw(data))
 }
 </script>

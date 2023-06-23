@@ -15,6 +15,7 @@
       type="password"
       validation-rules="required|min:8|max:15"
       :marked="true"
+      :is-valid="checkIsValid(values, errors, 'password')"
     />
     <the-input
       :title="$t('inputNames.confirm_password')"
@@ -23,6 +24,7 @@
       type="password"
       validation-rules="required|confirmed:@password"
       :marked="true"
+      :is-valid="checkIsValid(values, errors, 'password_confirmation')"
     />
   </form-popup-container>
   <notification-popup-container
@@ -40,6 +42,8 @@
 import axiosInstance from '@/config/axios'
 import router from '@/router'
 import { useRoute } from 'vue-router'
+import { toRaw } from 'vue'
+import { checkIsValid } from '@/config/customFunction/index.js'
 
 import TheInput from '@/components/form/TheInput.vue'
 import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
@@ -48,12 +52,15 @@ import BlueCheckMarkIcon from '@/assets/icons/marks/BlueCheckMarkIcon.vue'
 
 const token = useRoute().params.token
 
-function sendData(data) {
-  data['token'] = token
-  axiosInstance.post(`/reset-password/${token}`, data).then((res) => {
-    if (res.status === 200) {
-      return router.push({ name: 'password-reseted' })
-    }
-  })
+function sendData(values, errors) {
+  if (values && !errors[0]) {
+    const data = toRaw(values)
+    data['token'] = token
+    axiosInstance.post(`/reset-password/${token}`, data).then((res) => {
+      if (res.status === 200) {
+        return router.push({ name: 'password-reseted' })
+      }
+    })
+  }
 }
 </script>

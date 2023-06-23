@@ -4,44 +4,54 @@
     :description="$t('landingPage.start_your_journey')"
     route-name="signup"
     next-route-name="login"
-    :button-text="$t('landingPage.get_started')"
     :next-route-description="$t('landingPage.already_have_account')"
     :next-route-text="$t('landingPage.login')"
-    @submit-form="sendData"
   >
-    <the-input
-      :title="$t('inputNames.name')"
-      name="name"
-      :placeholder="$t('placeholders.min_max', { min: 3, max: 15 })"
-      validation-rules="required|min:3|max:15"
-      :marked="true"
-    />
-    <the-input
-      :title="$t('inputNames.email')"
-      name="email"
-      type="email"
-      :placeholder="$t('placeholders.enter_your_email')"
-      validation-rules="required|email"
-      :marked="true"
-    />
-    <the-input
-      :title="$t('inputNames.password')"
-      name="password"
-      :placeholder="$t('placeholders.min_max', { min: 8, max: 15 })"
-      type="password"
-      validation-rules="required|min:8|max:15"
-      :canShow="true"
-      :marked="true"
-    />
-    <the-input
-      :title="$t('inputNames.confirm_password')"
-      name="confirm_password"
-      :placeholder="$t('inputNames.confirm_password')"
-      type="password"
-      validation-rules="required|confirmed:@password"
-      :canShow="true"
-      :marked="true"
-    />
+    <Form @submit.prevent class="w-full mt-6" v-slot="{ errors, values }">
+      <div class="w-full flex flex-col gap-4">
+        <the-input
+          :title="$t('inputNames.name')"
+          name="name"
+          :placeholder="$t('placeholders.min_max', { min: 3, max: 15 })"
+          validation-rules="required|min:3|max:15"
+          :marked="true"
+          :is-valid="checkIsValid(values, errors, 'name')"
+        />
+        <the-input
+          :title="$t('inputNames.email')"
+          name="email"
+          type="email"
+          :placeholder="$t('placeholders.enter_your_email')"
+          validation-rules="required|email"
+          :marked="true"
+          :is-valid="checkIsValid(values, errors, 'email')"
+        />
+        <the-input
+          :title="$t('inputNames.password')"
+          name="password"
+          :placeholder="$t('placeholders.min_max', { min: 8, max: 15 })"
+          type="password"
+          validation-rules="required|min:8|max:15"
+          :canShow="true"
+          :marked="true"
+          :is-valid="checkIsValid(values, errors, 'password')"
+        />
+        <the-input
+          :title="$t('inputNames.confirm_password')"
+          name="confirm_password"
+          :placeholder="$t('inputNames.confirm_password')"
+          type="password"
+          validation-rules="required|confirmed:@password"
+          :canShow="true"
+          :marked="true"
+          :is-valid="checkIsValid(values, errors, 'confirm_password')"
+        />
+      </div>
+
+      <red-button @click="sendData(values, errors)" class="mt-5">
+        {{ $t('landingPage.get_started') }}
+      </red-button>
+    </Form>
   </form-popup-container>
   <notification-popup-container
     :title="$t('landingPage.thank_you')"
@@ -60,16 +70,23 @@
 </template>
 
 <script setup>
+import router from '@/router'
+import { Form } from 'vee-validate'
+import { toRaw } from 'vue'
 import axiosInstance from '@/config/axios'
+import { checkIsValid } from '@/config/customFunction/index.js'
+
 import TheInput from '@/components/form/TheInput.vue'
 import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
 import NotificationPopupContainer from '@/components/popups/containers/NotificationPopupContainer.vue'
 import SendIcon from '@/assets/icons/SendIcon.vue'
-import router from '@/router'
+import RedButton from '@/components/buttons/RedButton.vue'
 
-function sendData(data) {
-  axiosInstance.post('/signup', data).then((res) => {
-    if (res.status === 200) return router.push({ name: 'send-confirmation' })
-  })
+function sendData(values, errors) {
+  if (values && !errors[0]) {
+    axiosInstance.post('/signup', toRaw(values)).then((res) => {
+      if (res.status === 200) return router.push({ name: 'send-confirmation' })
+    })
+  }
 }
 </script>
