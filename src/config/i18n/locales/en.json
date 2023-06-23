@@ -61,7 +61,10 @@
     "your_password_changed_successfully": "Your Password changed successfully",
     "your_account_has_been_activated": "Your account has been activated.",
     "go_to_my_news_feed": "Go to my news feed",
-    "remember_me": "Remember me"
+    "remember_me": "Remember me",
+    "link_expired": "Link expired!",
+    "link_has_expired": "Link has expired, because you haven't used it",
+    "request_another_link": "Request another link"
   },
   "language": {
     "en": "Eng",

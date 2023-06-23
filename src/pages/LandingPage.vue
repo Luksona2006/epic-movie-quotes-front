@@ -3,6 +3,7 @@
     <teleport to="body">
       <signup-popup />
       <login-popup />
+      <expired-popup />
       <forgot-password-popup />
       <reset-password-popup />
       <email-verified-notificaiton />
@@ -92,6 +93,8 @@ import SignupPopup from '@/components/popups/forms/SignupPopup.vue'
 import LoginPopup from '@/components/popups/forms/LoginPopup.vue'
 import ForgotPasswordPopup from '@/components/popups/forms/ForgotPasswordPopup.vue'
 import ResetPasswordPopup from '@/components/popups/forms/ResetPasswordPopup.vue'
+import ExpiredPopup from '@/components/popups/ExpiredPopup.vue'
+
 import TheHeader from '@/components/TheHeader.vue'
 import EmailVerifiedNotificaiton from '@/components/popups/EmailVerifiedNotificaiton.vue'
 import LandingMovieComponent from '@/components/LandingMovieComponent.vue'
