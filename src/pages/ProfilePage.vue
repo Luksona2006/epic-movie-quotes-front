@@ -6,7 +6,7 @@
     :description="$t('editUserDetails.are_you_sure_to_make_changes')"
   />
   <changes-result-popup
-    @hide-popup="closePopup"
+    @hide-popup="closeNotificationPopup"
     :success="detailsUpdated"
     :show="showNotification"
   />
@@ -115,7 +115,7 @@
       </Form>
       <!-- MAIN FORM (MOBILE) -->
       <div
-        v-show="showUsernameEditPopup !== true && showPasswordEditPopup !== true"
+        v-show="!showUsernameEditPopup && !showPasswordEditPopup && !showEmailEditPopup"
         class="w-full max-w-4xl sm:bg-[#11101A] bg-[#24222F] rounded-xl sm:pt-48 pt-6 pb-32 px-9 mt-[35px] flex flex-col gap-8 sm:hidden"
       >
         <upload-image-component />
@@ -126,7 +126,13 @@
           :edit="true"
           @edit-data="showEditPopup('username')"
         />
-        <underline-input :title="$t('inputNames.email')" name="email" :value="email" />
+        <underline-input
+          :title="$t('inputNames.email')"
+          name="email"
+          :value="email"
+          :edit="user.google_id ? false : true"
+          @edit-data="showEditPopup('email')"
+        />
         <underline-input
           :title="$t('inputNames.password')"
           name="password"
@@ -138,7 +144,7 @@
       </div>
       <div class="pl-9 mb-5 cursor-pointer">
         <arrow-left-icon
-          v-show="showUsernameEditPopup || showPasswordEditPopup"
+          v-show="showUsernameEditPopup || showPasswordEditPopup || showEmailEditPopup"
           @click="closeEditPopup"
         />
       </div>
@@ -195,6 +201,34 @@
         </div>
         <div class="w-full flex justify-between items-center px-9 mt-8">
           <div @click="closeEditPopup('password')">
+            <transparent-button>{{ $t('basic.cancel') }}</transparent-button>
+          </div>
+          <div>
+            <red-button @click="updateUser(values, errors, true)">{{
+              $t('basic.save_changes')
+            }}</red-button>
+          </div>
+        </div>
+      </Form>
+      <!-- EDIT EMAIL -->
+      <Form
+        @submit.prevent
+        v-show="showEmailEditPopup"
+        v-slot="{ values, errors }"
+        class="w-full max-w-4xl"
+      >
+        <div class="w-full bg-[#24222F] pt-20 pb-[74px] px-9 rounded-xl">
+          <the-input
+            :title="$t('inputNames.new_email')"
+            name="new_email"
+            type="email"
+            :placeholder="$t('placeholders.enter_new_email')"
+            validation-rules="required|email"
+            :is-valid="checkIsValid(values, errors, 'new_email')"
+          />
+        </div>
+        <div class="w-full flex justify-between items-center px-9 mt-8">
+          <div @click="closeEditPopup('email')">
             <transparent-button>{{ $t('basic.cancel') }}</transparent-button>
           </div>
           <div>
@@ -264,10 +298,41 @@ function uploadFile() {
 const detailsUpdated = ref(false)
 const showNotification = ref(false)
 
+function updateDetails(data) {
+  changesConfirmed.value = false
+  if (
+    Object.keys(data).length === 0 ||
+    Object.values(data).filter((value) => value === '').length > 0
+  ) {
+    detailsUpdated.value = false
+    showNotification.value = true
+    return
+  }
+
+  axiosInstance
+    .put(`/user/details`, data)
+    .then((res) => {
+      if (res.status === 200) {
+        user.setUserDetails(res)
+        detailsUpdated.value = true
+        showNotification.value = true
+        return
+      }
+    })
+    .catch((err) => {
+      console.error(err.message)
+      if (err.response.status === 401) {
+        user.clearUser()
+        return router.push({ name: 'home' })
+      }
+    })
+}
+const updatedData = ref({})
 function updateUser(data, errors, needsConfirmation = false) {
-  let updatedData = {}
+  updatedData.value = {}
+  const dataIsEmpty = ref(false)
   if (!errors['new_username'] && data['new_username'] !== undefined) {
-    updatedData['new_username'] = data['new_username']
+    updatedData.value['new_username'] = data['new_username']
   }
   if (
     !errors['new_password'] &&
@@ -275,57 +340,39 @@ function updateUser(data, errors, needsConfirmation = false) {
     data['new_password'] !== undefined &&
     data['confirm_password'] !== undefined
   ) {
-    updatedData['new_password'] = data['new_password']
-    updatedData['confirm_password'] = data['confirm_password']
+    updatedData.value['new_password'] = data['new_password']
+    updatedData.value['confirm_password'] = data['confirm_password']
   }
 
   if (!errors['new_email'] && data['new_email'] !== undefined) {
-    updatedData['new_email'] = data['new_email']
+    updatedData.value['new_email'] = data['new_email']
   }
 
   if (localStorage.getItem('uploadedImage')) {
-    updatedData['image'] = localStorage.getItem('uploadedImage')
+    updatedData.value['image'] = localStorage.getItem('uploadedImage')
   }
 
-  if (Object.keys(updatedData).length === 0) {
-    updatedData = undefined
+  if (Object.keys(updatedData.value).length === 0) {
+    dataIsEmpty.value = true
   }
 
-  if (updatedData) {
-    axiosInstance
-      .put(`/user/details`, updatedData)
-      .then((res) => {
-        if (res.status === 200) {
-          if (!needsConfirmation) {
-            user.setUserDetails(res)
-            detailsUpdated.value = true
-            showNotification.value = true
-            return
-          } else {
-            askForConfirmation(res)
-            return
-          }
-        }
+  if (!needsConfirmation) {
+    updateDetails(updatedData.value)
+  }
 
-        detailsUpdated.value = false
-        showNotification.value = true
-      })
-      .catch((err) => {
-        console.error(err.message)
-        if (err.response.status === 401) {
-          user.clearUser()
-          return router.push({ name: 'home' })
-        }
-      })
+  if (needsConfirmation) {
+    askForConfirmation()
   }
 }
 
 const showUsernameEditPopup = ref(false)
 const showPasswordEditPopup = ref(false)
+const showEmailEditPopup = ref(false)
 
 function showEditPopup(popup) {
   if (popup === 'username') showUsernameEditPopup.value = true
   if (popup === 'password') showPasswordEditPopup.value = true
+  if (popup === 'email') showEmailEditPopup.value = true
 }
 
 function closeEditPopup(popup) {
@@ -337,8 +384,14 @@ function closeEditPopup(popup) {
     showPasswordEditPopup.value = false
     return
   }
+
+  if (popup === 'email') {
+    showEmailEditPopup.value = false
+    return
+  }
   showUsernameEditPopup.value = false
   showPasswordEditPopup.value = false
+  showEmailEditPopup.value = false
 }
 
 const showConfirmationPopup = ref(false)
@@ -350,24 +403,29 @@ function closePopup() {
   showNotification.value = false
 }
 
+function closeNotificationPopup() {
+  showNotification.value = false
+}
+
 function confirmChanges() {
   changesConfirmed.value = true
   detailsUpdated.value = true
   setTimeout(() => {
     showUsernameEditPopup.value = false
     showPasswordEditPopup.value = false
+    showEmailEditPopup.value = false
     showConfirmationPopup.value = false
     showNotification.value = true
   }, 300)
 }
 
-function askForConfirmation(data) {
+function askForConfirmation() {
   showConfirmationPopup.value = true
   watch(
     () => changesConfirmed.value,
-    () => {
-      if (changesConfirmed.value === true) {
-        user.setUserDetails(data)
+    (newValue) => {
+      if (newValue === true) {
+        updateDetails(updatedData.value)
       }
     }
   )
@@ -380,6 +438,7 @@ function updateWindowWidth() {
     showConfirmationPopup.value = false
     showUsernameEditPopup.value = false
     showPasswordEditPopup.value = false
+    showEmailEditPopup.value = false
   }
 }
 </script>

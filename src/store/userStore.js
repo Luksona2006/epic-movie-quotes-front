@@ -36,9 +36,11 @@ export const useUserStore = defineStore({
 
     clearUser() {
       this.$state.id = null
+      this.$state.google_id = null
       this.$state.name = null
       this.$state.email = null
       this.$state.password = null
+      this.$state.image = null
     }
   },
 

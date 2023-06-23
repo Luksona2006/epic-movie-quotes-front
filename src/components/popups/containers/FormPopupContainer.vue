@@ -17,18 +17,19 @@
         {{ buttonText }}
       </red-button>
     </Form>
-    <white-border-button
-      @changeToHoverColor="changeColor('#222030')"
-      @changeToMainColor="changeColor('white')"
-      class="mt-5"
-    >
-      <div class="flex items-center gap-3 justify-center">
-        <google-icon :color="iconColor" />
-        {{ `${buttonText + ' ' + $t('landingPage.with_google')}` }}
-      </div>
-    </white-border-button>
 
-    <!-- <div class="g-signin2" :data-onsuccess="onSignIn"></div> -->
+    <a :href="prefix + '/auth/google/redirect'" class="w-full">
+      <white-border-button
+        @changeToHoverColor="changeColor('#222030')"
+        @changeToMainColor="changeColor('white')"
+        class="mt-5"
+      >
+        <div class="flex items-center gap-3 justify-center">
+          <google-icon :color="iconColor" />
+          {{ `${buttonText + ' ' + $t('landingPage.with_google')}` }}
+        </div>
+      </white-border-button>
+    </a>
 
     <p class="text-[#6C757D] text-base mt-8">
       {{ nextRouteDescription }}
@@ -40,6 +41,7 @@
 </template>
 
 <script setup>
+import { useLocaleStore } from '@/store/localeStore'
 import { ref, toRaw, watch } from 'vue'
 import { Form } from 'vee-validate'
 import { useRoute } from 'vue-router'
@@ -50,14 +52,6 @@ import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
 import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
 import GoogleIcon from '@/assets/icons/GoogleIcon.vue'
-
-// function onSignIn(googleUser) {
-//   var profile = googleUser.getBasicProfile()
-//   console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
-//   console.log('Name: ' + profile.getName())
-//   console.log('Image URL: ' + profile.getImageUrl())
-//   console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
-// }
 
 const iconColor = ref('white')
 
@@ -90,6 +84,15 @@ function changeColor(color) {
 }
 
 const route = useRoute()
+const locale = ref(useLocaleStore().locale)
+const prefix = import.meta.env.VITE_API_URL
+
+watch(
+  () => useLocaleStore().locale,
+  (newValue) => {
+    locale.value = newValue
+  }
+)
 
 const routeValid = ref(route.name === props.routeName)
 document.body.style.overflowY = route.name === 'home' ? 'auto' : 'hidden'
@@ -111,22 +114,5 @@ function closePopup() {
 const emits = defineEmits(['submitForm'])
 function sendData(data, errors) {
   if (data && !errors[0]) emits('submitForm', toRaw(data))
-}
-
-// GOOGLE
-
-const googleSignInParams = ref({
-  client_id: '1040099445065-ooc8kqrt46b6q81402uat6nlgc40ue4f.apps.googleusercontent.com'
-  // client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID + '.apps.googleusercontent.com'
-})
-
-function onSignInSuccess(googleUser) {
-  // `googleUser` is the GoogleUser object that represents the just-signed-in user.
-  // See https://developers.google.com/identity/sign-in/web/reference#users
-  const profile = googleUser.getBasicProfile() // etc etc
-}
-function onSignInError(error) {
-  // `error` contains any error occurred.
-  console.log('OH NOES', error)
 }
 </script>

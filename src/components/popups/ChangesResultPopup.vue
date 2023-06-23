@@ -1,8 +1,8 @@
 <template>
-  <background-blur :show="showUpdated" @click="hidePopup" />
+  <background-blur :show="show" @click="hidePopup" />
   <transition name="popup">
     <div
-      v-show="showUpdated"
+      v-show="show"
       class="w-full max-w-md absolute top-32 left-1/2 transform -translate-x-1/2 z-50 px-6"
     >
       <div
@@ -23,7 +23,6 @@
 <script setup>
 import { computed } from '@vue/reactivity'
 import { useI18n } from 'vue-i18n'
-import { ref, watch } from 'vue'
 
 import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 import XMarkIcon from '@/assets/icons/marks/XMarkIcon.vue'
@@ -43,17 +42,7 @@ const props = defineProps({
   }
 })
 
-const showUpdated = ref(false)
-
-watch(
-  () => props.show,
-  (newValue) => {
-    showUpdated.value = newValue
-    setTimeout(() => {
-      showUpdated.value = false
-    }, 2500)
-  }
-)
+const emits = defineEmits(['hidePopup'])
 
 const i18n = useI18n()
 
@@ -62,7 +51,7 @@ const message = computed(() =>
     ? i18n.t('editUserDetails.invalid_changes_please_try_again')
     : i18n.t('editUserDetails.changes_updated_succsessfully')
 )
-const emits = defineEmits(['hidePopup'])
+
 function hidePopup() {
   emits('hidePopup')
 }
