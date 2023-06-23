@@ -13,7 +13,7 @@ if (localStorage.getItem('uploadedImage')) {
 onMounted(() => {
   const user = useUserStore()
   if (user.id) {
-    window.Echo.private(`change-email.${user.id}`).listen('ChangeUserEmail', (data) => {
+    window.Echo.private(`change-email.${user.id}`).listen('ChangeUserEmail', () => {
       user.clearUser()
       return router.push({ name: 'home' })
     })
