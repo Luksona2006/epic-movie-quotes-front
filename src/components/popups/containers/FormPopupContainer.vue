@@ -21,7 +21,13 @@
       >
         <div class="flex items-center gap-3 justify-center">
           <google-icon :color="iconColor" />
-          {{ `${buttonText + ' ' + $t('landingPage.with_google')}` }}
+          {{
+            `${
+              (routeName === 'login' ? $t('landingPage.login') : $t('landingPage.signup')) +
+              ' ' +
+              $t('landingPage.with_google')
+            }`
+          }}
         </div>
       </white-border-button>
     </a>

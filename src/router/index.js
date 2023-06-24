@@ -157,6 +157,11 @@ const router = createRouter({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path: '/expired',
+      name: 'expired',
+      component: LandingPage
     }
   ]
 })

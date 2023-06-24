@@ -12,7 +12,7 @@
       <router-link v-if="nextRouteName" :to="{ name: nextRouteName }" class="w-full">
         <red-button> {{ buttonText }} </red-button>
       </router-link>
-      <a v-else :href="path" target="_blank" class="w-full">
+      <a v-else :href="path" class="w-full">
         <red-button> {{ buttonText }} </red-button>
       </a>
       <slot name="additionRoute"></slot>
