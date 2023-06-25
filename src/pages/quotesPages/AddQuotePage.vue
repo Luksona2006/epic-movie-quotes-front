@@ -116,7 +116,7 @@ axiosInstance
 function createQuote(values, hasErrors) {
   if (!hasErrors && uploadedImage.value !== null) {
     axiosInstance
-      .post('/quote/create', {
+      .post('/quotes', {
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         movie_id: movieId,

@@ -156,7 +156,7 @@ const profileImage = imagePrefix + user.image
 function likePost() {
   liked.value = !liked.value
   likes.value = liked.value ? likes.value + 1 : likes.value - 1
-  axiosInstance.put(`/quote/update/${updatedQuote.value.id}`, {
+  axiosInstance.put(`/quotes/${updatedQuote.value.id}`, {
     liked: liked.value
   })
 }
@@ -165,7 +165,7 @@ const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white
 
 function postComment(values) {
   axiosInstance
-    .put(`/quote/update/${updatedQuote.value.id}`, {
+    .put(`/quotes/${updatedQuote.value.id}`, {
       comment: values['comment']
     })
     .then((res) => {

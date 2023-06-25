@@ -79,7 +79,7 @@ const emits = defineEmits(['addNewQuote'])
 function createQuote(values, hasErrors) {
   if (!hasErrors && selectedMovie.value !== null && uploadedImage.value !== null) {
     axiosInstance
-      .post('/quote/create', {
+      .post('/quotes', {
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         movie_id: selectedMovie.value.id,

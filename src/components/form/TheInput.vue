@@ -29,12 +29,20 @@
             <exclamation-mark-icon v-if="isValid === false && showValidation" />
           </div>
           <button
-            v-if="edit === true"
+            v-show="edit === true && !editDetail"
             @click="editData"
             class="absolute top-1/2 transform -translate-y-1/2 text-[#CED4DA] bg-transparent"
             :class="textPosition"
           >
-            {{ mutateText }}
+            {{ $t('basic.edit') }}
+          </button>
+          <button
+            v-show="edit === true && editDetail"
+            @click="editData"
+            class="absolute top-1/2 transform -translate-y-1/2 text-[#CED4DA] bg-transparent"
+            :class="textPosition"
+          >
+            {{ $t('basic.cancel') }}
           </button>
         </div>
         <ErrorMessage
@@ -49,7 +57,7 @@
 
 <script setup>
 import { ErrorMessage, Field } from 'vee-validate'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { computed } from '@vue/reactivity'
 import { useLocaleStore } from '@/store/localeStore'
@@ -140,18 +148,19 @@ const editDetail = ref(false)
 
 const isDisabled = computed(() => props.disabled)
 
-const mutateText = ref(i18n.t('basic.edit'))
-
 function editData() {
   editDetail.value = !editDetail.value
-  mutateText.value = editDetail.value === true ? i18n.t('basic.cancel') : i18n.t('basic.edit')
   if (editDetail.value === false) value.value = ''
   emits('editData', editDetail)
 }
 
-const locale = ref(useLocaleStore().locale)
-const textPosition = computed(() =>
-  locale.value === 'ka' ? '-right-8 translate-x-8' : '-right-6 translate-x-6'
+const locale = useLocaleStore().locale
+const textPosition = ref(locale === 'ka' ? '-right-10 translate-x-10' : '-right-7 translate-x-7')
+watch(
+  () => useLocaleStore().locale,
+  (newValue) => {
+    textPosition.value = newValue === 'ka' ? '-right-10 translate-x-10' : '-right-7 translate-x-7'
+  }
 )
 </script>
 

@@ -310,7 +310,7 @@ function updateDetails(data) {
   }
 
   axiosInstance
-    .put(`/user/details`, data)
+    .put(`/user`, data)
     .then((res) => {
       if (res.status === 200) {
         user.setUserDetails(res)

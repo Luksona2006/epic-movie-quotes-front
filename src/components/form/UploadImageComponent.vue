@@ -79,12 +79,10 @@ function uploadFile(e) {
 
 function saveImage() {
   if (localStorage.getItem('uploadedImage').startsWith('data:image/')) {
-    axiosInstance
-      .put(`/user/details`, { image: localStorage.getItem('uploadedImage') })
-      .then((res) => {
-        user.setUserDetails(res)
-        localStorage.removeItem('uploadedImage')
-      })
+    axiosInstance.put(`/user`, { image: localStorage.getItem('uploadedImage') }).then((res) => {
+      user.setUserDetails(res)
+      localStorage.removeItem('uploadedImage')
+    })
   }
 }
 </script>

@@ -130,7 +130,7 @@ function createMovie(values, hasErrors) {
     selectedGenres.value = selectedGenres.value.map((genre) => genre.id)
 
     axiosInstance
-      .post('/movie/create', {
+      .post('/movies', {
         name_en: values['name_en'],
         name_ka: values['name_ka'],
         genres_ids: selectedGenres.value,
