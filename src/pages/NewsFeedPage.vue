@@ -1,5 +1,9 @@
 <template>
-  <the-header @show-sign-up="showPopup" @show-login="showPopup" @search-data="searchData" />
+  <the-header
+    @show-sign-up="showPopup"
+    @show-login="showPopup"
+    @search-data="changeSearchingValue"
+  />
   <the-container class="grid sm:grid-cols-4 sm:mt-8 mt-0 pb-32">
     <side-bar-component class="sm:grid hidden" />
     <div class="grid sm:col-span-2">
@@ -9,7 +13,7 @@
           :class="{ 'w-[286px]': searchOpened }"
           @add-new-quote="addNewQuote"
         />
-        <search-component @open-search="openSearch" @search-data="searchData" />
+        <search-component @open-search="openSearch" @search-data="changeSearchingValue" />
       </div>
       <div class="flex flex-col sm:gap-20 gap-8" v-if="quotesFetched">
         <post-component
@@ -122,17 +126,22 @@ const searchingValueChanged = ref(false)
 
 watch(
   () => searchingValue.value,
-  () => {
+  (newValue) => {
     fetchStore.clearFetchStore()
 
-    searchingValueChanged.value = true
     quotes.value = []
     movies.value = []
+
+    searchingValueChanged.value = true
+    searchData(newValue)
   }
 )
 
-function searchData(searchBy) {
+function changeSearchingValue(searchBy) {
   searchingValue.value = searchBy
+}
+
+function searchData(searchBy) {
   if (fetchStore.allPagesFetched === false) {
     if (searchBy.startsWith('#') || searchBy.startsWith('@')) {
       axiosInstance.post('/quotes/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
