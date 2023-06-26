@@ -41,7 +41,7 @@
     <div
       class="w-full flex flex-col sm:gap-6 gap-4 sm:pt-6 pt-0 items-start border-t border-t-[#EFEFEF4D]"
     >
-      <div class="w-full" v-for="comment in updatedQuote.comments">
+      <div class="w-full" v-for="comment in comments">
         <div class="w-full sm:flex hidden gap-6 items-start">
           <img
             :src="imagePrefix + comment.user.image"
@@ -80,6 +80,7 @@
           class="w-full sm:px-7 py-3 px-5 sm:text-base text-sm text-white placeholder-[#CED4DA] placeholder:sm:text-xl placeholder:text-base bg-[#24222F] rounded-[10px] outline-none focus:bg-[#32303f] boxShadow"
           v-model="value"
           :placeholder="$t('post.write_a_comment')"
+          @click="getAllComments"
         />
       </Form>
     </div>
@@ -110,6 +111,8 @@ const props = defineProps({
 })
 
 const updatedQuote = ref(props.quote)
+const twoComments = ref(updatedQuote.value.comments.slice(-2))
+const comments = ref(twoComments.value)
 
 const likes = ref(updatedQuote.value.likes)
 const liked = ref(updatedQuote.value.liked)
@@ -132,6 +135,7 @@ onMounted(() => {
       if (updatedQuote.value.id === data.quoteId) {
         updatedQuote.value.comments.push(data.comment)
         updatedQuote.value.commentsTotal++
+        twoComments.value = updatedQuote.value.comments.slice(-2)
       }
     }
   })
@@ -156,7 +160,7 @@ const profileImage = imagePrefix + user.image
 function likePost() {
   liked.value = !liked.value
   likes.value = liked.value ? likes.value + 1 : likes.value - 1
-  axiosInstance.put(`/quotes/${updatedQuote.value.id}`, {
+  axiosInstance.post(`/quotes/${updatedQuote.value.id}/like`, {
     liked: liked.value
   })
 }
@@ -165,23 +169,20 @@ const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white
 
 function postComment(values) {
   axiosInstance
-    .put(`/quotes/${updatedQuote.value.id}`, {
+    .post(`/quotes/${updatedQuote.value.id}/comment`, {
       comment: values['comment']
     })
     .then((res) => {
       if (res.status === 200) {
-        updatedQuote.value.comments = res.data.quote.comments
+        updatedQuote.value.comments.push(res.data.comment)
+        updatedQuote.value.commentsTotal++
         value.value = ''
       }
     })
 }
 
 function getAllComments() {
-  axiosInstance.get(`/quotes/${updatedQuote.value.id}/comments`).then((res) => {
-    if (res.status === 200) {
-      updatedQuote.value.comments = res.data.comments
-    }
-  })
+  comments.value = updatedQuote.value.comments
 }
 </script>
 

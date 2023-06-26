@@ -5,7 +5,7 @@
       <p class="text-2xl text-white">{{ movie.name[locale] }} ({{ movie.year }})</p>
       <div class="flex items-center gap-3">
         <p class="text-xl text-white">
-          {{ movie.quotes.length }}
+          {{ movie.quotes }}
         </p>
         <div><comment-parentheses-icon /></div>
       </div>
@@ -16,7 +16,7 @@
     <p class="text-2xl text-white">{{ movie.name[locale] }} ({{ movie.year }})</p>
     <div class="flex items-center gap-3">
       <p class="text-xl text-white">
-        {{ movie.quotes.length }}
+        {{ movie.quotes }}
       </p>
       <div><comment-parentheses-icon /></div>
     </div>

@@ -106,7 +106,7 @@ function updateQuote(values, hasErrors) {
           quoteEn.value = ''
           quoteKa.value = ''
           uploadedImage.value = null
-          return router.push({ name: 'movie', params: { id: res.data.quote.movie.id } })
+          return router.push({ name: 'movie', params: { id: res.data.quote.movie_id } })
         }
       })
   }
