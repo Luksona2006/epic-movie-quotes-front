@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col gap-2 items-start">
     <div
-      class="relative w-full min-h-[46px] py-2 pl-4 pr-20 border border-[#6C757D] bg-transparent outline-none sm:text-xl text-base text-white rounded-[4px] cursor-pointer"
+      class="relative w-full max-h-[46px] py-2 pl-4 pr-20 border border-[#6C757D] bg-transparent outline-none sm:text-xl text-base text-white rounded-[4px] cursor-pointer"
       :class="inputStyle"
       @click="showList"
     >
@@ -79,20 +79,37 @@ watch(
   }
 )
 
-const genresList = ref(null)
-
-axiosInstance.get(`/genres`).then((res) => {
-  if (res.status === 200) {
-    genresList.value = res.data.genres
-  }
-})
-
 const selectedGenres = ref(props.genres)
 
 watch(
   () => props.genres,
   (newValue) => (selectedGenres.value = newValue)
 )
+
+const genresList = ref([])
+
+axiosInstance.get('/genres').then((res) => {
+  if (res.status === 200) {
+    const genres = ref([])
+    if (selectedGenres.value.length > 0) {
+      genres.value = res.data.genres.filter((genreObj) => {
+        const isSameGenre = ref(false)
+        selectedGenres.value.find((selectedGenre) => {
+          if (selectedGenre.id === genreObj.id) {
+            isSameGenre.value = true
+          }
+        })
+        if (!isSameGenre.value) {
+          return genreObj
+        }
+      })
+    } else {
+      genres.value = res.data.genres
+    }
+
+    genresList.value = genres.value
+  }
+})
 
 const styling = computed(() =>
   props.italicStyling === true
@@ -124,7 +141,7 @@ function addGenre(genreId) {
 
 function removeGenre(genreId) {
   const removedGenre = selectedGenres.value.filter((genre) => genre.id === genreId)[0]
-  genresList.value.push(removedGenre)
+  genresList.value.unshift(removedGenre)
   selectedGenres.value = selectedGenres.value.filter((genre) => genre.id !== genreId)
   emits('updateGenres', selectedGenres.value)
 }

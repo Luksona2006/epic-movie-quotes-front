@@ -88,7 +88,7 @@ const show = ref(false)
 
 const movies = ref(null)
 
-axiosInstance.get(`/movies`).then((res) => {
+axiosInstance.get('/movies/all').then((res) => {
   movies.value = res.data.movies
 })
 

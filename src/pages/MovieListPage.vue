@@ -14,7 +14,7 @@
           </p>
         </div>
         <div class="flex items-center">
-          <search-component @search-data="searchData" />
+          <search-component @search-data="changeSearchingValue" />
           <add-movie @add-new-movie="addNewMovie" />
         </div>
       </div>
@@ -109,19 +109,26 @@ const searchingValueChanged = ref(false)
 
 watch(
   () => searchingValue.value,
-  () => {
+  (newValue) => {
     fetchStore.clearFetchStore()
-    searchingValueChanged.value = true
+
     movies.value = []
+
+    searchingValueChanged.value = true
+    searchData(newValue)
   }
 )
+
+function changeSearchingValue(searchBy) {
+  searchingValue.value = searchBy
+}
 
 function searchData(searchBy) {
   searchingValue.value = searchBy
   if (fetchStore.allPagesFetched === false) {
     if (searchBy !== '') {
       fetchStore.startFetch()
-      axiosInstance.post('my-movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+      axiosInstance.post('movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
         searchingValueChanged.value = false
         showLoading.value = false
         totalMovies.value = res.data.total

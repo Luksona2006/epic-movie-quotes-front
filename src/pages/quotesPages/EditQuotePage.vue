@@ -96,7 +96,7 @@ function uploadImage(image) {
 function updateQuote(values, hasErrors) {
   if (!hasErrors) {
     axiosInstance
-      .put(`/quote/update/${quote.value.id}`, {
+      .put(`/quotes/${quote.value.id}`, {
         quote_en: values['quote_en'],
         quote_ka: values['quote_ka'],
         image: uploadedImage.value
@@ -106,7 +106,7 @@ function updateQuote(values, hasErrors) {
           quoteEn.value = ''
           quoteKa.value = ''
           uploadedImage.value = null
-          return router.push({ name: 'movie', params: { id: res.data.quote.movie.id } })
+          return router.push({ name: 'movie', params: { id: res.data.quote.movie_id } })
         }
       })
   }

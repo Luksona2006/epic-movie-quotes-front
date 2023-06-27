@@ -147,7 +147,7 @@ function editMovie(values, hasErrors) {
     if (selectedGenres.value) selectedGenres.value = selectedGenres.value.map((genre) => genre.id)
 
     axiosInstance
-      .put(`/movie/update/${props.movie.id}`, {
+      .put(`/movies/${props.movie.id}`, {
         name_en: values['name_en'],
         name_ka: values['name_ka'],
         genres_ids: selectedGenres.value,

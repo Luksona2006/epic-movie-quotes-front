@@ -128,17 +128,15 @@ function updateMovie(newMovie) {
 }
 
 function removeQuote(quoteId) {
-  axiosInstance.post(`/quote/remove/${quoteId}`).then((res) => {
+  axiosInstance.delete(`/quotes/${quoteId}`).then((res) => {
     if (res.status === 200) {
-      console.log(res.status, movie.value)
       movie.value['quotes'] = movie.value.quotes.filter((quote) => quote.id !== quoteId)
-      console.log(movie.value)
     }
   })
 }
 
 function removeMovie() {
-  axiosInstance.post(`/movie/remove/${movieId}`).then((res) => {
+  axiosInstance.delete(`/movies/${movieId}`).then(() => {
     return router.push({ name: 'movie-list' })
   })
 }

@@ -1,5 +1,9 @@
 <template>
-  <the-header @show-sign-up="showPopup" @show-login="showPopup" @search-data="searchData" />
+  <the-header
+    @show-sign-up="showPopup"
+    @show-login="showPopup"
+    @search-data="changeSearchingValue"
+  />
   <the-container class="grid sm:grid-cols-4 sm:mt-8 mt-0 pb-32">
     <side-bar-component class="sm:grid hidden" />
     <div class="grid sm:col-span-2">
@@ -9,7 +13,7 @@
           :class="{ 'w-[286px]': searchOpened }"
           @add-new-quote="addNewQuote"
         />
-        <search-component @open-search="openSearch" @search-data="searchData" />
+        <search-component @open-search="openSearch" @search-data="changeSearchingValue" />
       </div>
       <div class="flex flex-col sm:gap-20 gap-8" v-if="quotesFetched">
         <post-component
@@ -93,7 +97,7 @@ window.scrollTo({
 })
 
 axiosInstance
-  .post('quotes/page', { pageNum: fetchStore.page })
+  .post('/quotes/all', { pageNum: fetchStore.page })
   .then((res) => {
     showLoading.value = true
     if (res.status === 200) {
@@ -122,44 +126,37 @@ const searchingValueChanged = ref(false)
 
 watch(
   () => searchingValue.value,
-  () => {
+  (newValue) => {
     fetchStore.clearFetchStore()
 
-    searchingValueChanged.value = true
     quotes.value = []
     movies.value = []
+
+    searchingValueChanged.value = true
+    searchData(newValue)
   }
 )
 
-function searchData(searchBy) {
+function changeSearchingValue(searchBy) {
   searchingValue.value = searchBy
+}
+
+function searchData(searchBy) {
   if (fetchStore.allPagesFetched === false) {
-    if (searchBy.startsWith('#')) {
-      axiosInstance.post('quotes/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+    if (searchBy.startsWith('#') || searchBy.startsWith('@')) {
+      axiosInstance.post('/quotes/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false
-          quotes.value.push(...res.data.quotes)
           searchOpened.value = false
 
-          fetchStore.finishFetch()
-          if (res.data.isLastPage === true) {
-            fetchStore.allDataFetched()
-            return true
+          if (searchBy.startsWith('#')) {
+            quotes.value.push(...res.data.quotes)
           }
 
-          fetchStore.increasePageNum()
-        }
-      })
-    }
-
-    if (searchBy.startsWith('@')) {
-      axiosInstance.post('movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
-        if (res.status === 200) {
-          searchingValueChanged.value = false
-          showLoading.value = false
-          movies.value.push(...res.data.movies)
-          searchOpened.value = false
+          if (searchBy.startsWith('@')) {
+            movies.value.push(...res.data.movies)
+          }
 
           fetchStore.finishFetch()
           if (res.data.isLastPage === true) {
@@ -173,7 +170,7 @@ function searchData(searchBy) {
     }
 
     if (searchBy === '') {
-      axiosInstance.post('/quotes/page', { pageNum: fetchStore.page }).then((res) => {
+      axiosInstance.post('/quotes/all', { pageNum: fetchStore.page }).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false
@@ -195,7 +192,6 @@ function searchData(searchBy) {
 
 function fetchDataOnScroll() {
   const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight
-  console.log(scrolledToBottom && !fetchStore.isFetching && !fetchStore.allPagesFetched)
   if (scrolledToBottom && !fetchStore.isFetching && !fetchStore.allPagesFetched) {
     showLoading.value = true
     fetchStore.startFetch()
