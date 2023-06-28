@@ -20,8 +20,13 @@
               {{ title }}
             </p>
 
-            <x-mark-icon :class="xMarkStyle" @click="closePopup" v-if="!redirectBack" />
-            <x-mark-icon :class="xMarkStyle" @click="redirect" v-else />
+            <x-mark-icon
+              class="cursor-pointer"
+              :class="xMarkStyle"
+              @click="closePopup"
+              v-if="!redirectBack"
+            />
+            <x-mark-icon class="cursor-pointer" :class="xMarkStyle" @click="redirect" v-else />
           </div>
         </header>
 
