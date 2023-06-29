@@ -28,11 +28,10 @@
           </li>
         </ul>
       </transition>
-      <ul class="flex flex-wrap gap-2 items-center">
+      <ul class="flex flex-wrap gap-2 items-center" v-if="selectedGenres.length > 0">
         <li
           class="flex gap-2 items-center py-1 px-2 bg-[#6C757D] rounded-sm cursor-default"
           v-for="selectedGenre in selectedGenres"
-          v-if="selectedGenres.length > 0"
           :key="selectedGenre.id"
         >
           <p class="text-sm text-white">{{ selectedGenre.name[locale] }}</p>

@@ -41,7 +41,7 @@
     <div
       class="w-full flex flex-col sm:gap-6 gap-4 sm:pt-6 pt-0 items-start border-t border-t-[#EFEFEF4D]"
     >
-      <div class="w-full" v-for="comment in comments">
+      <div class="w-full" v-for="comment in comments" :key="comment.id">
         <div class="w-full sm:flex hidden gap-6 items-start">
           <img
             :src="imagePrefix + comment.user.image"
@@ -111,7 +111,11 @@ const props = defineProps({
 })
 
 const updatedQuote = ref(props.quote)
-const twoComments = ref(updatedQuote.value.comments.slice(-2))
+const twoComments = ref(
+  updatedQuote.value.comments.length > 2
+    ? updatedQuote.value.comments.slice(-2)
+    : updatedQuote.value.comments
+)
 const comments = ref(twoComments.value)
 
 const likes = ref(updatedQuote.value.likes)

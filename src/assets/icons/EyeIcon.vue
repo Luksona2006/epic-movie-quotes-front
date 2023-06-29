@@ -24,10 +24,10 @@
         y2="29.3795"
         stroke="white"
         stroke-width="3"
-        v-if="hidden && crosser"
+        v-if="hidden"
       />
       <line
-        v-if="hidden && crosser"
+        v-if="hidden"
         x1="6.0606"
         y1="6.06067"
         x2="29.3951"
@@ -60,7 +60,7 @@ const props = defineProps({
   }
 })
 
-const hidden = ref(true)
+const hidden = ref(props.crosser)
 const emits = defineEmits(['hidden'])
 
 function changeIcon() {

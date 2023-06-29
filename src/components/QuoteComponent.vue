@@ -51,8 +51,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useLocaleStore } from '@/store/localeStore'
+import { computed } from '@vue/reactivity'
 
 import ThreeDotsIcon from '@/assets/icons/ThreeDotsIcon.vue'
 import HeartIcon from '@/assets/icons/HeartIcon.vue'
@@ -60,7 +61,6 @@ import CommentIcon from '@/assets/icons/CommentIcon.vue'
 import PencilIcon from '@/assets/icons/PencilIcon.vue'
 import TrashIcon from '@/assets/icons/TrashIcon.vue'
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
-import { computed } from '@vue/reactivity'
 
 const props = defineProps({
   quote: {

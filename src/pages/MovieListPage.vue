@@ -18,20 +18,23 @@
           <add-movie @add-new-movie="addNewMovie" />
         </div>
       </div>
-      <div class="grid sm:grid-cols-3 grid-cols-1 gap-12 mt-12" v-if="totalMovies !== null">
-        <movie-component
-          v-for="movie in movies"
-          :movie="movie"
-          :key="movie.id"
-          v-if="movies.length > 0"
-        />
+      <div
+        class="grid sm:grid-cols-3 grid-cols-1 gap-12 mt-12"
+        v-if="totalMovies !== null && !showLoading"
+      >
+        <div v-if="movies.length > 0" class="grid col-span-3 sm:grid-cols-3 grid-cols-1 gap-12">
+          <movie-component v-for="movie in movies" :movie="movie" :key="movie.id" />
+        </div>
         <p
           class="grid col-span-3 text-center text-3xl text-white font-bold py-16"
-          v-else-if="searchingValue === ''"
+          v-else-if="searchingValue === '' && !showLoading"
         >
           {{ $t('post.no_movies_yet') }}
         </p>
-        <p class="grid col-span-3 text-center text-3xl text-white font-bold py-16" v-else>
+        <p
+          class="grid col-span-3 text-center text-3xl text-white font-bold py-16"
+          v-else-if="!showLoading"
+        >
           {{ $t('post.no_movies') }}
         </p>
       </div>

@@ -1,6 +1,5 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import axiosInstance from '../axios'
 import axios from 'axios'
 
 export default function pusherInstance() {
@@ -11,7 +10,7 @@ export default function pusherInstance() {
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
-    authorizer: (channel, _) => {
+    authorizer: (channel) => {
       return {
         authorize: (socketId, callback) => {
           axios

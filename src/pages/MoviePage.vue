@@ -36,6 +36,7 @@
                 <li
                   class="flex gap-2 py-[2px] px-3 items-center bg-[#6C757D] rounded-[4px] cursor-default"
                   v-for="genre in movie.genres"
+                  :key="genre.id"
                 >
                   <p class="text-lg font-bold text-white">{{ genre.name[locale] }}</p>
                 </li>

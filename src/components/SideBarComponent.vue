@@ -73,6 +73,7 @@ import router from '@/router'
 import { useUserStore } from '@/store/userStore'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import axiosInstance from '@/config/axios'
 
 import LanguageSwitcherFlags from '@/components/switcher/LanguageSwitcherFlags.vue'
 import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
@@ -99,7 +100,6 @@ function logout() {
   axiosInstance.post('/logout').then((res) => {
     if (res.status === 200) {
       user.clearUser()
-      loggedIn.value = user.id
       return router.push({ name: 'home' })
     }
   })
