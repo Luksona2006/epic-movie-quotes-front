@@ -111,7 +111,8 @@ const props = defineProps({
 })
 
 const updatedQuote = ref(props.quote)
-const twoComments = ref(
+
+const twoComments = computed(() =>
   updatedQuote.value.comments.length > 2
     ? updatedQuote.value.comments.slice(-2)
     : updatedQuote.value.comments
