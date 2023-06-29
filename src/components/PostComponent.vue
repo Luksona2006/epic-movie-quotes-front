@@ -2,11 +2,11 @@
   <div class="w-full flex flex-col items-start rounded-xl bg-[#11101A]" :class="padding">
     <div class="w-full flex gap-4 items-center mb-4" v-if="asPost">
       <img
-        :src="imagePrefix + updatedQuote.author.image"
+        :src="imagePrefix + updatedQuote.user.image"
         alt="profile"
         class="sm:w-[52px] sm:h-[52px] w-[40px] h-[40px] rounded-full"
       />
-      <p class="sm:text-xl text-base text-white">{{ updatedQuote.author.name }}</p>
+      <p class="sm:text-xl text-base text-white">{{ updatedQuote.user.name }}</p>
     </div>
     <div class="w-full flex flex-col gap-7 items-start mb-6">
       <p class="sm:text-xl text-base text-white" v-if="asPost">
