@@ -39,7 +39,7 @@
     <div class="w-full h-[1px] bg-[#EFEFEF33]"></div>
     <div class="flex gap-6 items-center">
       <div class="flex gap-3 items-center">
-        <p class="text-xl text-white">{{ quoteUpdated.comments }}</p>
+        <p class="text-xl text-white">{{ quoteUpdated.commentsTotal }}</p>
         <comment-icon />
       </div>
       <div class="flex gap-3 items-center">
