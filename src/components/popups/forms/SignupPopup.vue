@@ -85,7 +85,9 @@ import RedButton from '@/components/buttons/RedButton.vue'
 function sendData(values, errors) {
   if (values && !errors[0]) {
     axiosInstance.post('/signup', toRaw(values)).then((res) => {
-      if (res.status === 200) return router.push({ name: 'send-confirmation' })
+      if (res.status === 201) {
+        return router.push({ name: 'send-confirmation' })
+      }
     })
   }
 }

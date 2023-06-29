@@ -15,13 +15,10 @@
         />
         <search-component @open-search="openSearch" @search-data="changeSearchingValue" />
       </div>
-      <div class="flex flex-col sm:gap-20 gap-8" v-if="quotesFetched">
-        <post-component
-          v-for="quote in quotes"
-          :quote="quote"
-          :key="quote.id"
-          v-if="quotes.length > 0"
-        />
+      <div class="w-full" v-if="quotesFetched">
+        <div class="w-full flex flex-col sm:gap-20 gap-8" v-if="quotes.length > 0">
+          <post-component v-for="quote in quotes" :quote="quote" :key="quote.id" />
+        </div>
         <p
           class="text-2xl font-bold text-white opacity-80 text-center mt-10"
           v-else-if="
@@ -31,21 +28,24 @@
           {{ $t('post.no_quotes') }}
         </p>
 
-        <movie-component
-          v-for="movie in movies"
-          :movie="movie"
-          :redirect="false"
-          :key="movie.id"
-          v-if="movies.length > 0"
-        />
+        <div class="w-full flex flex-col sm:gap-20 gap-8" v-if="movies.length > 0">
+          <movie-component
+            v-for="movie in movies"
+            :movie="movie"
+            :redirect="false"
+            :key="movie.id"
+          />
+        </div>
         <p
-          class="text-2xl font-bold text-white opacity-80 text-center mt-10"
+          class="w-full text-2xl font-bold text-white opacity-80 text-center mt-10"
           v-else-if="searchingValue.startsWith('@') && !searchingValueChanged"
         >
           {{ $t('post.no_movies') }}
         </p>
       </div>
-      <loading-icon class="w-10 h-10 mt-10 mx-auto" :show="showLoading" />
+      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+        <loading-icon class="w-10 h-10" :show="showLoading" />
+      </div>
     </div>
   </the-container>
 </template>

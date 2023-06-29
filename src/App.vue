@@ -5,6 +5,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useUserStore } from '@/store/userStore'
+import router from '@/router'
 
 if (localStorage.getItem('uploadedImage')) {
   localStorage.removeItem('uploadedImage')

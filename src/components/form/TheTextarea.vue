@@ -25,8 +25,7 @@
           ]"
           :placeholder="mutatedPlaceholder"
           :disabled="disabled"
-          >{{ inputValue }}</textarea
-        >
+        ></textarea>
       </Field>
       <p class="absolute top-3 transform right-8 sm:text-xl text-base" :class="langColor">
         {{ lang === 'ka' ? 'ქარ' : 'Eng' }}

@@ -14,11 +14,13 @@
             {{ $t('notifications.mark_all') }}
           </button>
         </header>
-        <div class="w-full max-h-[840px] overflow-y-scroll flex flex-col gap-4">
+        <div
+          class="w-full max-h-[840px] overflow-y-scroll flex flex-col gap-4"
+          v-if="updatedNotifications.length > 0"
+        >
           <router-link
             :to="{ name: 'view-quote', params: { id: notification.quote_id } }"
             class="w-full flex sm:justify-between py-4 px-4 sm:py-5 sm:px-6 sm:items-center border border-[#6C757D80] rounded"
-            v-if="updatedNotifications.length > 0"
             v-for="notification in updatedNotifications"
             :key="notification.id"
             @click="clearNews(notification.id)"
@@ -58,13 +60,13 @@
               </p>
             </div>
           </router-link>
-          <p
-            class="sm:text-[32px] text-xl text-white opacity-70 font-medium text-center pt-10 pb-16"
-            v-else
-          >
-            {{ $t('notifications.no_notifications') }}
-          </p>
         </div>
+        <p
+          class="sm:text-[32px] text-xl text-white opacity-70 font-medium text-center pt-10 pb-16"
+          v-else
+        >
+          {{ $t('notifications.no_notifications') }}
+        </p>
       </div>
     </div>
   </transition>

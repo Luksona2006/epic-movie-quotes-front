@@ -58,7 +58,6 @@
 <script setup>
 import { ErrorMessage, Field } from 'vee-validate'
 import { ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { computed } from '@vue/reactivity'
 import { useLocaleStore } from '@/store/localeStore'
 
@@ -132,7 +131,6 @@ const props = defineProps({
   }
 })
 
-const i18n = useI18n()
 const emits = defineEmits(['editData'])
 const mutatedName = props.name.replace(' ', '_').toLowerCase()
 const inputType = ref(props.type)

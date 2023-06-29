@@ -1,4 +1,3 @@
-import { setLocale } from '@vee-validate/i18n'
 import { defineStore } from 'pinia'
 
 export const useFetchStore = defineStore({
