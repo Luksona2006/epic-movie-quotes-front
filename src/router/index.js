@@ -143,8 +143,8 @@ const router = createRouter({
       }
     },
     {
-      path: '/user/:id',
-      name: 'user',
+      path: '/auth/user',
+      name: 'auth-user',
       component: LandingPage,
       meta: {
         requiresAuth: false

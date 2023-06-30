@@ -89,7 +89,7 @@
 import { ref } from 'vue'
 import router from '@/router'
 import { useRoute } from 'vue-router'
-import { getUser } from '@/services/api/user/index.js'
+import { getAuthUser } from '@/services/api/user/index.js'
 import { useUserStore } from '@/store/userStore'
 
 import RedButton from '@/components/buttons/RedButton.vue'
@@ -118,8 +118,8 @@ const showSecond = ref(false)
 const showThird = ref(false)
 const routeName = useRoute().name
 
-if (routeName === 'user') {
-  getUser(useRoute().params.id).then((res) => {
+if (routeName === 'auth-user') {
+  getAuthUser().then((res) => {
     useUserStore()
       .setUserDetails(res)
       .then(() => {
