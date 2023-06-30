@@ -143,6 +143,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/user/:id',
+      name: 'user',
+      component: LandingPage,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
       path: '/:catchAll(.*)',
       name: '404',
       component: NotFoundPage,

@@ -87,6 +87,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import router from '@/router'
+import { useRoute } from 'vue-router'
+import { getUser } from '@/services/api/user/index.js'
+import { useUserStore } from '@/store/userStore'
 
 import RedButton from '@/components/buttons/RedButton.vue'
 import SignupPopup from '@/components/popups/forms/SignupPopup.vue'
@@ -112,6 +116,17 @@ const startMovieSlide = ref(false)
 const showFirst = ref(false)
 const showSecond = ref(false)
 const showThird = ref(false)
+const routeName = useRoute().name
+
+if (routeName === 'user') {
+  getUser(useRoute().params.id).then((res) => {
+    useUserStore()
+      .setUserDetails(res)
+      .then(() => {
+        router.push({ name: 'news-feed' })
+      })
+  })
+}
 
 function showMovie(movie) {
   if (movie === 2 && startMovieSlide.value) {

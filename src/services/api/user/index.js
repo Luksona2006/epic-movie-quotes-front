@@ -4,4 +4,8 @@ function updateUser(data) {
   return axiosInstance.put('/user', data).then((res) => res)
 }
 
-export { updateUser }
+function getUser(id) {
+  return axiosInstance.get(`/user/${id}`).then((res) => res)
+}
+
+export { updateUser, getUser }
