@@ -175,7 +175,9 @@ const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white
 function postComment(values) {
   axiosInstance
     .post(`/quotes/${updatedQuote.value.id}/comment`, {
-      comment: values['comment']
+      comment: values['comment'],
+      quote_id: updatedQuote.value.id,
+      user_id: user.id
     })
     .then((res) => {
       if (res.status === 200) {

@@ -1,5 +1,5 @@
 <template>
-  <c-r-u-d-popup-container
+  <crud-popup-container
     :show="showPopup"
     @send-data="createMovie"
     @close-popup="closePopup"
@@ -74,7 +74,7 @@
         :image="uploadedImage"
       />
     </template>
-  </c-r-u-d-popup-container>
+  </crud-popup-container>
   <red-button class="max-w-fit flex items-center gap-2" @click="openPopup"
     ><union-icon />{{ $t('basic.add_movie') }}</red-button
   >
@@ -84,7 +84,7 @@
 import { ref } from 'vue'
 import axiosInstance from '@/config/axios'
 
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
 import GreyBorderInput from '@/components/form/GreyBorderInput.vue'
 import ChooseGenresComponent from '@/components/form/ChooseGenresComponent.vue'

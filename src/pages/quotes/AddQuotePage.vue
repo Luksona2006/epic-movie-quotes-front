@@ -1,7 +1,7 @@
 <template>
   <the-container class="grid sm:grid-cols-4 sm:mt-[120px] mt-4 pb-32 items-start">
     <side-bar-component class="sm:grid hidden" />
-    <c-r-u-d-popup-container
+    <crud-popup-container
       :show="true"
       :title="$t('basic.add_quote')"
       :button-text="$t('basic.add_quote')"
@@ -57,7 +57,7 @@
         />
         <drag-and-drop-input name="image" id="image" @upload-image="uploadImage" />
       </template>
-    </c-r-u-d-popup-container>
+    </crud-popup-container>
   </the-container>
 </template>
 
@@ -69,7 +69,7 @@ import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import TheContainer from '@/components/TheContainer.vue'
 import DragAndDropInput from '@/components/form/DragAndDropInput.vue'

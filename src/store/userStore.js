@@ -25,7 +25,6 @@ export const useUserStore = defineStore({
         this.$state.google_id = res.data.user.google_id
         this.$state.name = res.data.user.name
         this.$state.email = res.data.user.email
-
         this.$state.image = res.data.user.image
 
         return res
@@ -37,7 +36,6 @@ export const useUserStore = defineStore({
       this.$state.google_id = null
       this.$state.name = null
       this.$state.email = null
-      this.$state.password = null
       this.$state.image = null
     }
   },

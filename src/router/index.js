@@ -7,9 +7,9 @@ import MovieListPage from '@/pages/MovieListPage.vue'
 import MoviePage from '@/pages/MoviePage.vue'
 import NotFoundPage from '@/pages/NotFoundPage.vue'
 import NotAccesablePage from '@/pages/NotAccesablePage.vue'
-import ViewQuotePage from '@/pages/quotesPages/ViewQuotePage.vue'
-import EditQuotePage from '@/pages/quotesPages/EditQuotePage.vue'
-import AddQuotePage from '@/pages/quotesPages/AddQuotePage.vue'
+import ViewQuotePage from '@/pages/quotes/ViewQuotePage.vue'
+import EditQuotePage from '@/pages/quotes/EditQuotePage.vue'
+import AddQuotePage from '@/pages/quotes/AddQuotePage.vue'
 
 const router = createRouter({
   history: createWebHistory(),

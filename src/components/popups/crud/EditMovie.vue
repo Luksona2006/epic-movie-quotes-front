@@ -1,5 +1,5 @@
 <template>
-  <c-r-u-d-popup-container
+  <crud-popup-container
     :show="showPopup"
     @send-data="editMovie"
     @close-popup="closePopup"
@@ -83,7 +83,7 @@
         :image="fullPath"
       />
     </template>
-  </c-r-u-d-popup-container>
+  </crud-popup-container>
   <pencil-icon @click="openPopup" />
 </template>
 
@@ -91,7 +91,7 @@
 import { ref } from 'vue'
 import axiosInstance from '@/config/axios'
 
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
 import GreyBorderInput from '@/components/form/GreyBorderInput.vue'
 import ChooseGenresComponent from '@/components/form/ChooseGenresComponent.vue'

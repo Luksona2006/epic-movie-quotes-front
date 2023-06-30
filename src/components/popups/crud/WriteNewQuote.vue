@@ -1,5 +1,5 @@
 <template>
-  <c-r-u-d-popup-container
+  <crud-popup-container
     :show="showPopup"
     @send-data="createQuote"
     @close-popup="closePopup"
@@ -29,7 +29,7 @@
       />
       <select-movie-component @select-movie="selectMovie" :selected-movie="selectedMovie" />
     </template>
-  </c-r-u-d-popup-container>
+  </crud-popup-container>
   <div
     class="w-full flex items-center gap-3 py-8 px-9 sm:px-4 sm:py-[15px] sm:bg-[#24222F] bg-transparent rounded-[10px] cursor-pointer"
     @click="openPopup"
@@ -43,11 +43,11 @@
 import { ref } from 'vue'
 import axiosInstance from '@/config/axios'
 
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import WriteIcon from '@/assets/icons/WriteIcon.vue'
 import SelectMovieComponent from '@/components/form/SelectMovieComponent.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
 import DragAndDropInput from '@/components/form/DragAndDropInput.vue'
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
 
 const showPopup = ref(false)
 

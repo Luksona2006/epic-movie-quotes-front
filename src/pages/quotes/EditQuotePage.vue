@@ -1,39 +1,43 @@
 <template>
   <the-container class="grid sm:grid-cols-4 sm:mt-[120px] mt-4 pb-32 items-start">
     <side-bar-component class="sm:grid hidden" />
-    <c-r-u-d-popup-container
+    <crud-popup-container
       v-if="quote"
       :show="true"
-      :title="$t('basic.view_quote')"
+      :title="$t('basic.edit_quote')"
       :button-text="$t('basic.save_changes')"
-      :is-form="false"
-      :editable="true"
       :deletable="true"
-      :redirectBack="true"
       :param-id="quote.id"
+      :redirectBack="true"
+      @send-data="updateQuote"
     >
       <template #form>
         <the-textarea
           name="quote_en"
           lang="en"
           :placeholder="quote.text.en"
-          :disabled="true"
           :italic-styling="true"
           :parentheses="true"
+          :value="quoteEn"
           placeholderColor="#CED4DA"
         />
         <the-textarea
           name="quote_ka"
           lang="ka"
           :placeholder="quote.text.ka"
-          :disabled="true"
           :italic-styling="true"
           :parentheses="true"
+          :value="quoteKa"
           placeholderColor="#CED4DA"
         />
+        <change-photo-component
+          :image="quote.image"
+          name="image"
+          id="replace_image"
+          @upload-image="uploadImage"
+        />
       </template>
-      <post-component class="col-span-2" :quote="quote" :as-post="false" v-if="quote" />
-    </c-r-u-d-popup-container>
+    </crud-popup-container>
   </the-container>
 </template>
 
@@ -45,10 +49,10 @@ import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import TheContainer from '@/components/TheContainer.vue'
-import PostComponent from '@/components/PostComponent.vue'
+import ChangePhotoComponent from '@/components/form/ChangePhotoComponent.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
 
 const route = useRoute()
@@ -80,4 +84,31 @@ axiosInstance
       return router.push({ name: 'home' })
     }
   })
+
+const quoteEn = ref(null)
+const quoteKa = ref(null)
+const uploadedImage = ref(null)
+
+function uploadImage(image) {
+  uploadedImage.value = image
+}
+
+function updateQuote(values, hasErrors) {
+  if (!hasErrors) {
+    axiosInstance
+      .put(`/quotes/${quote.value.id}`, {
+        quote_en: values['quote_en'],
+        quote_ka: values['quote_ka'],
+        image: uploadedImage.value
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          quoteEn.value = ''
+          quoteKa.value = ''
+          uploadedImage.value = null
+          return router.push({ name: 'movie', params: { id: res.data.quote.movie_id } })
+        }
+      })
+  }
+}
 </script>
