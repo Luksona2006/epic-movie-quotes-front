@@ -39,8 +39,7 @@
 </template>
 
 <script setup>
-import axiosInstance from '@/config/axios'
-import router from '@/router'
+import { resetPassword } from '@/services/api/auth/index.js'
 import { Form } from 'vee-validate'
 import { toRaw } from 'vue'
 import { checkIsValid } from '@/config/customFunction/index.js'
@@ -53,11 +52,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 
 function sendData(values, errors) {
   if (values && !errors[0]) {
-    axiosInstance.post('/forgot-password', toRaw(values)).then((res) => {
-      if (res.status === 200) {
-        return router.push({ name: 'send-password-reset-email' })
-      }
-    })
+    resetPassword(toRaw(data))
   }
 }
 </script>

@@ -53,9 +53,9 @@
 <script setup>
 import router from '@/router'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import { useFetchStore } from '@/store/fetchStore'
+import { getQuotes, searchQuotesOrMovies } from '@/services/api/quote/index.js'
 
 import TheHeader from '@/components/TheHeader.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
@@ -96,8 +96,7 @@ window.scrollTo({
   left: 0
 })
 
-axiosInstance
-  .post('/quotes/all', { pageNum: fetchStore.page })
+getQuotes(fetchStore.page)
   .then((res) => {
     showLoading.value = true
     if (res.status === 200) {
@@ -144,7 +143,7 @@ function changeSearchingValue(searchBy) {
 function searchData(searchBy) {
   if (fetchStore.allPagesFetched === false) {
     if (searchBy.startsWith('#') || searchBy.startsWith('@')) {
-      axiosInstance.post('/quotes/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+      searchQuotesOrMovies(searchBy, fetchStore.page).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false
@@ -170,7 +169,7 @@ function searchData(searchBy) {
     }
 
     if (searchBy === '') {
-      axiosInstance.post('/quotes/all', { pageNum: fetchStore.page }).then((res) => {
+      getQuotes(fetchStore.page).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false
@@ -204,5 +203,6 @@ function fetchDataOnScroll() {
 
 function addNewQuote(quote) {
   quotes.value.unshift(quote)
+  searchingValue.value = ''
 }
 </script>

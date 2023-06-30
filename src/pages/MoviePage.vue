@@ -26,10 +26,10 @@
                 </p>
                 <div class="flex items-center gap-6 px-7 py-[10px] bg-[#24222F] rounded-[10px]">
                   <button class="cursor-pointer">
-                    <edit-movie :movie="movie" @edit-movie="updateMovie" v-if="movie !== null" />
+                    <edit-movie :movie="movie" @edit-movie="movieUpdate" v-if="movie !== null" />
                   </button>
                   <div class="h-4 border border-[#6C757D] rounded-full"></div>
-                  <trash-icon class="cursor-pointer" @click="removeMovie" />
+                  <trash-icon class="cursor-pointer" @click="movieRemove" />
                 </div>
               </div>
               <ul class="flex gap-2 items-center flex-wrap">
@@ -67,7 +67,7 @@
             v-for="quote in movie.quotes"
             :key="quote.id"
             :quote="quote"
-            @remove-quote="removeQuote"
+            @remove-quote="quoteRemove"
           />
         </ul>
         <p class="text-2xl font-medium text-white text-center mt-10" v-else>No quotes yet</p>
@@ -80,7 +80,8 @@
 import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
+import { removeQuote } from '@/services/api/quote/index.js'
+import { getMovie, removeMovie } from '@/services/api/movie/index.js'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 
@@ -109,8 +110,7 @@ const movieId = route.params.id
 const user = useUserStore()
 const movie = ref(null)
 
-axiosInstance
-  .get(`/movies/${movieId}`)
+getMovie(movieId)
   .then((res) => {
     if (res.status === 200) {
       movie.value = res.data.movie
@@ -124,20 +124,20 @@ axiosInstance
     }
   })
 
-function updateMovie(newMovie) {
+function movieUpdate(newMovie) {
   movie.value = newMovie
 }
 
-function removeQuote(quoteId) {
-  axiosInstance.delete(`/quotes/${quoteId}`).then((res) => {
+function quoteRemove(quoteId) {
+  removeQuote(quoteId).then((res) => {
     if (res.status === 200) {
       movie.value['quotes'] = movie.value.quotes.filter((quote) => quote.id !== quoteId)
     }
   })
 }
 
-function removeMovie() {
-  axiosInstance.delete(`/movies/${movieId}`).then(() => {
+function movieRemove() {
+  removeMovie(movieId).then(() => {
     return router.push({ name: 'movie-list' })
   })
 }

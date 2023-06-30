@@ -73,13 +73,13 @@
 </template>
 
 <script setup>
+import { onMounted, ref, watch } from 'vue'
 import { useUserStore } from '@/store/userStore'
-import axiosInstance from '@/config/axios'
+import { updateAllNotifications, updateNotification } from '@/services/api/notification/index.js'
 
 import PopupPointerIcon from '@/assets/icons/PopupPointerIcon.vue'
 import CommentParenthesesIcon from '@/assets/icons/CommentParenthesesIcon.vue'
 import HeartFillIcon from '@/assets/icons/HeartFillIcon.vue'
-import { onMounted, ref, watch } from 'vue'
 
 const props = defineProps({
   show: {
@@ -124,7 +124,7 @@ onMounted(() => {
 })
 
 function clearNews(notificationId) {
-  axiosInstance.post(`/notification/update/${notificationId}`).then((res) => {
+  updateNotification(notificationId).then((res) => {
     if (res.status === 200) {
       updatedNotifications.value = updatedNotifications.value.map((notific) => {
         if (notific.id === notificationId) {
@@ -138,7 +138,7 @@ function clearNews(notificationId) {
 }
 
 function clearAllNews() {
-  axiosInstance.post(`/notifications/update`).then((res) => {
+  updateAllNotifications().then((res) => {
     if (res.status === 200) {
       updatedNotifications.value = updatedNotifications.value.map((notific) => {
         notific.seen = true

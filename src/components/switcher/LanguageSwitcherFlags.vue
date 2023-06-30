@@ -29,13 +29,13 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { setLocale } from '@/services/api/locale/index.js'
 import i18n from '@/config/i18n'
-import axiosInstance from '@/config/axios'
+import { useLocaleStore } from '@/store/localeStore'
 
 import GeorgiaIcon from '@/assets/icons/flags/GeorgiaIcon.vue'
 import UnitedKingdomIcon from '@/assets/icons/flags/UnitedKingdomIcon.vue'
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
-import { useLocaleStore } from '@/store/localeStore'
 
 const localeStore = ref(useLocaleStore())
 const locale = ref(localeStore.value.locale)
@@ -51,24 +51,20 @@ function showList() {
 
 function changeLanguage(newLocale) {
   if (show.value === true) {
-    axiosInstance
-      .post('/locale', {
-        locale: newLocale
-      })
-      .then((res) => {
-        const recievedLocale = res.data.locale
+    setLocale(newLocale).then((res) => {
+      const recievedLocale = res.data.locale
 
-        localStorage.setItem('savedLocale', recievedLocale)
+      localStorage.setItem('savedLocale', recievedLocale)
 
-        locale.value = recievedLocale
-        selected.value = recievedLocale
+      locale.value = recievedLocale
+      selected.value = recievedLocale
 
-        showList()
+      showList()
 
-        localeStore.value.changeLocale(recievedLocale)
+      localeStore.value.changeLocale(recievedLocale)
 
-        i18n.global.locale.value = recievedLocale
-      })
+      i18n.global.locale.value = recievedLocale
+    })
   }
 }
 </script>

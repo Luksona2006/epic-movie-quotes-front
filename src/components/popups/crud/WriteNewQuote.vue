@@ -1,7 +1,7 @@
 <template>
   <crud-popup-container
     :show="showPopup"
-    @send-data="createQuote"
+    @send-data="quoteCreate"
     @close-popup="closePopup"
     :title="$t('post.write_new_quote')"
     :button-text="$t('basic.post')"
@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axiosInstance from '@/config/axios'
+import { createQuote } from '@/services/api/quote/index.js'
 
 import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import WriteIcon from '@/assets/icons/WriteIcon.vue'
@@ -76,26 +76,26 @@ const quoteKa = ref(null)
 
 const emits = defineEmits(['addNewQuote'])
 
-function createQuote(values, hasErrors) {
+function quoteCreate(values, hasErrors) {
   if (!hasErrors && selectedMovie.value !== null && uploadedImage.value !== null) {
-    axiosInstance
-      .post('/quotes', {
-        quote_en: values['quote_en'],
-        quote_ka: values['quote_ka'],
-        movie_id: selectedMovie.value.id,
-        image: uploadedImage.value
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          quoteEn.value = ''
-          quoteKa.value = ''
-          selectedMovie.value = null
-          uploadedImage.value = null
-          showPopup.value = false
+    const data = {
+      quote_en: values['quote_en'],
+      quote_ka: values['quote_ka'],
+      movie_id: selectedMovie.value.id,
+      image: uploadedImage.value
+    }
 
-          emits('addNewQuote', res.data.quote)
-        }
-      })
+    createQuote(data).then((res) => {
+      if (res.status === 200) {
+        quoteEn.value = ''
+        quoteKa.value = ''
+        selectedMovie.value = null
+        uploadedImage.value = null
+        showPopup.value = false
+
+        emits('addNewQuote', res.data.quote)
+      }
+    })
   }
 }
 </script>

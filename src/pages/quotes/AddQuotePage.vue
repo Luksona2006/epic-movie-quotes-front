@@ -6,7 +6,7 @@
       :title="$t('basic.add_quote')"
       :button-text="$t('basic.add_quote')"
       :redirectBack="true"
-      @send-data="createQuote"
+      @send-data="quoteCreate"
       v-if="movie"
     >
       <template #form>
@@ -65,9 +65,10 @@
 import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
+import { createQuote } from '@/services/api/quote/index.js'
+import { getMovie } from '@/services/api/movie/index.js'
 
 import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
@@ -99,8 +100,7 @@ function uploadImage(image) {
   uploadedImage.value = image
 }
 
-axiosInstance
-  .get(`/movies/${movieId}`)
+getMovie(movieId)
   .then((res) => {
     if (res.status === 200) {
       movie.value = res.data.movie
@@ -114,24 +114,24 @@ axiosInstance
     }
   })
 
-function createQuote(values, hasErrors) {
+function quoteCreate(values, hasErrors) {
   if (!hasErrors && uploadedImage.value !== null) {
-    axiosInstance
-      .post('/quotes', {
-        quote_en: values['quote_en'],
-        quote_ka: values['quote_ka'],
-        movie_id: movieId,
-        image: uploadedImage.value
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          quoteEn.value = ''
-          quoteKa.value = ''
-          uploadedImage.value = null
+    const data = {
+      quote_en: values['quote_en'],
+      quote_ka: values['quote_ka'],
+      movie_id: movieId,
+      image: uploadedImage.value
+    }
 
-          return router.push({ name: 'movie', params: { id: movieId } })
-        }
-      })
+    createQuote(data).then((res) => {
+      if (res.status === 200) {
+        quoteEn.value = ''
+        quoteKa.value = ''
+        uploadedImage.value = null
+
+        return router.push({ name: 'movie', params: { id: movieId } })
+      }
+    })
   }
 }
 </script>

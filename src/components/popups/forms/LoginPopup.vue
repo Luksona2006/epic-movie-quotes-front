@@ -47,10 +47,7 @@
 </template>
 
 <script setup>
-import router from '@/router'
-import axiosInstance from '@/config/axios'
-import { getCookies } from '@/services/api/index.js'
-import { useUserStore } from '@/store/userStore'
+import { getCookies, login } from '@/services/api/auth/index.js'
 import { toRaw } from 'vue'
 import { Form } from 'vee-validate'
 import { checkIsValid } from '@/config/customFunction/index.js'
@@ -62,16 +59,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 function sendData(values, errors) {
   if (values && !errors[0]) {
     getCookies().then(() => {
-      axiosInstance.post('/login', toRaw(values)).then((res) => {
-        if (res.status === 200) {
-          useUserStore()
-            .setUserDetails(res)
-            .then(() => {
-              document.body.style.overflowY = 'auto'
-              return router.push({ name: 'news-feed' })
-            })
-        }
-      })
+      login(toRaw(values))
     })
   }
 }

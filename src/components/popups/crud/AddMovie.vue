@@ -1,7 +1,7 @@
 <template>
   <crud-popup-container
     :show="showPopup"
-    @send-data="createMovie"
+    @send-data="movieCreate"
     @close-popup="closePopup"
     :title="$t('basic.add_movie')"
     :button-text="$t('basic.add_movie')"
@@ -82,7 +82,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axiosInstance from '@/config/axios'
+import { createMovie } from '@/services/api/movie/index.js'
 
 import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
@@ -125,38 +125,37 @@ function uploadImage(image) {
 
 const emits = defineEmits(['addNewMovie'])
 
-function createMovie(values, hasErrors) {
+function movieCreate(values, hasErrors) {
   if (!hasErrors & (uploadedImage.value !== null && selectedGenres.value.length > 0)) {
     selectedGenres.value = selectedGenres.value.map((genre) => genre.id)
 
-    axiosInstance
-      .post('/movies', {
-        name_en: values['name_en'],
-        name_ka: values['name_ka'],
-        genres_ids: selectedGenres.value,
-        year: values['year'],
-        director_en: values['director_en'],
-        director_ka: values['director_ka'],
-        description_en: values['description_en'],
-        description_ka: values['description_ka'],
-        image: uploadedImage.value
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          nameEn.value = ''
-          nameKa.value = ''
-          selectedGenres.value = []
-          year.value = ''
-          directorEn.value = ''
-          directorKa.value = ''
-          descriptionEn.value = ''
-          descriptionKa.value = ''
-          uploadedImage.value = null
-          showPopup.value = false
+    const data = {
+      name_en: values['name_en'],
+      name_ka: values['name_ka'],
+      genres_ids: selectedGenres.value,
+      year: values['year'],
+      director_en: values['director_en'],
+      director_ka: values['director_ka'],
+      description_en: values['description_en'],
+      description_ka: values['description_ka'],
+      image: uploadedImage.value
+    }
+    createMovie(data).then((res) => {
+      if (res.status === 200) {
+        nameEn.value = ''
+        nameKa.value = ''
+        selectedGenres.value = []
+        year.value = ''
+        directorEn.value = ''
+        directorKa.value = ''
+        descriptionEn.value = ''
+        descriptionKa.value = ''
+        uploadedImage.value = null
 
-          emits('addNewMovie', res.data.movie)
-        }
-      })
+        closePopup()
+        emits('addNewMovie', res.data.movie)
+      }
+    })
   }
 }
 </script>

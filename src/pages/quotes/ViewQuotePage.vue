@@ -41,7 +41,7 @@
 import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
+import { getQuote } from '@/services/api/quote/index.js'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 
@@ -66,8 +66,7 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance
-  .get(`/quotes/${quoteId}`)
+getQuote(quoteId)
   .then((res) => {
     if (res.status === 200) {
       quote.value = res.data.quote

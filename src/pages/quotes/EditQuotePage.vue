@@ -9,7 +9,7 @@
       :deletable="true"
       :param-id="quote.id"
       :redirectBack="true"
-      @send-data="updateQuote"
+      @send-data="quoteUpdate"
     >
       <template #form>
         <the-textarea
@@ -45,9 +45,9 @@
 import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
+import { updateQuote, getQuote } from '@/services/api/quote/index.js'
 
 import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
@@ -70,8 +70,7 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance
-  .get(`/quotes/${quoteId}`)
+getQuote(quoteId)
   .then((res) => {
     if (res.status === 200) {
       quote.value = res.data.quote
@@ -93,22 +92,22 @@ function uploadImage(image) {
   uploadedImage.value = image
 }
 
-function updateQuote(values, hasErrors) {
+function quoteUpdate(values, hasErrors) {
   if (!hasErrors) {
-    axiosInstance
-      .put(`/quotes/${quote.value.id}`, {
-        quote_en: values['quote_en'],
-        quote_ka: values['quote_ka'],
-        image: uploadedImage.value
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          quoteEn.value = ''
-          quoteKa.value = ''
-          uploadedImage.value = null
-          return router.push({ name: 'movie', params: { id: res.data.quote.movie_id } })
-        }
-      })
+    const data = {
+      quote_en: values['quote_en'],
+      quote_ka: values['quote_ka'],
+      image: uploadedImage.value
+    }
+
+    updateQuote(quote.value.id, data).then((res) => {
+      if (res.status === 200) {
+        quoteEn.value = ''
+        quoteKa.value = ''
+        uploadedImage.value = null
+        return router.push({ name: 'movie', params: { id: res.data.quote.movie_id } })
+      }
+    })
   }
 }
 </script>

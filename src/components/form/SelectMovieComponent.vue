@@ -71,7 +71,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import axiosInstance from '@/config/axios'
+import { getAllMovies } from '@/services/api/movie/index.js'
 import { useLocaleStore } from '@/store/localeStore'
 
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
@@ -91,7 +91,7 @@ const show = ref(false)
 
 const movies = ref([])
 
-axiosInstance.get('/movies/all').then((res) => {
+getAllMovies().then((res) => {
   movies.value = res.data.movies
 })
 

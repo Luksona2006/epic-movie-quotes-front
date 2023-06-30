@@ -28,7 +28,7 @@
             <the-input
               :title="$t('inputNames.username')"
               name="username"
-              v-model="username"
+              :value="username"
               :placeholder="username"
               :edit="true"
               :disabled="true"
@@ -37,6 +37,7 @@
             <the-input
               v-show="editUsernameData"
               :title="$t('inputNames.new_username')"
+              :value="newUsername"
               name="new_username"
               validation-rules="required|min:3|max:15"
               :placeholder="$t('placeholders.enter_new_username')"
@@ -46,7 +47,7 @@
               :title="$t('inputNames.email')"
               type="email"
               name="email"
-              v-model="email"
+              :value="email"
               :placeholder="email"
               :edit="user.google_id ? false : true"
               :disabled="true"
@@ -57,6 +58,7 @@
               :title="$t('inputNames.new_email')"
               name="new_email"
               type="email"
+              :value="newEmail"
               :placeholder="$t('placeholders.enter_new_email')"
               validation-rules="required|email"
               :is-valid="errors['new_email'] === undefined"
@@ -79,6 +81,7 @@
                 :title="$t('inputNames.new_password')"
                 name="new_password"
                 type="password"
+                :value="newPassword"
                 :placeholder="$t('placeholders.enter_new_password')"
                 validation-rules="required|min:8|max:15"
                 :can-show="true"
@@ -89,6 +92,7 @@
                 :title="$t('inputNames.confirm_password')"
                 name="confirm_password"
                 type="password"
+                :value="newPasswordConfirmation"
                 :placeholder="$t('placeholders.repeat_new_password')"
                 validation-rules="required|confirmed:@new_password"
                 :can-show="true"
@@ -107,7 +111,7 @@
             }}</transparent-button>
           </div>
           <div>
-            <red-button @click="updateUser(values, errors)">{{
+            <red-button @click="userUpdate(values, errors)">{{
               $t('basic.save_changes')
             }}</red-button>
           </div>
@@ -145,7 +149,7 @@
       <div class="pl-9 mb-5 cursor-pointer">
         <arrow-left-icon
           v-show="showUsernameEditPopup || showPasswordEditPopup || showEmailEditPopup"
-          @click="closeEditPopup"
+          @click="closeEditPopups"
         />
       </div>
       <!-- EDIT USERNAME -->
@@ -159,16 +163,17 @@
           <the-input
             :title="$t('inputNames.new_username')"
             name="new_username"
+            :value="newUsername"
             validation-rules="required|min:3|max:15"
             :is-valid="checkIsValid(values, errors, 'new_username')"
           />
         </div>
         <div class="w-full flex justify-between items-center px-9 mt-8">
-          <div @click="closeEditPopup('username')">
+          <div @click="closeEditPopups">
             <transparent-button>{{ $t('basic.cancel') }}</transparent-button>
           </div>
           <div>
-            <red-button @click="updateUser(values, errors, true)">{{
+            <red-button @click="userUpdate(values, errors, true)">{{
               $t('basic.save_changes')
             }}</red-button>
           </div>
@@ -186,6 +191,7 @@
             :title="$t('inputNames.new_password')"
             name="new_password"
             type="password"
+            :value="newPassword"
             validation-rules="required|min:8|max:15"
             :can-show="true"
             :is-valid="checkIsValid(values, errors, 'new_password')"
@@ -194,17 +200,18 @@
             :title="$t('inputNames.confirm_password')"
             name="confirm_password"
             type="password"
+            :value="newPasswordConfirmation"
             validation-rules="required|confirmed:@new_password"
             :can-show="true"
             :is-valid="checkIsValid(values, errors, 'confirm_password')"
           />
         </div>
         <div class="w-full flex justify-between items-center px-9 mt-8">
-          <div @click="closeEditPopup('password')">
+          <div @click="closeEditPopups">
             <transparent-button>{{ $t('basic.cancel') }}</transparent-button>
           </div>
           <div>
-            <red-button @click="updateUser(values, errors, true)">{{
+            <red-button @click="userUpdate(values, errors, true)">{{
               $t('basic.save_changes')
             }}</red-button>
           </div>
@@ -222,17 +229,18 @@
             :title="$t('inputNames.new_email')"
             name="new_email"
             type="email"
+            :value="newEmail"
             :placeholder="$t('placeholders.enter_new_email')"
             validation-rules="required|email"
             :is-valid="checkIsValid(values, errors, 'new_email')"
           />
         </div>
         <div class="w-full flex justify-between items-center px-9 mt-8">
-          <div @click="closeEditPopup('email')">
+          <div @click="closeEditPopups">
             <transparent-button>{{ $t('basic.cancel') }}</transparent-button>
           </div>
           <div>
-            <red-button @click="updateUser(values, errors, true)">{{
+            <red-button @click="userUpdate(values, errors, true)">{{
               $t('basic.save_changes')
             }}</red-button>
           </div>
@@ -247,7 +255,7 @@ import router from '@/router'
 import { Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
 import { ref, watch } from 'vue'
-import axiosInstance from '@/config/axios'
+import { updateUser } from '@/services/api/user/index.js'
 import { checkIsValid } from '@/config/customFunction/index.js'
 
 import TheContainer from '@/components/TheContainer.vue'
@@ -280,15 +288,15 @@ const editPasswordData = ref(false)
 const editEmailData = ref(false)
 
 function editEmail(show) {
-  editEmailData.value = show.value
+  editEmailData.value = show
 }
 
 function editUsername(show) {
-  editUsernameData.value = show.value
+  editUsernameData.value = show
 }
 
 function editPassword(show) {
-  editPasswordData.value = show.value
+  editPasswordData.value = show
 }
 
 function uploadFile() {
@@ -297,6 +305,33 @@ function uploadFile() {
 
 const detailsUpdated = ref(false)
 const showNotification = ref(false)
+
+const showUsernameEditPopup = ref(false)
+const showPasswordEditPopup = ref(false)
+const showEmailEditPopup = ref(false)
+
+const newUsername = ref('')
+const newPassword = ref('')
+const newPasswordConfirmation = ref('')
+const newEmail = ref('')
+
+function showEditPopup(popup) {
+  if (popup === 'username') showUsernameEditPopup.value = true
+  if (popup === 'password') showPasswordEditPopup.value = true
+  if (popup === 'email') showEmailEditPopup.value = true
+}
+
+function closeEditPopups() {
+  showUsernameEditPopup.value = false
+  showPasswordEditPopup.value = false
+  showEmailEditPopup.value = false
+}
+
+function closeInputs() {
+  editUsernameData.value = false
+  editPasswordData.value = false
+  editEmailData.value = false
+}
 
 function updateDetails(data) {
   changesConfirmed.value = false
@@ -309,14 +344,15 @@ function updateDetails(data) {
     return
   }
 
-  axiosInstance
-    .put(`/user`, data)
+  updateUser(data)
     .then((res) => {
       if (res.status === 200) {
         user.setUserDetails(res)
         detailsUpdated.value = true
         showNotification.value = true
-        return
+
+        closeEditPopups()
+        closeInputs()
       }
     })
     .catch((err) => {
@@ -328,7 +364,7 @@ function updateDetails(data) {
     })
 }
 const updatedData = ref({})
-function updateUser(data, errors, needsConfirmation = false) {
+function userUpdate(data, errors, needsConfirmation = false) {
   updatedData.value = {}
   const dataIsEmpty = ref(false)
   if (!errors['new_username'] && data['new_username'] !== undefined) {
@@ -363,35 +399,6 @@ function updateUser(data, errors, needsConfirmation = false) {
   if (needsConfirmation) {
     askForConfirmation()
   }
-}
-
-const showUsernameEditPopup = ref(false)
-const showPasswordEditPopup = ref(false)
-const showEmailEditPopup = ref(false)
-
-function showEditPopup(popup) {
-  if (popup === 'username') showUsernameEditPopup.value = true
-  if (popup === 'password') showPasswordEditPopup.value = true
-  if (popup === 'email') showEmailEditPopup.value = true
-}
-
-function closeEditPopup(popup) {
-  if (popup === 'username') {
-    showUsernameEditPopup.value = false
-    return
-  }
-  if (popup === 'password') {
-    showPasswordEditPopup.value = false
-    return
-  }
-
-  if (popup === 'email') {
-    showEmailEditPopup.value = false
-    return
-  }
-  showUsernameEditPopup.value = false
-  showPasswordEditPopup.value = false
-  showEmailEditPopup.value = false
 }
 
 const showConfirmationPopup = ref(false)

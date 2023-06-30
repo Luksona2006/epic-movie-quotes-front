@@ -70,10 +70,8 @@
 </template>
 
 <script setup>
-import router from '@/router'
+import { signup } from '@/services/api/auth/index.js'
 import { Form } from 'vee-validate'
-import { toRaw } from 'vue'
-import axiosInstance from '@/config/axios'
 import { checkIsValid } from '@/config/customFunction/index.js'
 
 import TheInput from '@/components/form/TheInput.vue'
@@ -84,11 +82,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 
 function sendData(values, errors) {
   if (values && !errors[0]) {
-    axiosInstance.post('/signup', toRaw(values)).then((res) => {
-      if (res.status === 201) {
-        return router.push({ name: 'send-confirmation' })
-      }
-    })
+    signup(data)
   }
 }
 </script>

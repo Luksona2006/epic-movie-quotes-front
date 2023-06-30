@@ -33,7 +33,7 @@
 <script setup>
 import { Field, Form } from 'vee-validate'
 import { ref } from 'vue'
-import axiosInstance from '@/config/axios'
+import { updateUser } from '@/services/api/user/index.js'
 import { computed } from '@vue/reactivity'
 import { useUserStore } from '@/store/userStore'
 
@@ -79,7 +79,8 @@ function uploadFile(e) {
 
 function saveImage() {
   if (localStorage.getItem('uploadedImage').startsWith('data:image/')) {
-    axiosInstance.put(`/user`, { image: localStorage.getItem('uploadedImage') }).then((res) => {
+    const data = { image: localStorage.getItem('uploadedImage') }
+    updateUser(data).then((res) => {
       user.setUserDetails(res)
       localStorage.removeItem('uploadedImage')
     })
