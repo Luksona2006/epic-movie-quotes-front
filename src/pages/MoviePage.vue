@@ -3,23 +3,23 @@
   <the-container class="grid sm:grid-cols-5 mt-8 pb-32 items-start px-0">
     <side-bar-component class="sm:grid hidden" />
     <div
-      class="sm:grid sm:col-span-4 sm:grid-cols-7 grid-cols-1 gap-5 items-start sm:px-0 px-8"
+      class="grid sm:col-span-4 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5 items-start sm:px-0 px-8"
       v-if="movie !== null"
     >
       <p class="sm:block hidden text-2xl font-medium text-white mb-8 col-span-7">
         {{ $t('basic.movie_description') }}
       </p>
-      <div class="grid sm:col-span-7">
-        <div class="grid sm:grid-cols-7 grid-cols-1 gap-5">
-          <div class="grid sm:col-span-4">
+      <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1">
+        <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5">
+          <div class="sm:col-span-4 col-span-1">
             <img
               class="w-full sm:h-[440px] h-[302px] rounded-xl"
               :src="prefix + movie.image"
               alt="movie"
             />
           </div>
-          <div class="grid sm:col-span-3">
-            <div class="w-80 flex flex-col gap-5 items-start">
+          <div class="sm:col-span-3 col-span-1">
+            <div class="w-full flex flex-col gap-5 items-start">
               <div class="w-full flex justify-between items-center">
                 <p class="text-2xl font-medium text-[#DDCCAA]">
                   {{ movie.name[locale] }} ({{ movie.year }})
@@ -50,9 +50,9 @@
           </div>
         </div>
       </div>
-      <div class="grid sm:col-span-4">
+      <div class="grid sm:col-span-4 col-span-1">
         <div class="w-full flex gap-4 items-center mt-11 mb-16">
-          <p class="text-white text-2xl">
+          <p class="text-white sm:text-2xl text-xl">
             {{ $t('basic.quotes') }} ({{ $t('basic.total') }} {{ movie.quotes.length }})
           </p>
           <div class="h-6 border border-[#6C757D] rounded-full"></div>
