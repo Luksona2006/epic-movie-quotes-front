@@ -8,8 +8,8 @@
       <reset-password-popup />
       <email-verified-notificaiton />
     </teleport>
-    <div class="bg-gradient-to-b from-[#11101A] to-[#0D0B14]">
-      <div>
+    <div>
+      <div class="bg-gradient-to-b from-[#11101A] to-[#0D0B14]">
         <the-header @show-sign-up="showPopup" @show-login="showPopup" />
 
         <div class="relative w-full h-[75vh]">
