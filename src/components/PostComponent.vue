@@ -164,7 +164,7 @@ const profileImage = imagePrefix + user.image
 
 function likePost() {
   liked.value = !liked.value
-  likes.value = liked.value ? likes.value++ : likes.value--
+  likes.value = liked.value ? likes.value + 1 : likes.value - 1
 
   const data = {
     liked: liked.value
