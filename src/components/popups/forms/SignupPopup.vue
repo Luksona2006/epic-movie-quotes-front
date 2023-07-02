@@ -73,6 +73,7 @@
 import { signup } from '@/services/api/auth/index.js'
 import { Form } from 'vee-validate'
 import { checkIsValid } from '@/config/customFunction/index.js'
+import { toRaw } from 'vue'
 
 import TheInput from '@/components/form/TheInput.vue'
 import FormPopupContainer from '@/components/popups/containers/FormPopupContainer.vue'
@@ -82,7 +83,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 
 function sendData(values, errors) {
   if (values && !errors[0]) {
-    signup(data)
+    signup(toRaw(values))
   }
 }
 </script>

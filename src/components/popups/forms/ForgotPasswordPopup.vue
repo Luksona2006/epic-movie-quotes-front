@@ -52,7 +52,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 
 function sendData(values, errors) {
   if (values && !errors[0]) {
-    resetPassword(toRaw(data))
+    resetPassword(toRaw(values))
   }
 }
 </script>
