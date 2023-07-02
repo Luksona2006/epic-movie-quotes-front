@@ -39,8 +39,7 @@
 </template>
 
 <script setup>
-import axiosInstance from '@/config/axios'
-import router from '@/router'
+import { resetPassword } from '@/services/api/auth/index.js'
 import { useRoute } from 'vue-router'
 import { toRaw } from 'vue'
 import { checkIsValid } from '@/config/customFunction/index.js'
@@ -56,11 +55,7 @@ function sendData(values, errors) {
   if (values && !errors[0]) {
     const data = toRaw(values)
     data['token'] = token
-    axiosInstance.post(`/reset-password/${token}`, data).then((res) => {
-      if (res.status === 200) {
-        return router.push({ name: 'password-reseted' })
-      }
-    })
+    resetPassword(token, data)
   }
 }
 </script>

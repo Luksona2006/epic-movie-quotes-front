@@ -36,7 +36,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import axiosInstance from '@/config/axios'
+import { setLocale } from '@/services/api/locale/index.js'
 import i18n from '@/config/i18n'
 import { useLocaleStore } from '@/store/localeStore'
 
@@ -57,22 +57,18 @@ function showList() {
 
 function changeLanguage(newLocale) {
   if (show.value === true) {
-    axiosInstance
-      .post('/locale', {
-        locale: newLocale
-      })
-      .then((res) => {
-        const recievedLocale = res.data.locale
+    setLocale(newLocale).then((res) => {
+      const recievedLocale = res.data.locale
 
-        locale.value = recievedLocale
-        selected.value = recievedLocale
+      locale.value = recievedLocale
+      selected.value = recievedLocale
 
-        showList()
+      showList()
 
-        useLocaleStore().changeLocale(recievedLocale)
+      useLocaleStore().changeLocale(recievedLocale)
 
-        i18n.global.locale.value = recievedLocale
-      })
+      i18n.global.locale.value = recievedLocale
+    })
   }
 }
 </script>

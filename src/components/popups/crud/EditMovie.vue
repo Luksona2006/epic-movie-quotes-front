@@ -1,5 +1,5 @@
 <template>
-  <c-r-u-d-popup-container
+  <crud-popup-container
     :show="showPopup"
     @send-data="editMovie"
     @close-popup="closePopup"
@@ -83,15 +83,15 @@
         :image="fullPath"
       />
     </template>
-  </c-r-u-d-popup-container>
+  </crud-popup-container>
   <pencil-icon @click="openPopup" />
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import axiosInstance from '@/config/axios'
+import { updateMovie } from '@/services/api/movie/index.js'
 
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
 import GreyBorderInput from '@/components/form/GreyBorderInput.vue'
 import ChooseGenresComponent from '@/components/form/ChooseGenresComponent.vue'
@@ -146,35 +146,35 @@ function editMovie(values, hasErrors) {
   if (!hasErrors) {
     if (selectedGenres.value) selectedGenres.value = selectedGenres.value.map((genre) => genre.id)
 
-    axiosInstance
-      .put(`/movies/${props.movie.id}`, {
-        name_en: values['name_en'],
-        name_ka: values['name_ka'],
-        genres_ids: selectedGenres.value,
-        year: values['year'],
-        director_en: values['director_en'],
-        director_ka: values['director_ka'],
-        description_en: values['description_en'],
-        description_ka: values['description_ka'],
-        image: uploadedImage.value
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          const newMovie = res.data.movie
-          nameEn.value = newMovie.name.en
-          nameKa.value = newMovie.name.ka
-          genres.value = newMovie.genres
-          year.value = newMovie.year
-          directorEn.value = newMovie.director.en
-          directorKa.value = newMovie.director.ka
-          descriptionEn.value = newMovie.description.en
-          descriptionKa.value = newMovie.description.ka
-          uploadedImage.value = newMovie.image
-          showPopup.value = false
+    const data = {
+      name_en: values['name_en'],
+      name_ka: values['name_ka'],
+      genres_ids: selectedGenres.value,
+      year: values['year'],
+      director_en: values['director_en'],
+      director_ka: values['director_ka'],
+      description_en: values['description_en'],
+      description_ka: values['description_ka'],
+      image: uploadedImage.value
+    }
 
-          emits('editMovie', newMovie)
-        }
-      })
+    updateMovie(props.movie.id, data).then((res) => {
+      if (res.status === 200) {
+        const newMovie = res.data.movie
+        nameEn.value = newMovie.name.en
+        nameKa.value = newMovie.name.ka
+        genres.value = newMovie.genres
+        year.value = newMovie.year
+        directorEn.value = newMovie.director.en
+        directorKa.value = newMovie.director.ka
+        descriptionEn.value = newMovie.description.en
+        descriptionKa.value = newMovie.description.ka
+        uploadedImage.value = newMovie.image
+
+        closePopup()
+        emits('editMovie', newMovie)
+      }
+    })
   }
 }
 </script>

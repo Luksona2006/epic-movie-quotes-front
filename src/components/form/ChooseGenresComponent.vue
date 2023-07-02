@@ -48,7 +48,7 @@
 import { computed } from '@vue/reactivity'
 import { ref, watch } from 'vue'
 import { useLocaleStore } from '@/store/localeStore'
-import axiosInstance from '@/config/axios'
+import { getAllGenres } from '@/services/api/genre/index.js'
 
 import XMarkIcon from '@/assets/icons/marks/XMarkIcon.vue'
 
@@ -87,7 +87,7 @@ watch(
 
 const genresList = ref([])
 
-axiosInstance.get('/genres').then((res) => {
+getAllGenres().then((res) => {
   if (res.status === 200) {
     const genres = ref([])
     if (selectedGenres.value.length > 0) {

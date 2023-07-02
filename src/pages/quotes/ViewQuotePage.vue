@@ -1,7 +1,7 @@
 <template>
   <the-container class="grid sm:grid-cols-4 sm:mt-[120px] mt-4 pb-32 items-start">
     <side-bar-component class="sm:grid hidden" />
-    <c-r-u-d-popup-container
+    <crud-popup-container
       v-if="quote"
       :show="true"
       :title="$t('basic.view_quote')"
@@ -33,7 +33,7 @@
         />
       </template>
       <post-component class="col-span-2" :quote="quote" :as-post="false" v-if="quote" />
-    </c-r-u-d-popup-container>
+    </crud-popup-container>
   </the-container>
 </template>
 
@@ -41,11 +41,11 @@
 import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
+import { getQuote } from '@/services/api/quote/index.js'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import TheContainer from '@/components/TheContainer.vue'
 import PostComponent from '@/components/PostComponent.vue'
@@ -66,8 +66,7 @@ const quoteId = route.params.id
 const user = useUserStore()
 const quote = ref(null)
 
-axiosInstance
-  .get(`/quotes/${quoteId}`)
+getQuote(quoteId)
   .then((res) => {
     if (res.status === 200) {
       quote.value = res.data.quote

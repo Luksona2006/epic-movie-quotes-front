@@ -93,7 +93,7 @@ import { useUserStore } from '@/store/userStore'
 import { onMounted, ref, watch } from 'vue'
 import { computed } from '@vue/reactivity'
 import { useLocaleStore } from '@/store/localeStore'
-import axiosInstance from '@/config/axios'
+import { likeQuote, commentQuote } from '@/services/api/quote/index.js'
 
 import HeartIcon from '@/assets/icons/HeartIcon.vue'
 import CommentIcon from '@/assets/icons/CommentIcon.vue'
@@ -165,25 +165,30 @@ const profileImage = imagePrefix + user.image
 function likePost() {
   liked.value = !liked.value
   likes.value = liked.value ? likes.value + 1 : likes.value - 1
-  axiosInstance.post(`/quotes/${updatedQuote.value.id}/like`, {
+
+  const data = {
     liked: liked.value
-  })
+  }
+
+  likeQuote(updatedQuote.value.id, data)
 }
 
 const heartIconColor = computed(() => (liked.value === true ? '#F3426C' : 'white'))
 
 function postComment(values) {
-  axiosInstance
-    .post(`/quotes/${updatedQuote.value.id}/comment`, {
-      comment: values['comment']
-    })
-    .then((res) => {
-      if (res.status === 200) {
-        updatedQuote.value.comments.push(res.data.comment)
-        updatedQuote.value.commentsTotal++
-        value.value = ''
-      }
-    })
+  const data = {
+    comment: values['comment'],
+    quote_id: updatedQuote.value.id,
+    user_id: user.id
+  }
+
+  commentQuote(updatedQuote.value.id, data).then((res) => {
+    if (res.status === 200) {
+      updatedQuote.value.comments.push(res.data.comment)
+      updatedQuote.value.commentsTotal++
+      value.value = ''
+    }
+  })
 }
 
 function getAllComments() {

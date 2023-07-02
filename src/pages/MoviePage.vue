@@ -3,33 +3,33 @@
   <the-container class="grid sm:grid-cols-5 mt-8 pb-32 items-start px-0">
     <side-bar-component class="sm:grid hidden" />
     <div
-      class="sm:grid sm:col-span-4 sm:grid-cols-7 grid-cols-1 gap-5 items-start sm:px-0 px-8"
+      class="grid sm:col-span-4 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5 items-start sm:px-0 px-8"
       v-if="movie !== null"
     >
       <p class="sm:block hidden text-2xl font-medium text-white mb-8 col-span-7">
         {{ $t('basic.movie_description') }}
       </p>
-      <div class="grid sm:col-span-7">
-        <div class="grid sm:grid-cols-7 grid-cols-1 gap-5">
-          <div class="grid sm:col-span-4">
+      <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1">
+        <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5">
+          <div class="sm:col-span-4 col-span-1">
             <img
               class="w-full sm:h-[440px] h-[302px] rounded-xl"
               :src="prefix + movie.image"
               alt="movie"
             />
           </div>
-          <div class="grid sm:col-span-3">
-            <div class="w-80 flex flex-col gap-5 items-start">
+          <div class="sm:col-span-3 col-span-1">
+            <div class="w-full flex flex-col gap-5 items-start">
               <div class="w-full flex justify-between items-center">
                 <p class="text-2xl font-medium text-[#DDCCAA]">
                   {{ movie.name[locale] }} ({{ movie.year }})
                 </p>
                 <div class="flex items-center gap-6 px-7 py-[10px] bg-[#24222F] rounded-[10px]">
                   <button class="cursor-pointer">
-                    <edit-movie :movie="movie" @edit-movie="updateMovie" v-if="movie !== null" />
+                    <edit-movie :movie="movie" @edit-movie="movieUpdate" v-if="movie !== null" />
                   </button>
                   <div class="h-4 border border-[#6C757D] rounded-full"></div>
-                  <trash-icon class="cursor-pointer" @click="removeMovie" />
+                  <trash-icon class="cursor-pointer" @click="movieRemove" />
                 </div>
               </div>
               <ul class="flex gap-2 items-center flex-wrap">
@@ -50,9 +50,9 @@
           </div>
         </div>
       </div>
-      <div class="grid sm:col-span-4">
+      <div class="grid sm:col-span-4 col-span-1">
         <div class="w-full flex gap-4 items-center mt-11 mb-16">
-          <p class="text-white text-2xl">
+          <p class="text-white sm:text-2xl text-xl">
             {{ $t('basic.quotes') }} ({{ $t('basic.total') }} {{ movie.quotes.length }})
           </p>
           <div class="h-6 border border-[#6C757D] rounded-full"></div>
@@ -67,7 +67,7 @@
             v-for="quote in movie.quotes"
             :key="quote.id"
             :quote="quote"
-            @remove-quote="removeQuote"
+            @remove-quote="quoteRemove"
           />
         </ul>
         <p class="text-2xl font-medium text-white text-center mt-10" v-else>No quotes yet</p>
@@ -80,7 +80,8 @@
 import router from '@/router'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
+import { removeQuote } from '@/services/api/quote/index.js'
+import { getMovie, removeMovie } from '@/services/api/movie/index.js'
 import { useUserStore } from '@/store/userStore'
 import { useLocaleStore } from '@/store/localeStore'
 
@@ -109,8 +110,7 @@ const movieId = route.params.id
 const user = useUserStore()
 const movie = ref(null)
 
-axiosInstance
-  .get(`/movies/${movieId}`)
+getMovie(movieId)
   .then((res) => {
     if (res.status === 200) {
       movie.value = res.data.movie
@@ -124,20 +124,20 @@ axiosInstance
     }
   })
 
-function updateMovie(newMovie) {
+function movieUpdate(newMovie) {
   movie.value = newMovie
 }
 
-function removeQuote(quoteId) {
-  axiosInstance.delete(`/quotes/${quoteId}`).then((res) => {
+function quoteRemove(quoteId) {
+  removeQuote(quoteId).then((res) => {
     if (res.status === 200) {
       movie.value['quotes'] = movie.value.quotes.filter((quote) => quote.id !== quoteId)
     }
   })
 }
 
-function removeMovie() {
-  axiosInstance.delete(`/movies/${movieId}`).then(() => {
+function movieRemove() {
+  removeMovie(movieId).then(() => {
     return router.push({ name: 'movie-list' })
   })
 }

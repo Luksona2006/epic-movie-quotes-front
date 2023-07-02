@@ -10,7 +10,7 @@
             :type="inputType"
             :name="mutatedName"
             :placeholder="placeholder"
-            v-model="value"
+            v-model="inputValue"
             :rules="validationRules"
             class="w-full px-3 py-2 border-2 border-[#FFFFF] rounded-[4px] outline-none focus:bg-[#CED4DA] boxShadow"
             :class="{
@@ -135,7 +135,7 @@ const emits = defineEmits(['editData'])
 const mutatedName = props.name.replace(' ', '_').toLowerCase()
 const inputType = ref(props.type)
 
-const value = ref(props.value)
+const inputValue = ref(props.value)
 
 function changeType() {
   inputType.value =
@@ -148,8 +148,8 @@ const isDisabled = computed(() => props.disabled)
 
 function editData() {
   editDetail.value = !editDetail.value
-  if (editDetail.value === false) value.value = ''
-  emits('editData', editDetail)
+  if (editDetail.value === false) inputValue.value = ''
+  emits('editData', editDetail.value)
 }
 
 const locale = useLocaleStore().locale

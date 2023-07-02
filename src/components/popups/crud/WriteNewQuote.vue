@@ -1,7 +1,7 @@
 <template>
-  <c-r-u-d-popup-container
+  <crud-popup-container
     :show="showPopup"
-    @send-data="createQuote"
+    @send-data="quoteCreate"
     @close-popup="closePopup"
     :title="$t('post.write_new_quote')"
     :button-text="$t('basic.post')"
@@ -29,7 +29,7 @@
       />
       <select-movie-component @select-movie="selectMovie" :selected-movie="selectedMovie" />
     </template>
-  </c-r-u-d-popup-container>
+  </crud-popup-container>
   <div
     class="w-full flex items-center gap-3 py-8 px-9 sm:px-4 sm:py-[15px] sm:bg-[#24222F] bg-transparent rounded-[10px] cursor-pointer"
     @click="openPopup"
@@ -41,13 +41,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import axiosInstance from '@/config/axios'
+import { createQuote } from '@/services/api/quote/index.js'
 
+import CrudPopupContainer from '@/components/popups/containers/CrudPopupContainer.vue'
 import WriteIcon from '@/assets/icons/WriteIcon.vue'
 import SelectMovieComponent from '@/components/form/SelectMovieComponent.vue'
 import TheTextarea from '@/components/form/TheTextarea.vue'
 import DragAndDropInput from '@/components/form/DragAndDropInput.vue'
-import CRUDPopupContainer from '@/components/popups/containers/CRUDPopupContainer.vue'
 
 const showPopup = ref(false)
 
@@ -76,26 +76,26 @@ const quoteKa = ref(null)
 
 const emits = defineEmits(['addNewQuote'])
 
-function createQuote(values, hasErrors) {
+function quoteCreate(values, hasErrors) {
   if (!hasErrors && selectedMovie.value !== null && uploadedImage.value !== null) {
-    axiosInstance
-      .post('/quotes', {
-        quote_en: values['quote_en'],
-        quote_ka: values['quote_ka'],
-        movie_id: selectedMovie.value.id,
-        image: uploadedImage.value
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          quoteEn.value = ''
-          quoteKa.value = ''
-          selectedMovie.value = null
-          uploadedImage.value = null
-          showPopup.value = false
+    const data = {
+      quote_en: values['quote_en'],
+      quote_ka: values['quote_ka'],
+      movie_id: selectedMovie.value.id,
+      image: uploadedImage.value
+    }
 
-          emits('addNewQuote', res.data.quote)
-        }
-      })
+    createQuote(data).then((res) => {
+      if (res.status === 200) {
+        quoteEn.value = ''
+        quoteKa.value = ''
+        selectedMovie.value = null
+        uploadedImage.value = null
+        showPopup.value = false
+
+        emits('addNewQuote', res.data.quote)
+      }
+    })
   }
 }
 </script>

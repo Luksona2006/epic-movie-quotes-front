@@ -46,9 +46,9 @@
 <script setup>
 import router from '@/router'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import { useFetchStore } from '@/store/fetchStore'
+import { getMovies, searchMovies } from '@/services/api/movie/index.js'
 
 import TheHeader from '@/components/TheHeader.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
@@ -82,8 +82,7 @@ window.scrollTo({
   left: 0
 })
 
-axiosInstance
-  .post('/movies/page', { pageNum: fetchStore.page })
+getMovies(fetchStore.page)
   .then((res) => {
     if (res.status === 200) {
       showLoading.value = false
@@ -131,7 +130,7 @@ function searchData(searchBy) {
   if (fetchStore.allPagesFetched === false) {
     if (searchBy !== '') {
       fetchStore.startFetch()
-      axiosInstance.post('movies/search', { searchBy, pageNum: fetchStore.page }).then((res) => {
+      searchMovies(searchBy, fetchStore.page).then((res) => {
         searchingValueChanged.value = false
         showLoading.value = false
         totalMovies.value = res.data.total
@@ -149,7 +148,7 @@ function searchData(searchBy) {
 
     if (searchBy === '') {
       fetchStore.startFetch()
-      axiosInstance.post('/movies/page', { pageNum: fetchStore.page }).then((res) => {
+      getMovies(fetchStore.page).then((res) => {
         if (res.status === 200) {
           searchingValueChanged.value = false
           showLoading.value = false
@@ -182,6 +181,6 @@ function fetchDataOnScroll() {
 }
 
 function addNewMovie(movie) {
-  movies.value.unshift(movie)
+  movies.value.push(movie)
 }
 </script>

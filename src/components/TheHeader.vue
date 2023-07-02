@@ -51,8 +51,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '@/store/userStore'
-import axiosInstance from '@/config/axios'
-import router from '@/router'
+import { logout } from '@/services/api/auth/index.js'
+import { getNotifications } from '@/services/api/notification/index.js'
 
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import LanguageSwitcher from '@/components/switcher/LanguageSwitcher.vue'
@@ -75,18 +75,6 @@ function showSignUp() {
 
 const loggedIn = ref(useUserStore().id)
 
-function logout() {
-  const user = useUserStore()
-
-  axiosInstance.post('/logout').then((res) => {
-    if (res.status === 200) {
-      user.clearUser()
-      loggedIn.value = user.id
-      return router.push({ name: 'home' })
-    }
-  })
-}
-
 const sideBarShow = ref(false)
 
 function triggerSidebar() {
@@ -108,7 +96,7 @@ const newsSum = ref(0)
 
 const user = useUserStore()
 if (user.id !== null) {
-  axiosInstance.get(`/notifications`).then((res) => {
+  getNotifications().then((res) => {
     notifications.value = res.data.notifications
     newsSum.value = res.data.newsSum
   })

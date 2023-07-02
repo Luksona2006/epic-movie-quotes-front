@@ -69,11 +69,10 @@
 </template>
 
 <script setup>
-import router from '@/router'
 import { useUserStore } from '@/store/userStore'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axiosInstance from '@/config/axios'
+import { logout } from '@/services/api/auth/index.js'
 
 import LanguageSwitcherFlags from '@/components/switcher/LanguageSwitcherFlags.vue'
 import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
@@ -95,15 +94,6 @@ const image = ref(user.image)
 const routeName = useRoute().name
 
 const imageFullPath = ref(import.meta.env.VITE_BACK_STORAGE_URL + '' + image.value)
-
-function logout() {
-  axiosInstance.post('/logout').then((res) => {
-    if (res.status === 200) {
-      user.clearUser()
-      return router.push({ name: 'home' })
-    }
-  })
-}
 
 watch(
   () => useUserStore().image,

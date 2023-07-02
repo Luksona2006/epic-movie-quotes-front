@@ -14,7 +14,7 @@
                 ><pencil-icon
               /></router-link>
               <div class="h-4 w-[1px] bg-[#6C757D] rounded-full" v-if="editable && deletable"></div>
-              <trash-icon class="cursor-pointer" @click="removeQuote" v-if="deletable" />
+              <trash-icon class="cursor-pointer" @click="quoteRemove" v-if="deletable" />
             </div>
             <p class="sm:text-2xl text-xl text-white text-center font-medium" :class="titleStyle">
               {{ title }}
@@ -58,7 +58,7 @@ import { ref, watch } from 'vue'
 import { computed } from '@vue/reactivity'
 import { Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
-import axiosInstance from '@/config/axios'
+import { removeQuote } from '@/services/api/quote/index.js'
 
 import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 import RedButton from '@/components/buttons/RedButton.vue'
@@ -157,8 +157,8 @@ function sendData(values, errors) {
   emits('sendData', values, Object.keys(errors).length > 0)
 }
 
-function removeQuote() {
-  axiosInstance.delete(`/quotes/${props.paramId}`).then((res) => {
+function quoteRemove() {
+  removeQuote(props.paramId).then((res) => {
     if (res.status === 200) {
       return router.push({ name: 'movie-list' })
     }
