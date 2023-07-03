@@ -90,7 +90,9 @@ const props = defineProps({
   notifications: {
     type: Array,
     required: false,
-    default: []
+    default() {
+      return []
+    }
   },
   newSum: {
     type: Number,

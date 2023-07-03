@@ -60,7 +60,9 @@ const props = defineProps({
   genres: {
     type: Array,
     required: false,
-    default: []
+    default() {
+      return []
+    }
   },
   italicStyling: {
     type: Boolean,
