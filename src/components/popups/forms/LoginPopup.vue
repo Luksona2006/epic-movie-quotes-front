@@ -28,8 +28,8 @@
         />
         <div class="w-full flex justify-between items-center">
           <div class="flex gap-2 items-center">
-            <input type="checkbox" name="remember" value="rememeber" class="border" />
-            <label for="remember" class="text-base text-white">{{
+            <input type="checkbox" name="remember_me" value="remember_me" class="border" />
+            <label for="remember_me" class="text-base text-white">{{
               $t('landingPage.remember_me')
             }}</label>
           </div>
