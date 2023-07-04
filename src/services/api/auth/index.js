@@ -1,10 +1,19 @@
 import axiosInstance from '@/config/axios'
 import { useUserStore } from '@/store/userStore'
 import router from '@/router'
+import axios from 'axios'
 
 function getCookies() {
-  return axiosInstance
-    .get(`${import.meta.env.VITE_BACK_URL}/sanctum/csrf-cookie`)
+  return axios
+    .get(`${import.meta.env.VITE_BACK_URL}/sanctum/csrf-cookie`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
     .then((res) => res)
 }
 
