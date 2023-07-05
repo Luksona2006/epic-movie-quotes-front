@@ -48,7 +48,7 @@ function forgotPassword(data) {
 
 function signup(data) {
   axiosInstance.post('/signup', data).then((res) => {
-    if (res.status === 201) {
+    if (res.status === 200) {
       return router.push({ name: 'send-confirmation' })
     }
   })
