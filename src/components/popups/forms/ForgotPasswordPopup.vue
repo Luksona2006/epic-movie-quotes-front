@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { resetPassword } from '@/services/api/auth/index.js'
+import { forgotPassword } from '@/services/api/auth/index.js'
 import { Form } from 'vee-validate'
 import { toRaw } from 'vue'
 import { checkIsValid } from '@/config/customFunction/index.js'
@@ -52,7 +52,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 
 function sendData(values, errors) {
   if (values && !errors[0]) {
-    resetPassword(toRaw(values))
+    forgotPassword(toRaw(values))
   }
 }
 </script>
