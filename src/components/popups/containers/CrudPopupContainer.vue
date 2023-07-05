@@ -4,7 +4,7 @@
     <transition name="popup">
       <div
         @submit.prevent
-        class="sm:w-[46.5%] w-full absolute left-1/2 sm:top-28 top-0 transform -translate-x-1/2 pt-8 pb-16 bg-[#11101A] rounded-xl z-50"
+        class="sm:w-[46.5%] max-h-[90vh] h-full w-full absolute left-1/2 sm:top-[70px] top-0 transform -translate-x-1/2 pt-8 pb-16 bg-[#11101A] rounded-xl z-50"
         v-show="show"
       >
         <header class="w-full border-b border-b-[#EFEFEF33] pb-6 px-8">
@@ -26,11 +26,13 @@
               @click="closePopup"
               v-if="!redirectBack"
             />
-            <x-mark-icon class="cursor-pointer" :class="xMarkStyle" @click="redirect" v-else />
+            <router-link :to="{ name: 'movie-list' }" v-else>
+              <x-mark-icon :class="xMarkStyle" />
+            </router-link>
           </div>
         </header>
 
-        <div class="flex flex-col gap-10 px-8 pt-7">
+        <div class="flex flex-col gap-10 px-8 py-7 max-h-full overflow-y-auto">
           <div class="flex items-center gap-4">
             <img
               :src="imageFullPath"
@@ -107,20 +109,26 @@ const props = defineProps({
   }
 })
 
+function fixDisplay(show) {
+  if (show === true) {
+    window.scrollTo({
+      top: 0,
+      left: 0
+    })
+    document.body.style.overflowY = 'hidden'
+  }
+
+  if (show === false) {
+    document.body.style.overflowY = 'auto'
+  }
+}
+
+fixDisplay(props.show)
+
 watch(
   () => props.show,
   (newValue) => {
-    if (newValue === true) {
-      window.scrollTo({
-        top: 0,
-        left: 0
-      })
-      // document.body.style.overflowY = 'hidden'
-    }
-
-    if (newValue === false) {
-      document.body.style.overflowY = 'auto'
-    }
+    fixDisplay(newValue)
   }
 )
 
@@ -128,10 +136,6 @@ function closePopup() {
   emits('closePopup')
 
   document.body.style.overflowY = 'auto'
-}
-
-function redirect() {
-  router.back()
 }
 
 const headerContentStyle = computed(() =>

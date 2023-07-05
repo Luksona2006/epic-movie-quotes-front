@@ -69,7 +69,7 @@
                 name="password"
                 type="password"
                 placeholder="••••••••••••"
-                :edit="true"
+                :edit="user.google_id ? false : true"
                 :disabled="true"
                 @edit-data="editPassword"
               />
@@ -142,7 +142,7 @@
           name="password"
           type="password"
           value="yourPassword"
-          :edit="true"
+          :edit="user.google_id ? false : true"
           @edit-data="showEditPopup('password')"
         />
       </div>

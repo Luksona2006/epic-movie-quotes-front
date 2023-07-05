@@ -25,7 +25,7 @@
     "enter_new_username": "Enter new username",
     "enter_new_password": "Enter new password",
     "repeat_new_password": "Repeat new password",
-    "min_max": "At least {min} & max.{max} lower case characters"
+    "min_max": "At least {min} & max.{max} characters"
   },
   "landingPage": {
     "find_any_quote": "Find any quote in millions of movie lines",

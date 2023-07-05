@@ -126,7 +126,7 @@ const value = ref('')
 
 onMounted(() => {
   window.Echo.channel('likes').listen('LikeQuote', (data) => {
-    if (!data.isOwnQuote) {
+    if (data.userId !== user.id) {
       if (updatedQuote.value.id === data.quoteId) {
         updatedQuote.value.likes = data.likes
 
