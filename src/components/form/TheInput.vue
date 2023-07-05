@@ -12,17 +12,20 @@
             :placeholder="placeholder"
             v-model="inputValue"
             :rules="validationRules"
-            class="w-full px-3 py-2 border-2 border-[#FFFFF] rounded-[4px] outline-none focus:bg-[#CED4DA] boxShadow"
+            class="w-full py-2 border-2 rounded-[4px] outline-none focus:bg-[#CED4DA] boxShadow"
             :class="{
               'border-[#198754]': isValid === true && showValidation,
               'border-[#E31221]': isValid === false && showValidation,
-              'bg-[#E9ECEF] text-[#73777A]': isDisabled
+              'bg-[#E9ECEF] text-[#73777A]': isDisabled,
+              'pl-3 pr-10': canShow || isValid !== '',
+              'pl-3 pr-16': canShow && isValid !== '',
+              'px-3': !canShow
             }"
             :disabled="isDisabled"
           />
 
           <div
-            class="absolute top-1/2 right-2 transform -translate-y-1/2 -translate-x-2 flex gap-2 items-center"
+            class="absolute top-1/2 right-2 transform -translate-y-1/2 -translate-x-2 flex gap-1 items-center"
           >
             <eye-icon @isHidden="changeType" v-if="canShow" />
             <check-mark-icon v-if="isValid === true && showValidation" />
