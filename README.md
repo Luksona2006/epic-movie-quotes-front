@@ -21,26 +21,17 @@ cd Desktop
 ```
 
 ```sh
-git clone https://github.com/RedberryInternship/luka-bakuridze-covid-questionnaire.git
+git clone https://github.com/RedberryInternship/luka-bakuridze-epic-movie-quotes-front.git
 ```
 
 ```sh
-cd luka-bakuridze-covid-questionnaire
+cd luka-bakuridze-epic-movie-quotes-front.git
 ```
 
-## File structure
+```sh
+npm install
+```
 
-### In src folder:
-
-1. assets -> images and icons folder, images folder contains images, icons folder contains icons as components
-2. components -> contains all necessary components that are widely used in whole project
-3. config -> contains vee-validate folder and there you can see messages.js where are actually messages defined
-4. pages -> contains all pages
-5. router -> contains index.js file where is all routes defined
-6. store -> contains userStore.js file for user store, localeStore.js for locale, and fetchStore.js is store which helps with pagination
-7. index.css file which helps to use Tailwind CSS globally in application
-8. main.js file where app is created
-
-### In public folder:
-
-1. fonts -> contains all fonts which are used in whole application
+```sh
+npm run dev
+```
