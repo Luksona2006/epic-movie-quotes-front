@@ -9,7 +9,7 @@
       <email-verified-notificaiton />
     </teleport>
     <div>
-      <div class="bg-gradient-to-b from-[#11101A] to-[#0D0B14]">
+      <div class="sticky top-0 bg-gradient-to-b from-[#11101A] to-[#0D0B14]">
         <the-header @show-sign-up="showPopup" @show-login="showPopup" />
 
         <div class="relative w-full h-[75vh]">
@@ -28,31 +28,32 @@
         </div>
       </div>
 
-      <div>
-        <landing-movie-component
-          :title="$t('landingPage.have_to_leave')"
-          :name="$t('landingPage.interstellar')"
-          :year="2014"
-        >
-          <img src="@/assets/images/MovieImage.png" alt="movie scene" />
-        </landing-movie-component>
+      <landing-movie-component
+        :title="$t('landingPage.have_to_leave')"
+        :name="$t('landingPage.interstellar')"
+        :year="2014"
+        class="sticky top-0"
+      >
+        <img src="@/assets/images/MovieImage.png" alt="movie scene" />
+      </landing-movie-component>
 
-        <landing-movie-component
-          :title="$t('landingPage.i_think')"
-          :name="$t('landingPage.the_royal_tenenbaums')"
-          :year="2014"
-        >
-          <img src="@/assets/images/MovieImage2.png" alt="movie scene" />
-        </landing-movie-component>
+      <landing-movie-component
+        :title="$t('landingPage.i_think')"
+        :name="$t('landingPage.the_royal_tenenbaums')"
+        :year="2014"
+        class="sticky top-0"
+      >
+        <img src="@/assets/images/MovieImage2.png" alt="movie scene" />
+      </landing-movie-component>
 
-        <landing-movie-component
-          :title="$t('landingPage.i_think')"
-          :name="$t('landingPage.the_royal_tenenbaums')"
-          :year="2001"
-        >
-          <img src="@/assets/images/MovieImage3.png" alt="movie scene" />
-        </landing-movie-component>
-      </div>
+      <landing-movie-component
+        :title="$t('landingPage.i_think')"
+        :name="$t('landingPage.the_royal_tenenbaums')"
+        :year="2001"
+        class="sticky top-0"
+      >
+        <img src="@/assets/images/MovieImage3.png" alt="movie scene" />
+      </landing-movie-component>
     </div>
 
     <footer class="w-full bg-gradient-to-t from-[#t181623] to-[#11101A] px-[70px] py-4">
