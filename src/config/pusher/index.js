@@ -15,7 +15,7 @@ export default function pusherInstance() {
         authorize: (socketId, callback) => {
           axios
             .post(
-              'http://localhost:8000/broadcasting/auth',
+              env('VITE_BACK_URL') + '/broadcasting/auth',
               {
                 socket_id: socketId,
                 channel_name: channel.name
