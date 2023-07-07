@@ -34,7 +34,7 @@
         :year="2014"
         class="sticky top-0"
       >
-        <img src="@/assets/images/MovieImage.png" alt="movie scene" />
+        <img src="@/assets/images/MovieImage.png" alt="movie-scene" />
       </landing-movie-component>
 
       <landing-movie-component
@@ -43,7 +43,7 @@
         :year="2014"
         class="sticky top-0"
       >
-        <img src="@/assets/images/MovieImage2.png" alt="movie scene" />
+        <img src="@/assets/images/MovieImage2.png" alt="movie-scene" />
       </landing-movie-component>
 
       <landing-movie-component
@@ -52,7 +52,7 @@
         :year="2001"
         class="sticky top-0"
       >
-        <img src="@/assets/images/MovieImage3.png" alt="movie scene" />
+        <img src="@/assets/images/MovieImage3.png" alt="movie-scene" />
       </landing-movie-component>
     </div>
 
