@@ -7,7 +7,7 @@
     />
   </teleport>
   <header
-    class="w-full sm:px-[70px] sm:py-5 px-9 py-7 flex justify-between items-center"
+    class="max-w-[1920px] m-auto w-full sm:px-[70px] sm:py-5 px-9 py-7 flex justify-between items-center"
     :class="{ 'sm:bg-[#22203033] bg-[#24222F]': loggedIn }"
   >
     <h1 class="text-[#DDCCAA] text-base" v-if="!loggedIn">MOVIE QUOTES</h1>
