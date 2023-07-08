@@ -27,4 +27,13 @@ body {
   min-height: 100vh;
   background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
 }
+
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  word-wrap: anywhere;
+}
 </style>

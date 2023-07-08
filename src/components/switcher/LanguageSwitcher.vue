@@ -4,7 +4,7 @@
     :class="divClass"
   >
     <p
-      class="text-base font-normal transition-all duration-500 z-10"
+      class="w-max text-base font-normal transition-all duration-500 z-10"
       :class="textClass"
       @click="showList"
     >

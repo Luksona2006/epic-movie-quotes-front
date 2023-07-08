@@ -6,44 +6,45 @@
       @hide-sidebar="hideSidebar"
     />
   </teleport>
-  <header
-    class="w-full sm:px-[70px] sm:py-5 px-9 py-7 flex justify-between items-center"
-    :class="{ 'sm:bg-[#22203033] bg-[#24222F]': loggedIn }"
-  >
-    <h1 class="text-[#DDCCAA] text-base" v-if="!loggedIn">MOVIE QUOTES</h1>
-    <h1 class="text-[#DDCCAA] text-base sm:block hidden" v-if="loggedIn">MOVIE QUOTES</h1>
-    <burger-menu-icon v-if="loggedIn" @click="triggerSidebar" class="sm:hidden block" />
-    <div class="flex gap-5 items-center">
-      <search-component v-show="loggedIn" :hide-on-mobile="true" @search-data="searchData" />
-      <div class="relative">
-        <bell-icon v-if="loggedIn" @click="triggerPopup" />
-        <div
-          class="absolute -right-4 -top-2 text-base text-white font-medium px-2 rounded-full bg-[#E33812] cursor-pointer"
-          @click="triggerPopup"
-          v-if="loggedIn && newsSum !== 0"
-        >
-          {{ newsSum }}
+  <header :class="{ 'sm:bg-[#22203033] bg-[#24222F]': loggedIn }">
+    <div
+      class="max-w-[1920px] m-auto w-full sm:px-[70px] sm:py-5 px-9 py-7 flex justify-between items-center"
+    >
+      <h1 class="text-[#DDCCAA] text-base" v-if="!loggedIn">MOVIE QUOTES</h1>
+      <h1 class="text-[#DDCCAA] text-base sm:block hidden" v-if="loggedIn">MOVIE QUOTES</h1>
+      <burger-menu-icon v-if="loggedIn" @click="triggerSidebar" class="sm:hidden block" />
+      <div class="flex gap-5 items-center">
+        <search-component v-show="loggedIn" :hide-on-mobile="true" @search-data="searchData" />
+        <div class="relative">
+          <bell-icon v-if="loggedIn" @click="triggerPopup" />
+          <div
+            class="absolute -right-4 -top-2 text-base text-white font-medium px-2 rounded-full bg-[#E33812] cursor-pointer"
+            @click="triggerPopup"
+            v-if="loggedIn && newsSum !== 0"
+          >
+            {{ newsSum }}
+          </div>
+          <post-notifications-popup
+            :show="showNotificationsPopup"
+            :notifications="notifications"
+            @update-notifications-sum="updateNotificationsSum"
+          />
         </div>
-        <post-notifications-popup
-          :show="showNotificationsPopup"
-          :notifications="notifications"
-          @update-notifications-sum="updateNotificationsSum"
-        />
+        <language-switcher class="sm:flex hidden" />
+        <div class="flex gap-4 items-center" v-if="!loggedIn">
+          <router-link :to="{ name: 'signup' }">
+            <red-button @click="showSignUp">{{ $t('landingPage.signup') }} </red-button>
+          </router-link>
+          <router-link :to="{ name: 'login' }">
+            <white-border-button @click="showLogin">
+              {{ $t('landingPage.login') }}
+            </white-border-button>
+          </router-link>
+        </div>
+        <white-border-button @click="logout" class="sm:block hidden" v-if="loggedIn">
+          {{ $t('landingPage.logout') }}
+        </white-border-button>
       </div>
-      <language-switcher class="sm:flex hidden" />
-      <div class="flex gap-4 items-center" v-if="!loggedIn">
-        <router-link :to="{ name: 'signup' }">
-          <red-button @click="showSignUp">{{ $t('landingPage.signup') }} </red-button>
-        </router-link>
-        <router-link :to="{ name: 'login' }">
-          <white-border-button @click="showLogin">
-            {{ $t('landingPage.login') }}
-          </white-border-button>
-        </router-link>
-      </div>
-      <white-border-button @click="logout" class="sm:block hidden" v-if="loggedIn">
-        {{ $t('landingPage.logout') }}
-      </white-border-button>
     </div>
   </header>
 </template>
