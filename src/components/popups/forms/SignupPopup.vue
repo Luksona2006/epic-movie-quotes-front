@@ -7,7 +7,7 @@
     :next-route-description="$t('landingPage.already_have_account')"
     :next-route-text="$t('landingPage.login')"
   >
-    <Form class="w-full mt-6" v-slot="{ errors, values }">
+    <Form @submit.prevent class="w-full mt-6" v-slot="{ errors, values }">
       <div class="w-full flex flex-col gap-4">
         <the-input
           :title="$t('inputNames.name')"

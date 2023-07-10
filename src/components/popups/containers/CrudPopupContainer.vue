@@ -40,7 +40,7 @@
             />
             <p class="sm:text-2xl text-xl text-white">{{ name }}</p>
           </div>
-          <Form class="flex flex-col gap-6" v-slot="{ values, errors }">
+          <Form @submit.prevent class="flex flex-col gap-6" v-slot="{ values, errors }">
             <slot name="form"></slot>
             <red-button @click="sendData(values, errors)" v-if="isForm">{{
               buttonText
