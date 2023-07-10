@@ -8,7 +8,6 @@
     />
   </teleport>
   <Form
-    @submit.prevent
     class="transition-all duration-500 sm:flex hidden"
     :class="searchStyles"
     v-if="!hideOnMobile && !mobile"
