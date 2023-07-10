@@ -7,7 +7,7 @@
       {{ $t('editUserDetails.upload_new_photo') }}
     </p>
   </div>
-  <Form @submit.prevent class="sm:hidden flex" :class="styles" v-else>
+  <Form class="sm:hidden flex" :class="styles" v-else>
     <img class="w-44 h-44 rounded-full" :src="imagePath" alt="profile" />
     <div class="flex flex-col gap-4">
       <Field

@@ -153,12 +153,7 @@
         />
       </div>
       <!-- EDIT USERNAME -->
-      <Form
-        @submit.prevent
-        v-show="showUsernameEditPopup"
-        v-slot="{ values, errors }"
-        class="w-full max-w-4xl"
-      >
+      <Form v-show="showUsernameEditPopup" v-slot="{ values, errors }" class="w-full max-w-4xl">
         <div class="w-full bg-[#24222F] pt-20 pb-[74px] px-9 rounded-xl">
           <the-input
             :title="$t('inputNames.new_username')"
@@ -181,7 +176,6 @@
       </Form>
       <!-- EDIT PASSWORD -->
       <Form
-        @submit.prevent
         v-show="showPasswordEditPopup"
         v-slot="{ values, errors }"
         class="w-full max-w-4xl flex flex-col gap-8"
@@ -218,12 +212,7 @@
         </div>
       </Form>
       <!-- EDIT EMAIL -->
-      <Form
-        @submit.prevent
-        v-show="showEmailEditPopup"
-        v-slot="{ values, errors }"
-        class="w-full max-w-4xl"
-      >
+      <Form v-show="showEmailEditPopup" v-slot="{ values, errors }" class="w-full max-w-4xl">
         <div class="w-full bg-[#24222F] pt-20 pb-[74px] px-9 rounded-xl">
           <the-input
             :title="$t('inputNames.new_email')"

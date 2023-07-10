@@ -3,7 +3,6 @@
     <background-blur :show="show" @click="closePopup" />
     <transition name="popup">
       <div
-        @submit.prevent
         class="sm:w-[46.5%] max-h-[90vh] h-full w-full absolute left-1/2 sm:top-[70px] top-0 transform -translate-x-1/2 pt-8 pb-16 bg-[#11101A] rounded-xl z-50"
         v-show="show"
       >
@@ -41,7 +40,7 @@
             />
             <p class="sm:text-2xl text-xl text-white">{{ name }}</p>
           </div>
-          <Form @submit.prevent class="flex flex-col gap-6" v-slot="{ values, errors }">
+          <Form class="flex flex-col gap-6" v-slot="{ values, errors }">
             <slot name="form"></slot>
             <red-button @click="sendData(values, errors)" v-if="isForm">{{
               buttonText
