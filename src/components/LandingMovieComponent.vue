@@ -1,13 +1,13 @@
 <template>
   <div class="relative">
     <slot></slot>
-    <div class="absolute sm:top-1/3 top-10 left-[10%] flex sm:gap-5 gap-2 items-top z-10">
+    <div class="absolute sm:top-1/3 top-12 left-[10%] flex sm:gap-5 gap-2 items-top z-10">
       <span class="sm:w-12 w-4 sm:h-1 h-[2px] bg-white sm:mt-5 mt-4"></span>
-      <div class="flex flex-col gap-6">
-        <h3 class="text-white sm:text-5xl text-xl font-bold sm:max-w-3xl max-w-xs">
+      <div class="flex flex-col sm:gap-6 gap-2">
+        <h3 class="text-white sm:text-5xl text-lg font-bold sm:max-w-3xl max-w-xs">
           “{{ title }}”
         </h3>
-        <span class="text-white sm:text-3xl text-base font-bold">{{ name }}, {{ year }}</span>
+        <span class="text-white sm:text-3xl text-sm font-bold">{{ name }}, {{ year }}</span>
       </div>
     </div>
     <div class="w-full h-full absolute left-0 top-0 customGradientDown"></div>

@@ -31,7 +31,7 @@
           />
         </div>
         <language-switcher class="sm:flex hidden" />
-        <div class="flex gap-4 items-center" v-if="!loggedIn">
+        <div class="flex sm:gap-4 gap-1 items-center" v-if="!loggedIn">
           <router-link :to="{ name: 'signup' }">
             <red-button @click="showSignUp">{{ $t('landingPage.signup') }} </red-button>
           </router-link>

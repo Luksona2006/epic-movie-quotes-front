@@ -9,9 +9,8 @@
       <email-verified-notificaiton />
     </teleport>
     <div>
-      <div class="sticky top-0 bg-gradient-to-b from-[#11101A] to-[#0D0B14]">
+      <div class="sm:sticky static top-0 bg-gradient-to-b from-[#11101A] to-[#0D0B14]">
         <the-header @show-sign-up="showPopup" @show-login="showPopup" />
-
         <div class="relative w-full h-[75vh]">
           <div
             class="h-full mx-auto pt-24 flex flex-col gap-6 items-center sm:max-w-[703px] max-w-[280px] w-full"
@@ -32,7 +31,7 @@
         :title="$t('landingPage.have_to_leave')"
         :name="$t('landingPage.interstellar')"
         :year="2014"
-        class="sticky top-0"
+        class="sm:sticky static top-0"
       >
         <img src="@/assets/images/MovieImage.png" alt="movie-scene" />
       </landing-movie-component>
@@ -41,7 +40,7 @@
         :title="$t('landingPage.i_think')"
         :name="$t('landingPage.the_royal_tenenbaums')"
         :year="2014"
-        class="sticky top-0"
+        class="sm:sticky static top-0"
       >
         <img src="@/assets/images/MovieImage2.png" alt="movie-scene" />
       </landing-movie-component>
@@ -50,7 +49,7 @@
         :title="$t('landingPage.i_think')"
         :name="$t('landingPage.the_royal_tenenbaums')"
         :year="2001"
-        class="sticky top-0"
+        class="sm:sticky static top-0"
       >
         <img src="@/assets/images/MovieImage3.png" alt="movie-scene" />
       </landing-movie-component>
