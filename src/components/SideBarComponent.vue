@@ -24,7 +24,7 @@
               <span class="text-base text-[#CED4DA]">{{ $t('basic.edit_your_profile') }}</span>
             </div>
           </router-link>
-          <language-switcher-flags class="min-[460px]:flex hidden" />
+          <language-switcher-flags class="sm:hidden min-[460px]:flex hidden" />
         </div>
         <router-link
           :to="{ name: 'news-feed' }"
