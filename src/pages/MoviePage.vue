@@ -3,13 +3,13 @@
   <the-container class="grid sm:grid-cols-5 mt-8 pb-32 items-start px-0">
     <side-bar-component class="sm:grid hidden" />
     <div
-      class="grid sm:col-span-4 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5 items-start sm:px-0 px-8"
+      class="grid sm:col-span-4 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5 items-start"
       v-if="movie !== null"
     >
       <p class="sm:block hidden text-2xl font-medium text-white mb-8 col-span-7">
         {{ $t('basic.movie_description') }}
       </p>
-      <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1">
+      <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1 sm:px-0 px-8">
         <div class="grid sm:col-span-7 col-span-1 sm:grid-cols-7 grid-cols-1 gap-5">
           <div class="sm:col-span-4 col-span-1">
             <img
@@ -49,14 +49,24 @@
             </div>
           </div>
         </div>
+        <div class="w-full sm:hidden block h-[2px] bg-[#6C757D] rounded-full mt-8"></div>
       </div>
       <div class="grid sm:col-span-4 col-span-1">
-        <div class="w-full flex gap-4 items-center mt-11 mb-16">
-          <p class="text-white sm:text-2xl text-xl">
+        <div
+          class="w-full flex sm:flex-row flex-col gap-4 sm:items-center items-start sm:mt-11 mt-8 sm:mb-16 mb-6 sm:px-0 px-8"
+        >
+          <p class="sm:block hidden text-white text-2xl">
             {{ $t('basic.quotes') }} ({{ $t('basic.total') }} {{ movie.quotes.length }})
           </p>
-          <div class="h-6 border border-[#6C757D] rounded-full"></div>
-          <router-link :to="{ name: 'add-quote', params: { id: movie.id } }">
+          <p class="sm:hidden block text-white text-xl">
+            {{ $t('basic.all_quotes') }} <br />
+            <span class="text-base">({{ $t('basic.total') }} {{ movie.quotes.length }})</span>
+          </p>
+          <div class="sm:block hidden h-6 border border-[#6C757D] rounded-full"></div>
+          <router-link
+            :to="{ name: 'add-quote', params: { id: movie.id } }"
+            class="sm:block hidden"
+          >
             <red-button class="max-w-fit flex items-center gap-2">
               <union-icon />{{ $t('basic.add_quote') }}
             </red-button>

@@ -108,7 +108,8 @@
     "upload_image": "სურათის ატვირთვა",
     "drop_your_image": "ჩასვით თქვენი სურათი",
     "drag_and_drop_your_image": "გადმოიტანეთ & ჩასვით თქვენი სურათი ან",
-    "choose_file": "აირჩიეთ ფაილი"
+    "choose_file": "აირჩიეთ ფაილი",
+    "all_quotes": "ყველა ციტატა"
   },
   "post": {
     "write_new_quote": "დაწერე ახალი ციტატა",
