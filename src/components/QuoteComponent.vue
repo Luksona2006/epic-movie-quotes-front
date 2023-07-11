@@ -2,7 +2,7 @@
   <li class="w-full flex flex-col gap-6 px-8 py-6 rounded-[10px] bg-[#11101A]">
     <div class="w-full relative flex sm:flex-row sm:items-center flex-col items-start gap-9">
       <img
-        class="w-[226px] h-[140px] rounded-sm"
+        class="sm:w-[226px] h-[140px] w-full rounded-md"
         :src="prefix + quoteUpdated.image"
         alt="movie scene"
       />
