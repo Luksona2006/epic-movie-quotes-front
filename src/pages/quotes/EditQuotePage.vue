@@ -19,6 +19,7 @@
           :italic-styling="true"
           :parentheses="true"
           :value="quoteEn"
+          validation-rules="required|min:8"
           placeholderColor="#CED4DA"
         />
         <the-textarea
@@ -28,6 +29,7 @@
           :italic-styling="true"
           :parentheses="true"
           :value="quoteKa"
+          validation-rules="required|min:8"
           placeholderColor="#CED4DA"
         />
         <change-photo-component
