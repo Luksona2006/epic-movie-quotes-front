@@ -23,7 +23,7 @@
           class="text-2xl font-bold text-white opacity-80 text-center mt-10"
           v-else-if="
             (!searchingValue.startsWith('@') || searchingValue.startsWith('#')) &&
-            searchingValueChanged
+            !searchingValueChanged
           "
         >
           {{ $t('post.no_quotes') }}

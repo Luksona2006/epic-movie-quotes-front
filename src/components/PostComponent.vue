@@ -136,7 +136,7 @@ onMounted(() => {
   })
 
   window.Echo.channel('comments').listen('CommentQuote', (data) => {
-    if (!data.isOwnQuote) {
+    if (data.userId !== user.id) {
       if (updatedQuote.value.id === data.quoteId) {
         updatedQuote.value.comments.push(data.comment)
         updatedQuote.value.commentsTotal++

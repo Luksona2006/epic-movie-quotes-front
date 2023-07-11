@@ -16,7 +16,11 @@
     <side-bar-component class="sm:grid hidden" />
     <div class="grid sm:col-span-2">
       <!-- MAIN FORM (DESKTOP) -->
-      <Form class="relative w-full sm:flex hidden flex-col mt-16" v-slot="{ values, errors }">
+      <Form
+        @submit.prevent
+        class="relative w-full sm:flex hidden flex-col mt-16"
+        v-slot="{ values, errors }"
+      >
         <div
           class="w-full max-w-4xl sm:bg-[#11101A] bg-[#24222F] rounded-xl sm:pt-48 pt-6 pb-32 pl-12 pr-20"
         >
@@ -153,7 +157,12 @@
         />
       </div>
       <!-- EDIT USERNAME -->
-      <Form v-show="showUsernameEditPopup" v-slot="{ values, errors }" class="w-full max-w-4xl">
+      <Form
+        @submit.prevent
+        v-show="showUsernameEditPopup"
+        v-slot="{ values, errors }"
+        class="w-full max-w-4xl"
+      >
         <div class="w-full bg-[#24222F] pt-20 pb-[74px] px-9 rounded-xl">
           <the-input
             :title="$t('inputNames.new_username')"
@@ -176,6 +185,7 @@
       </Form>
       <!-- EDIT PASSWORD -->
       <Form
+        @submit.prevent
         v-show="showPasswordEditPopup"
         v-slot="{ values, errors }"
         class="w-full max-w-4xl flex flex-col gap-8"
@@ -212,7 +222,12 @@
         </div>
       </Form>
       <!-- EDIT EMAIL -->
-      <Form v-show="showEmailEditPopup" v-slot="{ values, errors }" class="w-full max-w-4xl">
+      <Form
+        @submit.prevent
+        v-show="showEmailEditPopup"
+        v-slot="{ values, errors }"
+        class="w-full max-w-4xl"
+      >
         <div class="w-full bg-[#24222F] pt-20 pb-[74px] px-9 rounded-xl">
           <the-input
             :title="$t('inputNames.new_email')"

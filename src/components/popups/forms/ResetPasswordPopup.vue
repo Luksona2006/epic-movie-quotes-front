@@ -8,7 +8,7 @@
     :next-route-text="$t('landingPage.back_to_log_in')"
     @submit-form="sendData"
   >
-    <Form class="w-full mt-6" v-slot="{ errors, values }">
+    <Form @submit.prevent class="w-full mt-6" v-slot="{ errors, values }">
       <div class="w-full flex flex-col gap-4">
         <the-input
           :title="$t('inputNames.password')"
