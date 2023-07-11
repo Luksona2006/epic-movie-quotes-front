@@ -11,10 +11,9 @@
       <div class="w-full flex flex-col gap-4">
         <the-input
           :title="$t('inputNames.email')"
-          name="email"
-          type="email"
+          name="login"
           :placeholder="$t('placeholders.enter_your_email')"
-          validation-rules="required|email"
+          validation-rules="required"
           :is-valid="checkIsValid(values, errors, 'email')"
         />
         <the-input
