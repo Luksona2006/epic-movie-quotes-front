@@ -109,7 +109,8 @@
     "upload_image": "Upload image",
     "drop_your_image": "Drop your image here",
     "drag_and_drop_your_image": "Drag & drop your image here or",
-    "choose_file": "Choose File"
+    "choose_file": "Choose File",
+    "all_quotes": "All Quotes"
   },
   "post": {
     "write_new_quote": "Write new quote",

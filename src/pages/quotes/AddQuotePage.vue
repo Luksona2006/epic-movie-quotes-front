@@ -10,9 +10,9 @@
       v-if="movie"
     >
       <template #form>
-        <div class="w-full flex gap-7 items-center">
+        <div class="w-full flex gap-7 sm:flex-row sm:items-center flex-col items-start">
           <img
-            class="w-[290px] h-[158px] rounded-xl"
+            class="sm:w-[290px] sm:h-[158px] w-full rounded-xl"
             :src="prefix + movie.image"
             alt="movie scene"
           />

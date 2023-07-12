@@ -24,7 +24,7 @@
               <span class="text-base text-[#CED4DA]">{{ $t('basic.edit_your_profile') }}</span>
             </div>
           </router-link>
-          <language-switcher-flags class="sm:hidden flex" />
+          <language-switcher-flags class="sm:hidden min-[460px]:flex hidden" />
         </div>
         <router-link
           :to="{ name: 'news-feed' }"
@@ -60,6 +60,7 @@
             <p class="text-2xl text-white">{{ $t('basic.list_of_movies') }}</p>
           </div>
         </router-link>
+        <language-switcher-flags class="max-[460px]:flex hidden mb-3" />
         <white-border-button @click="logout" class="mt-10 sm:hidden block">
           {{ $t('landingPage.logout') }}
         </white-border-button>
@@ -107,6 +108,24 @@ watch(
   () => useUserStore().name,
   (newValue) => {
     name.value = newValue
+  }
+)
+
+watch(
+  () => props.show,
+  (newValue) => {
+    if (newValue !== false) {
+      window.scrollTo({
+        top: 0,
+        left: 0
+      })
+
+      document.body.style.overflowY = 'hidden'
+    }
+
+    if (newValue === false) {
+      document.body.style.overflowY = 'auto'
+    }
   }
 )
 
