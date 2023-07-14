@@ -4,11 +4,11 @@
       class="w-full min-h-full grid col-span-1 absolute left-0 top-0 bg-[#11101A] sm:static sm:w-auto sm:bg-transparent"
       v-show="show"
     >
-      <ul class="min-h-full flex flex-col gap-10 items-start sm:p-0 p-11">
+      <ul class="min-h-full flex flex-col sm:gap-10 gap-8 items-start sm:p-0 p-11">
         <div class="w-full flex justify-between items-center">
           <router-link
             :to="{ name: 'profile' }"
-            class="flex gap-6 items-center cursor-pointer"
+            class="flex sm:gap-6 gap-3 items-center cursor-pointer"
             @click="hideSidebar('profile')"
           >
             <div>
@@ -20,31 +20,36 @@
               />
             </div>
             <div class="flex flex-col">
-              <p class="text-2xl text-white">{{ name }}</p>
-              <span class="text-base text-[#CED4DA]">{{ $t('basic.edit_your_profile') }}</span>
+              <p class="sm:text-2xl text-lg text-white">{{ name }}</p>
+              <span class="sm:text-base text-sm text-[#CED4DA]">{{
+                $t('basic.edit_your_profile')
+              }}</span>
             </div>
           </router-link>
-          <language-switcher-flags class="sm:hidden min-[460px]:flex hidden" />
         </div>
         <router-link
           :to="{ name: 'news-feed' }"
-          class="flex gap-6 items-center cursor-pointer"
+          class="flex sm:gap-6 gap-3 items-center cursor-pointer"
           @click="hideSidebar('news-feed')"
         >
-          <div class="w-[60px]">
-            <house-icon :color="routeName === 'news-feed' ? '#E31221' : 'white'" />
+          <div class="sm:w-[60px] w-10">
+            <house-icon
+              class="sm:auto w-7"
+              :color="routeName === 'news-feed' ? '#E31221' : 'white'"
+            />
           </div>
           <div class="flex flex-col">
-            <p class="text-2xl text-white">{{ $t('basic.news_feed') }}</p>
+            <p class="sm:text-2xl text-lg text-white">{{ $t('basic.news_feed') }}</p>
           </div>
         </router-link>
         <router-link
           :to="{ name: 'movie-list' }"
-          class="flex gap-6 items-center cursor-pointer"
+          class="flex sm:gap-6 gap-3 items-center cursor-pointer"
           @click="hideSidebar('movie-list')"
         >
-          <div class="w-[60px]">
+          <div class="sm:w-[60px] w-10">
             <movie-camera-icon
+              class="sm:auto w-7"
               :color="
                 routeName === 'movie-list' ||
                 routeName === 'movie' ||
@@ -57,10 +62,10 @@
             />
           </div>
           <div class="flex flex-col">
-            <p class="text-2xl text-white">{{ $t('basic.list_of_movies') }}</p>
+            <p class="sm:text-2xl text-lg text-white">{{ $t('basic.list_of_movies') }}</p>
           </div>
         </router-link>
-        <language-switcher-flags class="max-[460px]:flex hidden mb-3" />
+        <language-switcher-flags class="sm:hidden flex" />
         <white-border-button @click="logout" class="mt-10 sm:hidden block">
           {{ $t('landingPage.logout') }}
         </white-border-button>

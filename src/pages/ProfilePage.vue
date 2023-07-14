@@ -275,6 +275,8 @@ import ArrowLeftIcon from '@/assets/icons/arrows/ArrowLeftIcon.vue'
 import ChangesResultPopup from '@/components/popups/ChangesResultPopup.vue'
 import ChangePasswordHints from '@/components/ChangePasswordHints.vue'
 
+document.body.style.overflowY = 'auto'
+
 const user = useUserStore()
 const username = ref(user.name)
 const email = ref(user.email)

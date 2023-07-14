@@ -8,7 +8,7 @@
           {{ $t('basic.my_list_of_movies') }} ({{ $t('basic.total') }} {{ totalMovies }})
         </p>
         <div class="sm:hidden flex flex-col gap-2 items-start">
-          <p class="text-2xl font-medium text-white">{{ $t('basic.my_list_of_movies') }}</p>
+          <p class="text-2xl font-medium text-white">{{ $t('basic.my_movies_list') }}</p>
           <p class="text-base font-medium text-white">
             ({{ $t('basic.total') }} {{ movies.length }})
           </p>
@@ -26,13 +26,13 @@
           <movie-component v-for="movie in movies" :movie="movie" :key="movie.id" />
         </div>
         <p
-          class="grid col-span-3 text-center text-3xl text-white font-bold py-16"
+          class="grid col-span-3 text-center sm:text-3xl text-2xl text-white font-bold py-16"
           v-else-if="searchingValue === '' && !showLoading"
         >
           {{ $t('post.no_movies_yet') }}
         </p>
         <p
-          class="grid col-span-3 text-center text-3xl text-white font-bold py-16"
+          class="grid col-span-3 text-center sm:text-3xl text-2xl text-white font-bold py-16"
           v-else-if="!showLoading"
         >
           {{ $t('post.no_movies') }}
