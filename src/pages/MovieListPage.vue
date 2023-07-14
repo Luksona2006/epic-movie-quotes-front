@@ -8,7 +8,7 @@
           {{ $t('basic.my_list_of_movies') }} ({{ $t('basic.total') }} {{ totalMovies }})
         </p>
         <div class="sm:hidden flex flex-col gap-2 items-start">
-          <p class="text-2xl font-medium text-white">{{ $t('basic.my_list_of_movies') }}</p>
+          <p class="text-2xl font-medium text-white">{{ $t('basic.my_movies_list') }}</p>
           <p class="text-base font-medium text-white">
             ({{ $t('basic.total') }} {{ movies.length }})
           </p>
