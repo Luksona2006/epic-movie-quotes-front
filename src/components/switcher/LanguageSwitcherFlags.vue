@@ -1,70 +1,72 @@
 <template>
-  <div
-    class="relative flex items-center gap-4 pl-3 pr-4 py-1 cursor-pointer rounded-md transition-all duration-500 z-10 bg-white"
-  >
-    <arrow-down-icon
-      color="black"
-      class="transition-all duration-500"
-      :class="show ? 'rotate-180' : 'rotate-0'"
-      @click="showList"
-    />
-    <div class="transition-all duration-500 z-10" @click="showList">
-      <united-kingdom-icon v-if="selected === 'en'" />
-      <georgia-icon v-if="selected === 'ka'" />
-    </div>
-
-    <ul
-      class="w-full absolute right-0 pl-5 pr-4 rounded-b-md rounded-br-md transition-all duration-500 pointer bg-white"
-      :class="divClass + ' ' + dropDownClass"
+  <ul class="w-full flex justify-between bg-white p-1 rounded-md border border-white">
+    <li
+      class="w-1/2 flex justify-center cursor-pointer rounded-s-md transition-all duration-300 border"
+      :class="selectedEnStyle"
+      @click="changeLanguage('en')"
     >
-      <li class="flex justify-end cursor-pointer" @click="changeLanguage('en')">
-        <div><united-kingdom-icon /></div>
-      </li>
-      <li class="flex justify-end cursor-pointer" @click="changeLanguage('ka')">
-        <div><georgia-icon /></div>
-      </li>
-    </ul>
-  </div>
+      <div><united-kingdom-icon /></div>
+    </li>
+    <li
+      class="w-1/2 flex justify-center cursor-pointer rounded-e-md transition-all duration-300"
+      :class="selectedKaStyle"
+      @click="changeLanguage('ka')"
+    >
+      <div><georgia-icon /></div>
+    </li>
+  </ul>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { setLocale } from '@/services/api/locale/index.js'
 import i18n from '@/config/i18n'
 import { useLocaleStore } from '@/store/localeStore'
 
 import GeorgiaIcon from '@/assets/icons/flags/GeorgiaIcon.vue'
 import UnitedKingdomIcon from '@/assets/icons/flags/UnitedKingdomIcon.vue'
-import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue'
 
 const localeStore = ref(useLocaleStore())
 const locale = ref(localeStore.value.locale)
 
-const show = ref(false)
 const selected = ref(locale.value)
 
-const dropDownClass = computed(() => (show.value ? 'top-[90%] opacity-100' : 'top-0 opacity-0'))
-
-function showList() {
-  show.value = !show.value
-}
+const selectedEnStyle = computed(() =>
+  selected.value === 'en' ? ' bg-[#68686859] b-[#68686859]' : 'bg-white b-white'
+)
+const selectedKaStyle = computed(() =>
+  selected.value === 'ka' ? 'bg-[#68686859] b-[#68686859]' : 'bg-white b-white'
+)
 
 function changeLanguage(newLocale) {
-  if (show.value === true) {
-    setLocale(newLocale).then((res) => {
-      const recievedLocale = res.data.locale
+  setLocale(newLocale).then((res) => {
+    const recievedLocale = res.data.locale
 
-      localStorage.setItem('savedLocale', recievedLocale)
+    localStorage.setItem('savedLocale', recievedLocale)
 
-      locale.value = recievedLocale
-      selected.value = recievedLocale
+    locale.value = recievedLocale
+    selected.value = recievedLocale
 
-      showList()
+    localeStore.value.changeLocale(recievedLocale)
 
-      localeStore.value.changeLocale(recievedLocale)
-
-      i18n.global.locale.value = recievedLocale
-    })
-  }
+    i18n.global.locale.value = recievedLocale
+  })
 }
 </script>
+
+<style scoped>
+.selected-en {
+  background-color: rgb(240, 240, 240);
+  transition: all 0.4s;
+}
+
+.selected-ka {
+  background-color: rgb(240, 240, 240);
+  transition: all 0.4s;
+}
+
+.default {
+  background-color: rgba(104, 104, 104, 0.452);
+  transition: all 0.4s;
+}
+</style>
