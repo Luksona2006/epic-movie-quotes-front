@@ -26,13 +26,13 @@
           <movie-component v-for="movie in movies" :movie="movie" :key="movie.id" />
         </div>
         <p
-          class="grid col-span-3 text-center text-3xl text-white font-bold py-16"
+          class="grid col-span-3 text-center sm:text-3xl text-2xl text-white font-bold py-16"
           v-else-if="searchingValue === '' && !showLoading"
         >
           {{ $t('post.no_movies_yet') }}
         </p>
         <p
-          class="grid col-span-3 text-center text-3xl text-white font-bold py-16"
+          class="grid col-span-3 text-center sm:text-3xl text-2xl text-white font-bold py-16"
           v-else-if="!showLoading"
         >
           {{ $t('post.no_movies') }}

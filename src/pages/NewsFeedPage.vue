@@ -20,7 +20,7 @@
           <post-component v-for="quote in quotes" :quote="quote" :key="quote.id" />
         </div>
         <p
-          class="text-2xl font-bold text-white opacity-80 text-center mt-10"
+          class="sm:text-2xl text-xl font-bold text-white opacity-80 text-center mt-10"
           v-else-if="
             (!searchingValue.startsWith('@') || searchingValue.startsWith('#')) &&
             !searchingValueChanged
@@ -38,7 +38,7 @@
           />
         </div>
         <p
-          class="w-full text-2xl font-bold text-white opacity-80 text-center mt-10"
+          class="w-full sm:text-2xl text-xl font-bold text-white opacity-80 text-center mt-10"
           v-else-if="searchingValue.startsWith('@') && !searchingValueChanged"
         >
           {{ $t('post.no_movies') }}
