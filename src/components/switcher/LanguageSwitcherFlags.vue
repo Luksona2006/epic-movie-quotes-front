@@ -5,14 +5,14 @@
       :class="selectedEnStyle"
       @click="changeLanguage('en')"
     >
-      <div><united-kingdom-icon /></div>
+      <united-kingdom-icon class="h-8" />
     </li>
     <li
       class="w-1/2 flex justify-center cursor-pointer rounded-e-md transition-all duration-300"
       :class="selectedKaStyle"
       @click="changeLanguage('ka')"
     >
-      <div><georgia-icon /></div>
+      <georgia-icon class="h-8" />
     </li>
   </ul>
 </template>
