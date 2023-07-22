@@ -34,7 +34,7 @@
         >
           <div class="sm:w-[60px] w-10">
             <house-icon
-              class="sm:auto w-7"
+              class="sm:w-auto w-7"
               :color="routeName === 'news-feed' ? '#E31221' : 'white'"
             />
           </div>
@@ -49,7 +49,7 @@
         >
           <div class="sm:w-[60px] w-10">
             <movie-camera-icon
-              class="sm:auto w-7"
+              class="sm:w-auto w-7"
               :color="
                 routeName === 'movie-list' ||
                 routeName === 'movie' ||

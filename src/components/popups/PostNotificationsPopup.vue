@@ -19,7 +19,12 @@
           v-if="updatedNotifications.length > 0"
         >
           <router-link
-            :to="{ name: 'view-quote', params: { id: notification.quote_id } }"
+            :to="{
+              name: notification.quote_id !== null ? 'view-quote' : 'user',
+              params: {
+                id: notification.quote_id !== null ? notification.quote_id : notification.user.id
+              }
+            }"
             class="w-full flex sm:justify-between py-4 px-4 sm:py-5 sm:px-6 sm:items-center border border-[#6C757D80] rounded"
             v-for="notification in updatedNotifications"
             :key="notification.id"
@@ -41,13 +46,34 @@
                 <p class="text-xl text-white">{{ notification.user.name }}</p>
                 <div class="flex gap-3 items-center">
                   <comment-parentheses-icon v-if="notification.type === 'comment'" />
-                  <heart-fill-icon v-else />
-                  <p class="sm:text-xl text-base text-[#D9D9D9]">
-                    {{
-                      notification.type === 'comment'
-                        ? $t('notifications.commented')
-                        : $t('notifications.reacted')
-                    }}
+                  <heart-fill-icon v-else-if="notification.type === 'like'" />
+                  <clock-icon v-else-if="notification.type === 'request'" />
+                  <request-accepted-icon v-else-if="notification.type === 'accept'" />
+                  <p
+                    class="sm:text-xl text-base text-[#D9D9D9]"
+                    v-if="notification.type === 'comment'"
+                  >
+                    {{ $t('notifications.commented') }}
+                  </p>
+                  <p
+                    class="sm:text-xl text-base text-[#D9D9D9]"
+                    v-else-if="notification.type === 'like'"
+                  >
+                    {{ $t('notifications.reacted') }}
+                  </p>
+
+                  <p
+                    class="sm:text-xl text-base text-[#D9D9D9]"
+                    v-else-if="notification.type === 'request'"
+                  >
+                    Wants to be your friend
+                  </p>
+
+                  <p
+                    class="sm:text-xl text-base text-[#D9D9D9]"
+                    v-else-if="notification.type === 'accept'"
+                  >
+                    Accepted your friend request
                   </p>
                 </div>
                 <p class="sm:hidden block text-base text-[#D9D9D9]">{{ notification.time }}</p>
@@ -55,7 +81,10 @@
             </div>
             <div class="sm:flex hidden flex-col items-end gap-1">
               <p class="text-xl text-[#D9D9D9]">{{ notification.time }}</p>
-              <p class="text-xl text-[#198754]" v-if="!notification.seen">
+              <p
+                class="text-xl text-[#198754]"
+                v-if="!notification.seen && notification.type !== 'request'"
+              >
                 {{ $t('notifications.new') }}
               </p>
             </div>
@@ -80,6 +109,8 @@ import { updateAllNotifications, updateNotification } from '@/services/api/notif
 import PopupPointerIcon from '@/assets/icons/PopupPointerIcon.vue'
 import CommentParenthesesIcon from '@/assets/icons/CommentParenthesesIcon.vue'
 import HeartFillIcon from '@/assets/icons/HeartFillIcon.vue'
+import ClockIcon from '@/assets/icons/ClockIcon.vue'
+import RequestAcceptedIcon from '@/assets/icons/friend/RequestAcceptedIcon.vue'
 
 const props = defineProps({
   show: {

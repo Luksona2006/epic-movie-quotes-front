@@ -8,6 +8,10 @@ function getQuote(id) {
   return axiosInstance.get(`/quotes/${id}`).then((res) => res)
 }
 
+function getUserRelatedQuotes(id, page) {
+  return axiosInstance.post(`users/${id}/quotes`, { pageNum: page }).then((res) => res)
+}
+
 function createQuote(data) {
   return axiosInstance.post('/quotes', data).then((res) => res)
 }
@@ -40,5 +44,6 @@ export {
   removeQuote,
   likeQuote,
   commentQuote,
-  searchQuotesOrMovies
+  searchQuotesOrMovies,
+  getUserRelatedQuotes
 }

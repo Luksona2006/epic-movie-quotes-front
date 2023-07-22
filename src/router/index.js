@@ -6,6 +6,7 @@ import ProfilePage from '@/pages/ProfilePage.vue'
 import MovieListPage from '@/pages/MovieListPage.vue'
 import MoviePage from '@/pages/MoviePage.vue'
 import NotFoundPage from '@/pages/NotFoundPage.vue'
+import UserPage from '@/pages/UserPage.vue'
 import NotAccesablePage from '@/pages/NotAccesablePage.vue'
 import ViewQuotePage from '@/pages/quotes/ViewQuotePage.vue'
 import EditQuotePage from '@/pages/quotes/EditQuotePage.vue'
@@ -148,6 +149,14 @@ const router = createRouter({
       component: LandingPage,
       meta: {
         requiresAuth: false
+      }
+    },
+    {
+      path: '/user/:id',
+      name: 'user',
+      component: UserPage,
+      meta: {
+        requiresAuth: true
       }
     },
     {

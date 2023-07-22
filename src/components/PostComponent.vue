@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex flex-col items-start rounded-xl bg-[#11101A]" :class="padding">
-    <div class="w-full flex gap-4 items-center mb-4" v-if="asPost">
+    <div class="w-full flex gap-4 items-center mb-4" v-if="asPost && routeName !== 'news-feed'">
       <img
         :src="imagePrefix + updatedQuote.user.image"
         alt="profile"
@@ -8,6 +8,18 @@
       />
       <p class="sm:text-xl text-base text-white">{{ updatedQuote.user.name }}</p>
     </div>
+    <router-link
+      :to="{ name: 'user', params: { id: updatedQuote.user.id } }"
+      class="w-full flex gap-4 items-center mb-4"
+      v-else-if="asPost"
+    >
+      <img
+        :src="imagePrefix + updatedQuote.user.image"
+        alt="profile"
+        class="sm:w-[52px] sm:h-[52px] w-[40px] h-[40px] rounded-full"
+      />
+      <p class="sm:text-xl text-base text-white">{{ updatedQuote.user.name }}</p>
+    </router-link>
     <div class="w-full flex flex-col gap-7 items-start mb-6">
       <p class="sm:text-xl text-base text-white" v-if="asPost">
         “{{ updatedQuote.text[locale] }}”.
@@ -97,6 +109,7 @@ import { likeQuote, commentQuote } from '@/services/api/quote/index.js'
 
 import HeartIcon from '@/assets/icons/HeartIcon.vue'
 import CommentIcon from '@/assets/icons/CommentIcon.vue'
+import { useRoute } from 'vue-router'
 
 const props = defineProps({
   quote: {
@@ -111,6 +124,7 @@ const props = defineProps({
 })
 
 const updatedQuote = ref(props.quote)
+const routeName = useRoute().name
 
 const twoComments = computed(() =>
   updatedQuote.value.comments.length > 2
