@@ -113,6 +113,17 @@
     "choose_file": "Choose File",
     "all_quotes": "All Quotes"
   },
+  "userPage": {
+    "friends": "Friends",
+    "message": "Message",
+    "decline_request": "Decline request",
+    "add_to_friends": "Add to friends",
+    "accept": "Accept",
+    "decline": "Decline",
+    "wants_be_your_friend": "wants be your friend",
+    "accepted_your_friend_request": "Accepted your friend request",
+    "edit_profile": "Edit profile"
+  },
   "post": {
     "write_new_quote": "Write new quote",
     "write_a_comment": "Write a comment",

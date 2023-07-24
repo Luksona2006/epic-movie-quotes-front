@@ -66,14 +66,14 @@
                     class="sm:text-xl text-base text-[#D9D9D9]"
                     v-else-if="notification.type === 'request'"
                   >
-                    Wants to be your friend
+                    {{ $t('userPage.wants_be_your_friend') }}
                   </p>
 
                   <p
                     class="sm:text-xl text-base text-[#D9D9D9]"
                     v-else-if="notification.type === 'accept'"
                   >
-                    Accepted your friend request
+                    {{ $t('userPage.accepted_your_friend_request') }}
                   </p>
                 </div>
                 <p class="sm:hidden block text-base text-[#D9D9D9]">{{ notification.time }}</p>

@@ -24,7 +24,9 @@
       >
         <div class="flex flex-col gap-0.5 items-start">
           <p class="text-white sm:text-3xl text-2xl">{{ relatedUser.name }}</p>
-          <p class="text-white opacity-80 sm:text-xl text-lg">Friends: {{ relatedUser.friends }}</p>
+          <p class="text-white opacity-80 sm:text-xl text-lg">
+            {{ $t('userPage.friends') }}: {{ relatedUser.friends }}
+          </p>
         </div>
         <white-with-hover-button
           @mouseover="changeFriendHoverColor"
@@ -38,15 +40,15 @@
             v-if="wantsBeFriend === null"
           />
           <request-sent-icon class="sm:w-auto w-5" :color="friendIconColor" v-else />
-          <p v-if="wantsBeFriend === null">Add to friends</p>
-          <p v-else>Decline request</p></white-with-hover-button
+          <p v-if="wantsBeFriend === null">{{ $t('userPage.add_to_friends') }}</p>
+          <p v-else>{{ $t('userPage.decline_request') }}</p></white-with-hover-button
         >
         <div
           class="h-full flex flex-col items-center gap-2 justify-between"
           v-else-if="wantsBeFriend === true && !isFriend && user.id !== relatedUser.id"
         >
           <p class="text-white opacity-75 text-base font-medium">
-            {{ relatedUser.name }} wants be your friend
+            {{ relatedUser.name }} {{ $t('userPage.wants_be_your_friend') }}
           </p>
           <div class="w-full flex items-center sm:gap-1.5 gap-1">
             <green-button @click="acceptFriendRequest">Accept</green-button>
@@ -59,21 +61,21 @@
         >
           <white-button class="flex items-center sm:gap-2 gap-1">
             <friend-icon class="sm:w-auto w-5" />
-            Friends
+            {{ $t('userPage.friends') }}
           </white-button>
           <white-border-button
             class="w-fit sm:py-2.5 py-1.5 sm:px-[22px] px-3.5 flex items-center sm:gap-2 gap-1 font-medium"
             @mouseover="changeMessageMainColor"
             @mouseout="changeMessageHoverColor"
             ><message-icon class="sm:w-auto w-4" :color="messageIconColor" />
-            Message</white-border-button
+            {{ $t('userPage.message') }}</white-border-button
           >
         </div>
 
         <router-link :to="{ name: 'profile' }" v-else
           ><white-button class="flex items-center sm:gap-2 gap-1">
             <go-to-profile-icon class="sm:w-auto w-5" />
-            Edit profile
+            {{ $t('userPage.edit_profile') }}
           </white-button></router-link
         >
       </div>

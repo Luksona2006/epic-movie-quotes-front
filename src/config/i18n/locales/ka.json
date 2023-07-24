@@ -112,6 +112,17 @@
     "choose_file": "აირჩიეთ ფაილი",
     "all_quotes": "ყველა ციტატა"
   },
+  "userPage": {
+    "friends": "მეგობრები",
+    "message": "მიწერა",
+    "decline_request": "მოთხოვნის უარყოფა",
+    "add_to_friends": "მეგობრებში დამატება",
+    "accept": "მიღება",
+    "decline": "უარყოფა",
+    "wants_be_your_friend": "უნდა იყოს თქვენი მეგობარი",
+    "accepted_your_friend_request": "მიიღო თქვენი მეგობრობის მოთხოვნა",
+    "edit_profile": "პროფილის შეცვლა"
+  },
   "post": {
     "write_new_quote": "დაწერე ახალი ციტატა",
     "write_a_comment": "დაწერე კომენტარი",
