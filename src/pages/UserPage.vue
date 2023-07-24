@@ -18,7 +18,8 @@
         />
       </div>
       <div
-        class="w-full flex justify-between items-center sm:pl-52 pl-9 sm:pr-6 pr-9 sm:py-10 py-0 pt-24 pb-10"
+        class="w-full flex justify-between sm:items-center sm:pl-52 pl-9 sm:pr-6 pr-9 sm:py-10 py-0 pt-24 pb-10"
+        :class="{ 'items-start': isFriend && user.id !== relatedUser.id }"
         v-if="quotesFetched"
       >
         <div class="flex flex-col gap-0.5 items-start">
@@ -26,8 +27,8 @@
           <p class="text-white opacity-80 sm:text-xl text-lg">Friends: {{ relatedUser.friends }}</p>
         </div>
         <white-with-hover-button
-          @mouseover="changeToHoverColor"
-          @mouseout="changeToMainColor"
+          @mouseover="changeFriendHoverColor"
+          @mouseout="changeFriendMainColor"
           class="flex items-center sm:gap-1 gap-0.5"
           @click="sendRequest"
           v-if="!wantsBeFriend && !isFriend && user.id !== relatedUser.id"
@@ -52,17 +53,25 @@
             <red-button class="py-1 px-4" @click="declineFriendRequest">Decline</red-button>
           </div>
         </div>
-        <white-button
-          class="flex items-center sm:gap-2 gap-1 bg-white border border-white sm:px-6 px-4 sm:py-2 py-1 rounded-md text-[#222030] sm:text-base text-sm font-medium"
+        <div
+          class="flex items-center gap-1.5 2xl:flex-row flex-col"
           v-else-if="isFriend && user.id !== relatedUser.id"
         >
-          <friend-icon class="sm:w-auto w-5" />
-          Friends
-        </white-button>
-        <router-link :to="{ name: 'profile' }" v-else
-          ><white-button
-            class="flex items-center sm:gap-2 gap-1 bg-white border border-white sm:px-6 px-4 sm:py-2 py-1 rounded-md text-[#222030] sm:text-base text-sm font-medium"
+          <white-button class="flex items-center sm:gap-2 gap-1">
+            <friend-icon class="sm:w-auto w-5" />
+            Friends
+          </white-button>
+          <white-border-button
+            class="w-fit sm:py-2.5 py-1.5 sm:px-[22px] px-3.5 flex items-center sm:gap-2 gap-1 font-medium"
+            @mouseover="changeMessageMainColor"
+            @mouseout="changeMessageHoverColor"
+            ><message-icon class="sm:w-auto w-4" :color="messageIconColor" />
+            Message</white-border-button
           >
+        </div>
+
+        <router-link :to="{ name: 'profile' }" v-else
+          ><white-button class="flex items-center sm:gap-2 gap-1">
             <go-to-profile-icon class="sm:w-auto w-5" />
             Edit profile
           </white-button></router-link
@@ -101,7 +110,9 @@ import TheContainer from '@/components/TheContainer.vue'
 import PostComponent from '@/components/PostComponent.vue'
 import LoadingIcon from '@/assets/icons/LoadingIcon.vue'
 import WhiteButton from '@/components/buttons/WhiteButton.vue'
+import WhiteBorderButton from '@/components/buttons/WhiteBorderButton.vue'
 import WhiteWithHoverButton from '@/components/buttons/WhiteWithHoverButton.vue'
+import MessageIcon from '@/assets/icons/friend/MessageIcon.vue'
 import AddFriendIcon from '@/assets/icons/friend/AddFriendIcon.vue'
 import RequestSentIcon from '@/assets/icons/friend/RequestSentIcon.vue'
 import FriendIcon from '@/assets/icons/friend/FriendIcon.vue'
@@ -120,6 +131,7 @@ const imagePrefix = import.meta.env.VITE_BACK_STORAGE_URL
 const profileImage = ref(null)
 
 const friendIconColor = ref('#222030')
+const messageIconColor = ref('white')
 const wantsBeFriend = ref(false)
 
 onMounted(() => {
@@ -139,12 +151,20 @@ window.scrollTo({
   left: 0
 })
 
-function changeToHoverColor() {
+function changeFriendHoverColor() {
   friendIconColor.value = 'white'
 }
 
-function changeToMainColor() {
+function changeFriendMainColor() {
   friendIconColor.value = '#222030'
+}
+
+function changeMessageHoverColor() {
+  messageIconColor.value = 'white'
+}
+
+function changeMessageMainColor() {
+  messageIconColor.value = '#222030'
 }
 
 const userId = useRoute().params.id
