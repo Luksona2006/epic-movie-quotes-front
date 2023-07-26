@@ -1,4 +1,7 @@
 <template>
+  <teleport to="body">
+    <message-popup :show="showMessagePopup" @close-popup="closeMessagePopup" :user="relatedUser" />
+  </teleport>
   <the-header
     @show-sign-up="showPopup"
     @show-login="showPopup"
@@ -65,6 +68,7 @@
           </white-button>
           <white-border-button
             class="w-fit sm:py-2.5 py-1.5 sm:px-[22px] px-3.5 flex items-center sm:gap-2 gap-1 font-medium"
+            @click="openMessagePopup"
             @mouseover="changeMessageMainColor"
             @mouseout="changeMessageHoverColor"
             ><message-icon class="sm:w-auto w-4" :color="messageIconColor" />
@@ -109,6 +113,7 @@ import { addToFriends, declineRequest, acceptRequest } from '@/services/api/frie
 import TheHeader from '@/components/TheHeader.vue'
 import SideBarComponent from '@/components/SideBarComponent.vue'
 import TheContainer from '@/components/TheContainer.vue'
+import MessagePopup from '@/components/popups/MessagePopup.vue'
 import PostComponent from '@/components/PostComponent.vue'
 import LoadingIcon from '@/assets/icons/LoadingIcon.vue'
 import WhiteButton from '@/components/buttons/WhiteButton.vue'
@@ -135,6 +140,15 @@ const profileImage = ref(null)
 const friendIconColor = ref('#222030')
 const messageIconColor = ref('white')
 const wantsBeFriend = ref(false)
+const showMessagePopup = ref(false)
+
+function openMessagePopup() {
+  showMessagePopup.value = true
+}
+
+function closeMessagePopup() {
+  showMessagePopup.value = false
+}
 
 onMounted(() => {
   fetchStore.clearFetchStore()

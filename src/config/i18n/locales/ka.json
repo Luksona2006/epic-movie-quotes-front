@@ -121,7 +121,9 @@
     "decline": "უარყოფა",
     "wants_be_your_friend": "უნდა იყოს თქვენი მეგობარი",
     "accepted_your_friend_request": "მიიღო თქვენი მეგობრობის მოთხოვნა",
-    "edit_profile": "პროფილის შეცვლა"
+    "edit_profile": "პროფილის შეცვლა",
+    "write_a_message": "დაწერეთ მესიჯი",
+    "write_first_message": " დაწერეთ პირველი მესიჯი"
   },
   "post": {
     "write_new_quote": "დაწერე ახალი ციტატა",

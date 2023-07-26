@@ -100,6 +100,7 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router'
 import { Field, Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
 import { onMounted, ref, watch } from 'vue'
@@ -109,7 +110,6 @@ import { likeQuote, commentQuote } from '@/services/api/quote/index.js'
 
 import HeartIcon from '@/assets/icons/HeartIcon.vue'
 import CommentIcon from '@/assets/icons/CommentIcon.vue'
-import { useRoute } from 'vue-router'
 
 const props = defineProps({
   quote: {
