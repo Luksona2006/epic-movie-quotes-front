@@ -3,18 +3,21 @@
   <transition name="popup">
     <div
       v-show="show"
-      class="sm:w-[46.5%] max-h-[90vh] h-full w-full absolute left-1/2 sm:top-[70px] top-0 transform -translate-x-1/2 pt-8 pb-16 bg-[#11101A] rounded-xl z-50"
+      class="sm:w-[46.5%] sm:max-h-[90vh] max-h-none h-full w-full absolute left-1/2 sm:top-[70px] top-0 transform -translate-x-1/2 sm:pt-8 pt-5 sm:pb-8 pb-0 bg-[#11101A] rounded-xl z-50"
     >
       <div class="w-full flex justify-between items-center px-8">
         <div class="flex items-center gap-3">
-          <img :src="prefix + user.image" class="w-16 h-16 rounded-full" />
-          <p class="text-white sm:text-xl text-lg">{{ user.name }}</p>
+          <img :src="prefix + user.image" class="sm:w-16 sm:h-16 w-12 h-12 rounded-full" />
+          <p class="text-white sm:text-xl text-base">{{ user.name }}</p>
         </div>
         <x-mark-icon class="cursor-pointer" color="#808080" @click="closePopup" />
       </div>
       <div class="bg-[#FFFFFF60] w-full h-[1px] mt-5"></div>
-      <div class="max-h-[65vh] h-full px-8 pt-5 overflow-y-auto">
-        <div class="w-full h-full flex flex-col gap-3" v-if="messages.length > 0">
+      <div class="max-h-[78%] h-full pt-5">
+        <div
+          class="w-full h-full flex flex-col gap-3 px-8 overflow-y-auto"
+          v-if="messages.length > 0"
+        >
           <div
             class="w-full flex items-start gap-2"
             :class="{
@@ -40,36 +43,40 @@
           </div>
         </div>
         <p class="text-[#FFFFFF99] sm:text-3xl text-xl font-medium pt-20 text-center" v-else>
-          Write first message
+          {{ $t('userPage.write_first_message') }}
         </p>
       </div>
       <div class="bg-[#FFFFFF60] w-full h-[1px] my-5"></div>
-      <Form class="w-full flex gap-6 items-center px-8" v-slot="{ values }">
-        <button @click.prevent="send(values)" hidden></button>
+      <Form class="min-h-max w-full flex gap-6 items-center px-8">
         <img
           :src="prefix + authUser.image"
           alt="profile"
           class="sm:w-[52px] sm:h-[52px] w-[40px] h-[40px] rounded-full"
         />
-        <textarea
-          cols="1"
-          rows="1"
-          name="message"
-          type="text"
-          class="w-full resize-none sm:px-7 py-3 px-5 sm:text-base text-sm text-white placeholder-[#CED4DA] placeholder:sm:text-xl placeholder:text-base bg-[#24222F] rounded-[10px] outline-none focus:bg-[#32303f] boxShadow"
-          :placeholder="$t('userPage.write_a_message') + '...'"
-        ></textarea>
+        <div class="w-full flex items-center gap-3">
+          <textarea
+            cols="1"
+            rows="1"
+            name="message"
+            type="text"
+            class="w-full resize-none sm:px-7 py-3 px-5 sm:text-base text-sm text-white placeholder-[#CED4DA] placeholder:sm:text-xl placeholder:text-base bg-[#24222F] rounded-[10px] outline-none focus:bg-[#32303f] boxShadow"
+            :placeholder="$t('userPage.write_a_message') + '...'"
+            v-model="textareaValue"
+          ></textarea>
+          <send-message-icon class="cursor-pointer" @click="send" />
+        </div>
       </Form>
     </div>
   </transition>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Form } from 'vee-validate'
 import { useUserStore } from '@/store/userStore'
 import BackgroundBlur from '@/components/popups/BackgroundBlur.vue'
 import XMarkIcon from '@/assets/icons/marks/XMarkIcon.vue'
+import SendMessageIcon from '@/assets/icons/SendMessageIcon.vue'
 import { getMessages, sendMessage } from '@/services/api/messages/index.js'
 
 const props = defineProps({
@@ -87,24 +94,23 @@ const props = defineProps({
 const prefix = import.meta.env.VITE_BACK_STORAGE_URL
 const authUser = useUserStore()
 const emits = defineEmits(['closePopup'])
-const messages = ref([
-  {
-    user_id: 1,
-    text: 'hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello'
-  },
-  {
-    user_id: 2,
-    text: 'hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello'
-  },
-  {
-    user_id: 1,
-    text: 'gello'
-  },
-  {
-    user_id: 2,
-    text: 'gello'
-  }
-])
+const textareaValue = ref('')
+const messages = ref([])
+
+onMounted(() => {
+  window.Echo.private(`messages.${authUser.id}`).listen('SendMessage', (data) => {
+    if (data.recieverId === authUser.id) {
+      messages.value.push({
+        user_id: data.senderId,
+        text: data.message
+      })
+    }
+  })
+})
+
+getMessages(props.user.id).then((res) => {
+  messages.value = res.data.messages
+})
 
 function closePopup() {
   emits('closePopup')
@@ -126,6 +132,22 @@ watch(
     }
   }
 )
+
+function send() {
+  const data = {
+    text: textareaValue.value,
+    friend_id: props.user.id
+  }
+
+  sendMessage(data).then((res) => {
+    messages.value.push({
+      user_id: res.data.message.user_id,
+      text: res.data.message.text
+    })
+
+    textareaValue.value = ''
+  })
+}
 </script>
 
 <style scoped>

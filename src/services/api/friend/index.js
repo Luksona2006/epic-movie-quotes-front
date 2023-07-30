@@ -5,9 +5,7 @@ function addToFriends(toUser) {
 }
 
 function declineRequest(fromUser) {
-  return axiosInstance
-    .delete('friends/request', { params: { from_user: fromUser } })
-    .then((res) => res)
+  return axiosInstance.delete(`friends/request/${fromUser}`).then((res) => res)
 }
 
 function acceptRequest(fromUser) {
