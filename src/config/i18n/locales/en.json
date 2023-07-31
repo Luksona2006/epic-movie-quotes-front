@@ -144,6 +144,10 @@
     "new": "New",
     "no_notifications": "No notifications yet"
   },
+  "messages": {
+    "messages": "Messages",
+    "no_messages": "No messages yet"
+  },
   "errorPages": {
     "whoops": "Whoops!",
     "you_shall_not_pass": "You shall not pass!",

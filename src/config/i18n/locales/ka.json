@@ -143,6 +143,10 @@
     "new": "ახალი",
     "no_notifications": "შეტყობინებები ვერ მოიძებნა"
   },
+  "messages": {
+    "messages": "მესიჯები",
+    "no_messages": "მესიჯები ვერ მოიძებნა"
+  },
   "errorPages": {
     "whoops": "ვუუპს!",
     "you_shall_not_pass": "თქვენ ვერ გაივლით!",

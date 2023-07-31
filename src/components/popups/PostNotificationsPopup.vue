@@ -149,9 +149,11 @@ const emits = defineEmits(['updateNotificationsSum'])
 onMounted(() => {
   if (user.id) {
     window.Echo.private(`notifications.${user.id}`).listen('RecieveNotification', (data) => {
-      updatedNotifications.value.unshift(data.notification)
-      const sumOfNewNotifcations = updatedNewsSum.value + 1
-      emits('updateNotificationsSum', sumOfNewNotifcations)
+      if (data.notification.type !== 'message') {
+        updatedNotifications.value.unshift(data.notification)
+        const sumOfNewNotifcations = updatedNewsSum.value + 1
+        emits('updateNotificationsSum', sumOfNewNotifcations)
+      }
     })
   }
 })

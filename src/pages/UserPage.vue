@@ -101,9 +101,8 @@
 </template>
 
 <script setup>
-import router from '@/router'
-import { useRoute } from 'vue-router'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useUserStore } from '@/store/userStore'
 import { useFetchStore } from '@/store/fetchStore'
 import { getUserRelatedQuotes } from '@/services/api/quote/index.js'
@@ -128,6 +127,7 @@ import RedButton from '@/components/buttons/RedButton.vue'
 import GreenButton from '@/components/buttons/GreenButton.vue'
 
 const showLoading = ref(true)
+const route = useRoute()
 
 const user = useUserStore()
 const quotes = ref([])
@@ -140,14 +140,26 @@ const profileImage = ref(null)
 const friendIconColor = ref('#222030')
 const messageIconColor = ref('white')
 const wantsBeFriend = ref(false)
-const showMessagePopup = ref(false)
+
+const showMessagePopup = ref(route.name === 'user-messages' ? true : false)
+
+watch(
+  () => route.name,
+  (newValue) => {
+    showMessagePopup.value = newValue === 'user-messages' ? true : false
+  }
+)
+
+const router = useRouter()
 
 function openMessagePopup() {
   showMessagePopup.value = true
+  return router.push({ name: 'user-messages', params: { id: route.params.id } })
 }
 
 function closeMessagePopup() {
   showMessagePopup.value = false
+  return router.push({ name: 'user', params: { id: route.params.id } })
 }
 
 onMounted(() => {

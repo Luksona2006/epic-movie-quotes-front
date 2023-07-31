@@ -160,6 +160,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/user/:id/messages',
+      name: 'user-messages',
+      component: UserPage,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/:catchAll(.*)',
       name: '404',
       component: NotFoundPage,
