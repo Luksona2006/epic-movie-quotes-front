@@ -22,7 +22,7 @@
                 id: message.user.id
               }
             }"
-            class="w-full flex sm:justify-between py-4 px-4 sm:py-5 sm:px-6 sm:items-center border border-[#6C757D80] rounded"
+            class="w-full flex justify-between py-4 px-4 sm:py-5 sm:px-6 items-center border border-[#6C757D80] rounded"
             v-for="message in updatedMessages"
             :key="message.id"
             @click="clearNews(message.id)"
@@ -63,7 +63,11 @@
                 </p>
               </div>
             </div>
-            <div class="sm:flex hidden flex-col items-end gap-1">
+            <div
+              class="sm:hidden block sm:w-3 sm:h-3 w-2 h-2 bg-[#198754] rounded-full"
+              :class="{ hidden: message.seen }"
+            ></div>
+            <div class="sm:flex hidden flex-col items-end gap-3">
               <p
                 class="text-xl text-white font-medium"
                 :class="{
@@ -72,6 +76,10 @@
               >
                 {{ message.time }}
               </p>
+              <div
+                class="sm:block hidden sm:w-3 sm:h-3 w-2 h-2 bg-[#198754] rounded-full"
+                :class="{ hidden: message.seen }"
+              ></div>
             </div>
           </router-link>
         </div>
